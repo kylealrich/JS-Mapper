@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "enabled": true,
+  "name": "Generate Mapper JS",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Use files in the '/JS-Mapper/input' directory.\n\n1. Ask user which file is the input data file.\n2. As user which file is the mapping .csv file.\n3. Ask user if input file is Delimiter or Fixed-Length.\n3.a.1. If Delimiter is chosen, ask what type of delimiter.\n4. Ask user how many rows in the input file data to skip from top.\n\nUsing the steering documents, generate a .js mapper file and a mapped .csv output file in the '/JS-Mapper/output' directory.\nMove processed files in the '/JS-Mapper/input' directory to the '/JS-Mapper/archive' directory.\nShow generated files.\nCommit to the .git repository."
+  },
+  "workspaceFolderName": "JS-Mapper",
+  "shortName": "generate-mapper-js"
+}
