@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMRQ Fixed-Length Parser</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    
+    .header h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      opacity: 0.9;
+      font-size: 1.1em;
+    }
+    
+    .content {
+      padding: 30px;
+    }
+    
+    .section {
+      margin-bottom: 30px;
+    }
+    
+    .section h2 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 1.5em;
+    }
+    
+    .file-input-group {
+      margin-bottom: 20px;
+    }
+    
+    .file-input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .file-input {
+      width: 100%;
+      padding: 12px;
+      border: 2px dashed #667eea;
+      border-radius: 8px;
+      background: #f8f9ff;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .file-input:hover {
+      border-color: #764ba2;
+      background: #f0f2ff;
+    }
+    
+    .btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-right: 10px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-success {
+      background: #10b981;
+      color: white;
+    }
+    
+    .btn-success:hover {
+      background: #059669;
+    }
+    
+    .summary-box {
+      background: #f8f9ff;
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    
+    .summary-box h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+    }
+    
+    .summary-item {
+      padding: 8px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .summary-item:last-child {
+      border-bottom: none;
+    }
+    
+    .summary-label {
+      font-weight: 600;
+      color: #4b5563;
+      display: inline-block;
+      width: 150px;
+    }
+    
+    .summary-value {
+      color: #1f2937;
+    }
+    
+    .preview-box {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 15px;
+      max-height: 400px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+    
+    .error-box {
+      background: #fee2e2;
+      border-left: 4px solid #ef4444;
+      padding: 15px;
+      border-radius: 8px;
+      color: #991b1b;
+      margin-top: 15px;
+    }
+    
+    .success-box {
+      background: #d1fae5;
+      border-left: 4px solid #10b981;
+      padding: 15px;
+      border-radius: 8px;
+      color: #065f46;
+      margin-top: 15px;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    th {
+      background: #f3f4f6;
+      font-weight: 600;
+      color: #374151;
+    }
+    
+    tr:hover {
+      background: #f9fafb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🏥 OMRQ Fixed-Length Parser</h1>
+      <p>Owens & Minor Requisition Interface - Convert Fixed-Length to CSV</p>
+    </div>
+    
+    <div class="content">
+      <div class="section">
+        <h2>📁 Select OMRQ File</h2>
+        <div class="file-input-group">
+          <label for="omrqFile">Upload OMRQ Fixed-Length File (.txt)</label>
+          <input type="file" id="omrqFile" class="file-input" accept=".txt">
+        </div>
+        <button class="btn btn-primary" onclick="processFile()">Parse File</button>
+      </div>
+      
+      <div id="results" style="display:none;">
+        <div class="section">
+          <h2>📊 Processing Summary</h2>
+          <div class="summary-box" id="summaryBox"></div>
+        </div>
+        
+        <div class="section">
+          <h2>📥 Download CSV Files</h2>
+          <button class="btn btn-success" onclick="downloadCSV('headers')">Download Headers CSV</button>
+          <button class="btn btn-success" onclick="downloadCSV('lineItems')">Download Line Items CSV</button>
+          <button class="btn btn-success" onclick="downloadCSV('details')">Download Details CSV</button>
+        </div>
+        
+        <div class="section">
+          <h2>👁️ Preview Data</h2>
+          <div id="previewTabs">
+            <button class="btn btn-primary" onclick="showPreview('headers')">Headers</button>
+            <button class="btn btn-primary" onclick="showPreview('lineItems')">Line Items</button>
+            <button class="btn btn-primary" onclick="showPreview('details')">Details</button>
+          </div>
+          <div class="preview-box" id="previewBox"></div>
+        </div>
+      </div>
+      
+      <div id="errorBox"></div>
+    </div>
+  </div>
+
+  <script>
+    var parsedData = null;
+    
+    // Utility Functions
+    function trimLeadingZeros(value) {
+      if (!value) return '';
+      var trimmed = value.replace(/^0+/, '');
+      return trimmed || '0';
+    }
+    
+    function zeroToBlank(value) {
+      if (!value) return '';
+      var trimmed = value.trim();
+      if (/^0+$/.test(trimmed)) return '';
+      return trimmed;
+    }
+    
+    function booleanConvert(value) {
+      if (!value) return 'false';
+      var upper = value.toString().toUpperCase().trim();
+      return upper === 'Y' || upper === 'YES' || upper === '1' ? 'true' : 'false';
+    }
+    
+    function formatPrice(value, decimals) {
+      if (!value) return '0.00';
+      var num = parseFloat(value) || 0;
+      var divisor = Math.pow(10, decimals || 4);
+      return (num / divisor).toFixed(2);
+    }
+    
+    function formatDate(value) {
+      if (!value || value.trim() === '' || /^0+$/.test(value.trim())) return '';
+      var dateStr = value.trim();
+      var year = dateStr.substring(0, 4);
+      var month = dateStr.substring(4, 6);
+      var day = dateStr.substring(6, 8);
+      return year + '-' + month + '-' + day;
+    }
+    
+    function safeSubstring(line, start, end) {
+      if (!line) return '';
+      return line.substring(start - 1, end).trim();
+    }
+    
+    // Parse Header Record
+    function parseHeaderRecord(line) {
+      return {
+        recordType: 'H',
+        company: trimLeadingZeros(safeSubstring(line, 5, 8)),
+        reqNumber: zeroToBlank(safeSubstring(line, 12, 18)),
+        requester: safeSubstring(line, 19, 28),
+        reqLocation: safeSubstring(line, 29, 33),
+        reqDelDate: formatDate(safeSubstring(line, 34, 41)),
+        creationDate: formatDate(safeSubstring(line, 42, 49)),
+        fromCompany: trimLeadingZeros(safeSubstring(line, 50, 53)) || '',
+        fromLocation: safeSubstring(line, 54, 58),
+        printReqFl: booleanConvert(safeSubstring(line, 135, 135)),
+        allocatePriority: safeSubstring(line, 223, 224),
+        quoteFl: booleanConvert(safeSubstring(line, 225, 225)),
+        acctUnit: safeSubstring(line, 278, 292),
+        account: safeSubstring(line, 293, 298),
+        purchaseTaxFl: booleanConvert(safeSubstring(line, 313, 313)),
+        dropshipFl: booleanConvert(safeSubstring(line, 324, 324)),
+        oneSrcOnePO: safeSubstring(line, 623, 623)
+      };
+    }
+    
+    // Parse Line Item Record
+    function parseLineRecord(line) {
+      return {
+        recordType: 'L',
+        company: trimLeadingZeros(safeSubstring(line, 5, 8)),
+        reqNumber: zeroToBlank(safeSubstring(line, 12, 18)),
+        lineNumber: trimLeadingZeros(safeSubstring(line, 13, 18)),
+        itemNumber: safeSubstring(line, 19, 48),
+        description: safeSubstring(line, 49, 78),
+        quantity: trimLeadingZeros(safeSubstring(line, 79, 88)),
+        unitOfMeasure: safeSubstring(line, 89, 91),
+        unitPrice: formatPrice(safeSubstring(line, 92, 106), 4),
+        requiredFl: booleanConvert(safeSubstring(line, 107, 107)),
+        taxableFl: booleanConvert(safeSubstring(line, 108, 108))
+      };
+    }
+    
+    // Parse Detail Record
+    function parseDetailRecord(line) {
+      var detailText = safeSubstring(line, 69, 128);
+      var detail = {
+        recordType: 'D',
+        company: trimLeadingZeros(safeSubstring(line, 5, 8)),
+        reqNumber: zeroToBlank(safeSubstring(line, 12, 18)),
+        lineNumber: trimLeadingZeros(safeSubstring(line, 13, 18)),
+        detailText: detailText,
+        detailType: '',
+        serialNumber: '',
+        lotNumber: '',
+        patientMRN: ''
+      };
+      
+      if (detailText.indexOf('PSER:') !== -1) {
+        detail.serialNumber = detailText.replace('PSER:', '').trim();
+        detail.detailType = 'SERIAL';
+      } else if (detailText.indexOf('PLOT:') !== -1) {
+        detail.lotNumber = detailText.replace('PLOT:', '').trim();
+        detail.detailType = 'LOT';
+      } else if (detailText.indexOf('PMRN:') !== -1) {
+        detail.patientMRN = detailText.replace('PMRN:', '').trim();
+        detail.detailType = 'PATIENT';
+      }
+      
+      return detail;
+    }
+    
+    // Parse Comment Record
+    function parseCommentRecord(line) {
+      var commentText = safeSubstring(line, 69, 128);
+      var comment = {
+        recordType: 'C',
+        company: trimLeadingZeros(safeSubstring(line, 5, 8)),
+        reqNumber: zeroToBlank(safeSubstring(line, 12, 18)),
+        lineNumber: trimLeadingZeros(safeSubstring(line, 13, 18)),
+        commentText: commentText,
+        patientMRN: ''
+      };
+      
+      if (commentText.indexOf('PMRN:') !== -1) {
+        comment.patientMRN = commentText.replace('PMRN:', '').trim();
+      }
+      
+      return comment;
+    }
+    
+    // Main Parser
+    function parseOMRQFile(fileContent) {
+      var lines = fileContent.split('\n');
+      var result = {
+        headers: [],
+        lineItems: [],
+        details: [],
+        comments: []
+      };
+      
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (!line || line.length < 1) continue;
+        
+        var recordType = line.charAt(0);
+        
+        try {
+          if (recordType === 'H') {
+            result.headers.push(parseHeaderRecord(line));
+          } else if (recordType === 'L') {
+            result.lineItems.push(parseLineRecord(line));
+          } else if (recordType === 'D') {
+            result.details.push(parseDetailRecord(line));
+          } else if (recordType === 'C') {
+            result.comments.push(parseCommentRecord(line));
+          }
+        } catch (e) {
+          console.error('Error parsing line ' + (i + 1) + ': ' + e.message);
+        }
+      }
+      
+      return result;
+    }
+    
+    // Generate CSV
+    function arrayToCSV(headers, data) {
+      var rows = [headers.join(',')];
+      for (var i = 0; i < data.length; i++) {
+        var row = [];
+        for (var j = 0; j < headers.length; j++) {
+          var key = headers[j];
+          var value = data[i][key] || '';
+          if (typeof value === 'string' && (value.indexOf(',') !== -1 || value.indexOf('"') !== -1)) {
+            value = '"' + value.replace(/"/g, '""') + '"';
+          }
+          row.push(value);
+        }
+        rows.push(row.join(','));
+      }
+      return rows.join('\n');
+    }
+    
+    // Process File
+    function processFile() {
+      var fileInput = document.getElementById('omrqFile');
+      var errorBox = document.getElementById('errorBox');
+      errorBox.innerHTML = '';
+      
+      if (!fileInput.files || fileInput.files.length === 0) {
+        errorBox.innerHTML = '<div class="error-box">Please select a file first.</div>';
+        return;
+      }
+      
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+      
+      reader.onload = function(e) {
+        try {
+          var content = e.target.result;
+          parsedData = parseOMRQFile(content);
+          
+          displaySummary();
+          document.getElementById('results').style.display = 'block';
+          
+          errorBox.innerHTML = '<div class="success-box">✓ File parsed successfully! ' + 
+            (parsedData.headers.length + parsedData.lineItems.length + parsedData.details.length) + 
+            ' records processed.</div>';
+        } catch (error) {
+          errorBox.innerHTML = '<div class="error-box">Error: ' + error.message + '</div>';
+        }
+      };
+      
+      reader.readAsText(file);
+    }
+    
+    // Display Summary
+    function displaySummary() {
+      var summaryBox = document.getElementById('summaryBox');
+      var html = '<h3>Record Counts</h3>';
+      html += '<div class="summary-item"><span class="summary-label">Headers:</span><span class="summary-value">' + parsedData.headers.length + '</span></div>';
+      html += '<div class="summary-item"><span class="summary-label">Line Items:</span><span class="summary-value">' + parsedData.lineItems.length + '</span></div>';
+      html += '<div class="summary-item"><span class="summary-label">Details:</span><span class="summary-value">' + parsedData.details.length + '</span></div>';
+      html += '<div class="summary-item"><span class="summary-label">Comments:</span><span class="summary-value">' + parsedData.comments.length + '</span></div>';
+      
+      if (parsedData.headers.length > 0) {
+        var h = parsedData.headers[0];
+        html += '<h3 style="margin-top:20px;">Requisition Info</h3>';
+        html += '<div class="summary-item"><span class="summary-label">Company:</span><span class="summary-value">' + h.company + '</span></div>';
+        html += '<div class="summary-item"><span class="summary-label">Requester:</span><span class="summary-value">' + h.requester + '</span></div>';
+        html += '<div class="summary-item"><span class="summary-label">Location:</span><span class="summary-value">' + h.reqLocation + '</span></div>';
+        html += '<div class="summary-item"><span class="summary-label">Delivery Date:</span><span class="summary-value">' + h.reqDelDate + '</span></div>';
+        html += '<div class="summary-item"><span class="summary-label">Cost Center:</span><span class="summary-value">' + h.acctUnit + '</span></div>';
+      }
+      
+      if (parsedData.lineItems.length > 0) {
+        var total = 0;
+        for (var i = 0; i < parsedData.lineItems.length; i++) {
+          var item = parsedData.lineItems[i];
+          total += parseFloat(item.quantity) * parseFloat(item.unitPrice);
+        }
+        html += '<h3 style="margin-top:20px;">Order Summary</h3>';
+        html += '<div class="summary-item"><span class="summary-label">Total Value:</span><span class="summary-value">$' + total.toFixed(2) + '</span></div>';
+      }
+      
+      summaryBox.innerHTML = html;
+    }
+    
+    // Show Preview
+    function showPreview(type) {
+      var previewBox = document.getElementById('previewBox');
+      var html = '';
+      
+      if (type === 'headers' && parsedData.headers.length > 0) {
+        html = '<table><thead><tr>';
+        var keys = Object.keys(parsedData.headers[0]);
+        for (var i = 0; i < keys.length; i++) {
+          html += '<th>' + keys[i] + '</th>';
+        }
+        html += '</tr></thead><tbody>';
+        for (var i = 0; i < parsedData.headers.length; i++) {
+          html += '<tr>';
+          for (var j = 0; j < keys.length; j++) {
+            html += '<td>' + (parsedData.headers[i][keys[j]] || '') + '</td>';
+          }
+          html += '</tr>';
+        }
+        html += '</tbody></table>';
+      } else if (type === 'lineItems' && parsedData.lineItems.length > 0) {
+        html = '<table><thead><tr>';
+        var keys = Object.keys(parsedData.lineItems[0]);
+        for (var i = 0; i < keys.length; i++) {
+          html += '<th>' + keys[i] + '</th>';
+        }
+        html += '</tr></thead><tbody>';
+        for (var i = 0; i < parsedData.lineItems.length; i++) {
+          html += '<tr>';
+          for (var j = 0; j < keys.length; j++) {
+            html += '<td>' + (parsedData.lineItems[i][keys[j]] || '') + '</td>';
+          }
+          html += '</tr>';
+        }
+        html += '</tbody></table>';
+      } else if (type === 'details' && parsedData.details.length > 0) {
+        html = '<table><thead><tr>';
+        var keys = ['recordType', 'company', 'reqNumber', 'lineNumber', 'detailType', 'serialNumber', 'lotNumber', 'patientMRN'];
+        for (var i = 0; i < keys.length; i++) {
+          html += '<th>' + keys[i] + '</th>';
+        }
+        html += '</tr></thead><tbody>';
+        for (var i = 0; i < parsedData.details.length; i++) {
+          html += '<tr>';
+          for (var j = 0; j < keys.length; j++) {
+            html += '<td>' + (parsedData.details[i][keys[j]] || '') + '</td>';
+          }
+          html += '</tr>';
+        }
+        html += '</tbody></table>';
+      }
+      
+      previewBox.innerHTML = html;
+    }
+    
+    // Download CSV
+    function downloadCSV(type) {
+      var csv = '';
+      var filename = '';
+      
+      if (type === 'headers') {
+        var headers = ['recordType', 'company', 'reqNumber', 'requester', 'reqLocation', 'reqDelDate', 'creationDate', 'fromCompany', 'fromLocation', 'printReqFl', 'allocatePriority', 'quoteFl', 'acctUnit', 'account', 'purchaseTaxFl', 'dropshipFl', 'oneSrcOnePO'];
+        csv = arrayToCSV(headers, parsedData.headers);
+        filename = 'omrq_headers.csv';
+      } else if (type === 'lineItems') {
+        var headers = ['recordType', 'company', 'reqNumber', 'lineNumber', 'itemNumber', 'description', 'quantity', 'unitOfMeasure', 'unitPrice', 'requiredFl', 'taxableFl'];
+        csv = arrayToCSV(headers, parsedData.lineItems);
+        filename = 'omrq_line_items.csv';
+      } else if (type === 'details') {
+        var headers = ['recordType', 'company', 'reqNumber', 'lineNumber', 'detailType', 'serialNumber', 'lotNumber', 'patientMRN'];
+        csv = arrayToCSV(headers, parsedData.details);
+        filename = 'omrq_details.csv';
+      }
+      
+      var blob = new Blob([csv], { type: 'text/csv' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
