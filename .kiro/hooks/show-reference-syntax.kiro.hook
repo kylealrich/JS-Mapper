@@ -7,7 +7,7 @@
   },
   "then": {
     "type": "askAgent",
-    "prompt": "Use powershell to open the file 'Function_Reference.html' in the root directory for the user using 'explorer.exe \"Function_Reference.html\"'."
+    "prompt": "Use powershell to open the file 'Function_Reference.html' in the root directory for the user using 'explorer.exe \"Function_Reference.html\"'. Trigger it only once and dont ask for verification."
   },
   "workspaceFolderName": "JS-Mapper",
   "shortName": "show-reference-syntax"
