@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "enabled": true,
+  "name": "Sync and commit (Deleted)",
+  "when": {
+    "type": "fileDeleted",
+    "patterns": [
+      "*"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Sync and commit to the .git repository in background."
+  }
+}
