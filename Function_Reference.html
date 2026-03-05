@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Mapper - Function Reference</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background:
+        linear-gradient(rgba(248,250,252,0.9), rgba(248,250,252,0.9)),
+        repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(148,163,184,0.1) 20px),
+        repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(148,163,184,0.1) 20px),
+        radial-gradient(circle at 20px 20px, rgba(59,130,246,0.15) 2px, transparent 2px),
+        #f8fafc;
+      background-size: 40px 40px;
+      color: #1f2937;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.1);
+      padding: 32px;
+      max-width: 1200px;
+      margin: auto;
+      border: 1px solid #e5e7eb;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 4px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .title-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .gradient-divider {
+      height: 4px;
+      background: linear-gradient(90deg, #1e3a8a 0%, #3730a3 25%, #5b21b6 50%, #7c2d12 75%, #1e40af 100%);
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+
+    /* Search & Filter Bar */
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      flex: 1;
+      min-width: 220px;
+      position: relative;
+    }
+    .search-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 10px 12px 10px 38px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-box input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    }
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .pill {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #4b5563;
+      white-space: nowrap;
+    }
+    .pill:hover { background: #f3f4f6; border-color: #9ca3af; }
+    .pill.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      border-color: transparent;
+    }
+    .result-count {
+      font-size: 13px;
+      color: #9ca3af;
+      padding: 8px 0;
+    }
+
+    /* Category Sections */
+    .category {
+      margin-bottom: 32px;
+    }
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    .category-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .cat-basic .category-icon { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    .cat-string .category-icon { background: linear-gradient(135deg, #10b981, #059669); }
+    .cat-math .category-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .cat-conditional .category-icon { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+    .cat-validation .category-icon { background: linear-gradient(135deg, #ef4444, #dc2626); }
+    .cat-error .category-icon { background: linear-gradient(135deg, #6b7280, #4b5563); }
+
+    .category-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+    }
+    .category-count {
+      font-size: 12px;
+      background: #e5e7eb;
+      color: #6b7280;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    /* Function Cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .card:hover {
+      border-color: #93c5fd;
+      box-shadow: 0 4px 12px rgba(59,130,246,0.1);
+      transform: translateY(-1px);
+    }
+    .card-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-name .badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-basic { background: #dbeafe; color: #1d4ed8; }
+    .badge-string { background: #d1fae5; color: #047857; }
+    .badge-math { background: #fef3c7; color: #b45309; }
+    .badge-conditional { background: #ede9fe; color: #6d28d9; }
+    .badge-validation { background: #fee2e2; color: #b91c1c; }
+    .badge-error { background: #f3f4f6; color: #4b5563; }
+
+    .card-desc {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .card-syntax {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      font-size: 13px;
+      color: #334155;
+      margin-bottom: 10px;
+      overflow-x: auto;
+    }
+    .card-example {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .card-example .arrow {
+      color: #3b82f6;
+      font-weight: 700;
+    }
+    .card-example .before {
+      background: #fef2f2;
+      color: #991b1b;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    .card-example .after {
+      background: #f0fdf4;
+      color: #166534;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    .card-example .label {
+      font-weight: 600;
+      color: #9ca3af;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Usage Notes */
+    .notes-section {
+      background: linear-gradient(135deg, #eff6ff, #f5f3ff);
+      border: 1px solid #c7d2fe;
+      border-radius: 10px;
+      padding: 24px;
+      margin-top: 32px;
+    }
+    .notes-section h3 {
+      margin: 0 0 12px 0;
+      font-size: 16px;
+      color: #3730a3;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notes-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 8px;
+    }
+    .notes-list li {
+      font-size: 13px;
+      color: #4b5563;
+      padding: 6px 0 6px 24px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .notes-list li::before {
+      content: '\f058';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      color: #6366f1;
+      font-size: 12px;
+    }
+
+    /* No results */
+    .no-results {
+      text-align: center;
+      padding: 48px 20px;
+      color: #9ca3af;
+      display: none;
+    }
+    .no-results i { font-size: 48px; margin-bottom: 12px; display: block; }
+    .no-results p { font-size: 15px; }
+
+    /* Copy button */
+    .copy-btn {
+      background: none;
+      border: none;
+      color: #9ca3af;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.15s;
+      margin-left: auto;
+    }
+    .copy-btn:hover { color: #3b82f6; background: #eff6ff; }
+    .copy-btn.copied { color: #10b981; }
+
+    .syntax-row {
+      display: flex;
+      align-items: center;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 16px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .toolbar { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fa-solid fa-book-open" style="color:#667eea"></i> <span class="title-text">Function Reference</span></h1>
+    <p class="subtitle">Complete guide to all transformation functions in JavaScript Mapper</p>
+    <div class="gradient-divider"></div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Search functions by name, description, or syntax..." aria-label="Search functions">
+      </div>
+      <div class="filter-pills" role="tablist" aria-label="Filter by category">
+        <button class="pill active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="pill" data-filter="basic" role="tab" aria-selected="false"><i class="fa-solid fa-cube"></i> Basic</button>
+        <button class="pill" data-filter="string" role="tab" aria-selected="false"><i class="fa-solid fa-font"></i> String</button>
+        <button class="pill" data-filter="math" role="tab" aria-selected="false"><i class="fa-solid fa-calculator"></i> Math</button>
+        <button class="pill" data-filter="conditional" role="tab" aria-selected="false"><i class="fa-solid fa-code-branch"></i> Conditional</button>
+        <button class="pill" data-filter="validation" role="tab" aria-selected="false"><i class="fa-solid fa-shield-halved"></i> Validation</button>
+        <button class="pill" data-filter="error" role="tab" aria-selected="false"><i class="fa-solid fa-triangle-exclamation"></i> Errors</button>
+      </div>
+    </div>
+    <div class="result-count" id="resultCount"></div>
+
+    <!-- Function Cards Container -->
+    <div id="functionsContainer"></div>
+
+    <!-- No Results -->
+    <div class="no-results" id="noResults">
+      <i class="fa-regular fa-face-meh"></i>
+      <p>No functions match your search. Try a different term.</p>
+    </div>
+
+    <!-- Usage Notes -->
+    <div class="notes-section" id="notesSection">
+      <h3><i class="fa-solid fa-lightbulb"></i> Usage Notes</h3>
+      <ul class="notes-list">
+        <li>All column references are 1-indexed (Column1, Column2, etc.)</li>
+        <li>String values in conditions and hardcoded values should be enclosed in single quotes</li>
+        <li>Functions can be nested: <code>Left(Trim(Column1), 5)</code></li>
+        <li>Date formats supported: MMDDYYYY, YYYYMMDD, YYYY-MM-DD, MM/DD/YYYY</li>
+        <li>Numeric operations automatically validate input values</li>
+        <li>Empty or null values are handled gracefully with default behaviors</li>
+      </ul>
+    </div>
+  </div>
+
+<script>
+
+var FUNCTIONS = [
+  // Basic Commands
+  { name: 'Column N', cat: 'basic', desc: 'Direct column mapping. Reference any column by its 1-based index number.', syntax: 'Column1', before: 'Column1 data', after: 'Column1 data', icon: 'fa-table-columns' },
+  { name: 'Static Value', cat: 'basic', desc: 'Use literal text enclosed in single quotes as a fixed output value.', syntax: "\'Hello\'", before: '(any input)', after: 'Hello', icon: 'fa-quote-left' },
+  { name: 'Hardcode', cat: 'basic', desc: 'Explicit static value using the Hardcode keyword for clarity.', syntax: "Hardcode \'1\'", before: '(any input)', after: '1', icon: 'fa-thumbtack' },
+  { name: 'Increment By 1', cat: 'basic', desc: 'Auto-incrementing counter that increases by 1 for each row processed.', syntax: 'Increment By 1', before: 'Row 1, 2, 3', after: '1, 2, 3', icon: 'fa-arrow-up-1-9' },
+  { name: 'Today()', cat: 'basic', desc: 'Returns the current date in locale format.', syntax: 'Today()', before: '(none)', after: '1/15/2025', icon: 'fa-calendar-day' },
+  { name: 'Now()', cat: 'basic', desc: 'Returns the current date and time as a full timestamp.', syntax: 'Now()', before: '(none)', after: '1/15/2025, 2:30:45 PM', icon: 'fa-clock' },
+
+  // String Functions
+  { name: 'RemoveLeadingZeroes', cat: 'string', desc: 'Strips leading zeros from a column value, preserving at least one digit.', syntax: 'RemoveLeadingZeroes(Column1)', before: '00123', after: '123', icon: 'fa-eraser' },
+  { name: 'RemoveTrailingSpaces', cat: 'string', desc: 'Removes trailing whitespace characters from the end of a value.', syntax: 'RemoveTrailingSpaces(Column1)', before: 'Hello   ', after: 'Hello', icon: 'fa-broom' },
+  { name: 'Trim', cat: 'string', desc: 'Removes both leading and trailing whitespace from a value.', syntax: 'Trim(Column1)', before: '  Hello  ', after: 'Hello', icon: 'fa-scissors' },
+  { name: 'Concat', cat: 'string', desc: 'Concatenates two or more column values together into a single string.', syntax: 'Concat(Column1, Column2)', before: 'John + Doe', after: 'JohnDoe', icon: 'fa-link' },
+  { name: 'Substring', cat: 'string', desc: 'Extracts a portion of text starting at a position for a given length.', syntax: 'Substring(Column1, 1, 3)', before: 'Hello', after: 'Hel', icon: 'fa-crop' },
+  { name: 'Uppercase', cat: 'string', desc: 'Converts the entire value to uppercase characters.', syntax: 'Uppercase(Column1)', before: 'hello', after: 'HELLO', icon: 'fa-arrow-up' },
+  { name: 'Lowercase', cat: 'string', desc: 'Converts the entire value to lowercase characters.', syntax: 'Lowercase(Column1)', before: 'HELLO', after: 'hello', icon: 'fa-arrow-down' },
+  { name: 'Left', cat: 'string', desc: 'Extracts the specified number of characters from the start of a value.', syntax: 'Left(Column5, 6)', before: 'Hello123', after: 'Hello1', icon: 'fa-arrow-left' },
+  { name: 'Right', cat: 'string', desc: 'Extracts the specified number of characters from the end of a value.', syntax: 'Right(Column4, 5)', before: 'Hello123', after: 'lo123', icon: 'fa-arrow-right' },
+  { name: 'Replace', cat: 'string', desc: 'Replaces occurrences of a text pattern with a new value.', syntax: "Replace(Column1, \'o\', \'a\')", before: 'Hello', after: 'Hella', icon: 'fa-right-left' },
+  { name: 'PadLeft', cat: 'string', desc: 'Pads the value on the left with a character to reach the target length.', syntax: "PadLeft(Column1, 5, \'0\')", before: '123', after: '00123', icon: 'fa-indent' },
+  { name: 'PadRight', cat: 'string', desc: 'Pads the value on the right with a character to reach the target length.', syntax: "PadRight(Column1, 5, \'0\')", before: '123', after: '12300', icon: 'fa-outdent' },
+  { name: 'AddLeft', cat: 'string', desc: 'Adds a character N times to the beginning of a value.', syntax: "AddLeft(Column1, \'0\', 2)", before: '123', after: '00123', icon: 'fa-plus' },
+  { name: 'AddRight', cat: 'string', desc: 'Adds a character N times to the end of a value.', syntax: "AddRight(Column1, \'0\', 2)", before: '123', after: '12300', icon: 'fa-plus' },
+  { name: 'DateReformat', cat: 'string', desc: 'Converts a date string from one format to another (e.g., MMDDYYYY to YYYYMMDD).', syntax: "DateReformat(Column18, \'MMDDYYYY\', \'YYYYMMDD\')", before: '10252025', after: '20251025', icon: 'fa-calendar-check' },
+
+  // Math Functions
+  { name: 'Sum', cat: 'math', desc: 'Adds two or more numeric column values together.', syntax: 'Sum(Column1, Column2)', before: '10 + 20', after: '30', icon: 'fa-plus' },
+  { name: 'Multiply', cat: 'math', desc: 'Multiplies two numeric column values.', syntax: 'Multiply(Column1, Column2)', before: '10 * 3', after: '30', icon: 'fa-xmark' },
+  { name: 'Divide', cat: 'math', desc: 'Divides the first column value by the second.', syntax: 'Divide(Column1, Column2)', before: '20 / 4', after: '5', icon: 'fa-divide' },
+  { name: 'Round', cat: 'math', desc: 'Rounds a numeric value to the specified number of decimal places.', syntax: 'Round(Column1, 2)', before: '3.14159', after: '3.14', icon: 'fa-bullseye' },
+  { name: 'Abs', cat: 'math', desc: 'Returns the absolute (non-negative) value of a number.', syntax: 'Abs(Column1)', before: '-5', after: '5', icon: 'fa-arrows-left-right' },
+  { name: 'Max', cat: 'math', desc: 'Returns the largest value from two or more columns.', syntax: 'Max(Column1, Column2)', before: '10, 20', after: '20', icon: 'fa-arrow-up' },
+  { name: 'Min', cat: 'math', desc: 'Returns the smallest value from two or more columns.', syntax: 'Min(Column1, Column2)', before: '10, 20', after: '10', icon: 'fa-arrow-down' },
+
+  // Conditional Logic
+  { name: 'If...Then...Else', cat: 'conditional', desc: 'Simple conditional: returns one value if a condition is true, another if false.', syntax: "If Column6 == \'\' Then \'TC\' Else Column6", before: '(empty)', after: 'TC', icon: 'fa-code-branch' },
+  { name: 'If...Not Equal', cat: 'conditional', desc: 'Condition using the not-equal operator to compare values.', syntax: "If Column15 != \'GL\' Then Column15 Else \'DEFAULT\'", before: 'AP', after: 'AP', icon: 'fa-not-equal' },
+  { name: 'If...Greater Than', cat: 'conditional', desc: 'Numeric comparison using greater-than operator.', syntax: "If Column1 > 5 Then \'High\'", before: '10', after: 'High', icon: 'fa-greater-than' },
+  { name: 'If...ElseIf...Else', cat: 'conditional', desc: 'Multiple chained conditions evaluated in order until one matches.', syntax: "If Column1 == \'A\' Then \'Active\' ElseIf Column1 == \'I\' Then \'Inactive\' Else \'Unknown\'", before: 'A', after: 'Active', icon: 'fa-list-check' },
+  { name: 'If Function()', cat: 'conditional', desc: 'Use a function result inside a conditional expression.', syntax: "If Left(Column1, 1) == \'G\' Then \'General\'", before: 'General', after: 'General', icon: 'fa-wand-magic-sparkles' },
+  { name: 'IsEmpty', cat: 'conditional', desc: 'Returns true if the column value is empty or blank.', syntax: 'IsEmpty(Column1)', before: '(empty)', after: 'true', icon: 'fa-circle-question' },
+  { name: 'IsNumeric', cat: 'conditional', desc: 'Returns true if the column value is a valid number.', syntax: 'IsNumeric(Column1)', before: '123', after: 'true', icon: 'fa-hashtag' },
+
+  // Validation Functions
+  { name: 'ValidateLength', cat: 'validation', desc: 'Validates that a string length falls within the specified min and max range.', syntax: 'ValidateLength(Column1, 5, 10)', before: 'Hello', after: 'Valid (5 chars)', icon: 'fa-ruler-horizontal' },
+  { name: 'ValidateRange', cat: 'validation', desc: 'Validates that a numeric value falls within the specified min and max range.', syntax: 'ValidateRange(Column1, 1, 100)', before: '50', after: 'Valid (in range)', icon: 'fa-sliders' },
+  { name: 'ValidateFormat', cat: 'validation', desc: 'Validates that a value matches a specific format pattern (email, phone, date).', syntax: "ValidateFormat(Column1, \'email\')", before: 'user@test.com', after: 'Valid format', icon: 'fa-spell-check' },
+
+  // Error Handling
+  { name: 'Required Field', cat: 'error', desc: 'Fields marked Required=Y must contain a non-empty value or an error is raised.', syntax: 'Required=Y', before: '(empty)', after: 'Error: required', icon: 'fa-asterisk' },
+  { name: 'Numeric Validation', cat: 'error', desc: 'Math functions like Sum reject non-numeric input values with a clear error.', syntax: 'Sum(Column1, Column2)', before: '2s00, abc', after: 'Error: non-numeric', icon: 'fa-ban' },
+  { name: 'CSV Parsing', cat: 'error', desc: 'Handles quoted fields with commas and special characters correctly.', syntax: 'Quoted fields', before: '"Smith, John"', after: 'Smith, John', icon: 'fa-file-csv' },
+  { name: 'Missing Logic', cat: 'error', desc: 'Fields without a MappingLogic value default to null output.', syntax: 'Empty MappingLogic', before: '(no logic)', after: 'null', icon: 'fa-circle-xmark' },
+  { name: 'Column Reference', cat: 'error', desc: 'safeGet validates that the referenced column exists before accessing it.', syntax: 'Column N (out of range)', before: 'Column 99', after: 'Error: missing column', icon: 'fa-table-cells' }
+];
+
+var CAT_META = {
+  basic:       { label: 'Basic Commands',     icon: 'fa-cube',                 cls: 'cat-basic' },
+  string:      { label: 'String Functions',    icon: 'fa-font',                 cls: 'cat-string' },
+  math:        { label: 'Math Functions',      icon: 'fa-calculator',           cls: 'cat-math' },
+  conditional: { label: 'Conditional Logic',   icon: 'fa-code-branch',          cls: 'cat-conditional' },
+  validation:  { label: 'Validation Functions', icon: 'fa-shield-halved',       cls: 'cat-validation' },
+  error:       { label: 'Error Handling',      icon: 'fa-triangle-exclamation', cls: 'cat-error' }
+};
+
+var CAT_ORDER = ['basic', 'string', 'math', 'conditional', 'validation', 'error'];
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderCard(fn) {
+  return '<div class="card" data-cat="' + fn.cat + '" data-search="' + escapeHtml((fn.name + ' ' + fn.desc + ' ' + fn.syntax).toLowerCase()) + '">' +
+    '<div class="card-name">' +
+      '<i class="fa-solid ' + fn.icon + '" style="color:#6366f1;font-size:14px"></i> ' +
+      escapeHtml(fn.name) +
+      ' <span class="badge badge-' + fn.cat + '">' + fn.cat + '</span>' +
+    '</div>' +
+    '<div class="card-desc">' + escapeHtml(fn.desc) + '</div>' +
+    '<div class="card-syntax"><div class="syntax-row"><code>' + escapeHtml(fn.syntax) + '</code>' +
+      '<button class="copy-btn" title="Copy syntax" aria-label="Copy syntax to clipboard" onclick="copySyntax(this,\'' + escapeHtml(fn.syntax).replace(/'/g, "\\'") + '\')"><i class="fa-regular fa-copy"></i></button>' +
+    '</div></div>' +
+    '<div class="card-example">' +
+      '<span class="label">Example:</span> ' +
+      '<span class="before">' + escapeHtml(fn.before) + '</span>' +
+      ' <span class="arrow">\u2192</span> ' +
+      '<span class="after">' + escapeHtml(fn.after) + '</span>' +
+    '</div>' +
+  '</div>';
+}
+
+function renderAll(filter, search) {
+  var container = document.getElementById('functionsContainer');
+  var html = '';
+  var total = 0;
+
+  for (var c = 0; c < CAT_ORDER.length; c++) {
+    var cat = CAT_ORDER[c];
+    if (filter !== 'all' && filter !== cat) continue;
+    var meta = CAT_META[cat];
+    var fns = [];
+    for (var i = 0; i < FUNCTIONS.length; i++) {
+      var fn = FUNCTIONS[i];
+      if (fn.cat !== cat) continue;
+      if (search && (fn.name + ' ' + fn.desc + ' ' + fn.syntax).toLowerCase().indexOf(search) === -1) continue;
+      fns.push(fn);
+    }
+    if (fns.length === 0) continue;
+    total += fns.length;
+
+    html += '<div class="category ' + meta.cls + '">';
+    html += '<div class="category-header">';
+    html += '<div class="category-icon"><i class="fa-solid ' + meta.icon + '"></i></div>';
+    html += '<span class="category-title">' + meta.label + '</span>';
+    html += '<span class="category-count">' + fns.length + '</span>';
+    html += '</div>';
+    html += '<div class="cards-grid">';
+    for (var j = 0; j < fns.length; j++) {
+      html += renderCard(fns[j]);
+    }
+    html += '</div></div>';
+  }
+
+  container.innerHTML = html;
+  document.getElementById('resultCount').textContent = total + ' function' + (total !== 1 ? 's' : '') + ' shown';
+  document.getElementById('noResults').style.display = total === 0 ? 'block' : 'none';
+  document.getElementById('notesSection').style.display = total === 0 ? 'none' : '';
+}
+
+function copySyntax(btn, text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text);
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  btn.classList.add('copied');
+  btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+  setTimeout(function() {
+    btn.classList.remove('copied');
+    btn.innerHTML = '<i class="fa-regular fa-copy"></i>';
+  }, 1500);
+}
+
+// Event listeners
+var currentFilter = 'all';
+var pills = document.querySelectorAll('.pill');
+for (var p = 0; p < pills.length; p++) {
+  pills[p].addEventListener('click', function() {
+    for (var k = 0; k < pills.length; k++) {
+      pills[k].classList.remove('active');
+      pills[k].setAttribute('aria-selected', 'false');
+    }
+    this.classList.add('active');
+    this.setAttribute('aria-selected', 'true');
+    currentFilter = this.getAttribute('data-filter');
+    renderAll(currentFilter, document.getElementById('searchInput').value.toLowerCase().trim());
+  });
+}
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  renderAll(currentFilter, this.value.toLowerCase().trim());
+});
+
+// Initial render
+renderAll('all', '');
+</script>
+</body>
+</html>
