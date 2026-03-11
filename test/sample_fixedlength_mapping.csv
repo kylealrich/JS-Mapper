@@ -1,0 +1,10 @@
+TargetFieldName,StartPosition,Length,MappingLogic,Required,DataType,ImpliedDecimal,MinLength,MaxLength,MinValue,MaxValue,ValidValues,Pattern
+CustomerID,1,4,RemoveLeadingZeroes(Column1),Y,integer,0,1,4,1,9999,,
+FirstName,5,10,Trim(Column2),Y,string,0,1,50,,,,
+LastName,15,10,Trim(Column3),Y,string,0,1,50,,,,
+Email,25,30,Trim(Lowercase(Column4)),Y,string,0,5,100,,,,"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+Phone,55,10,Column5,Y,string,0,10,10,,,,"^\d{10}$"
+TransactionDate,65,8,DateReformat(Column6,'YYYYMMDD','YYYY-MM-DD'),Y,string,0,8,10,,,,
+Amount,73,7,Column7,Y,decimal,2,1,10,0.01,99999.99,,
+StatusCode,80,1,Column8,Y,string,0,1,1,,,"A,I,P",
+Status,80,1,If Column8 == 'A' Then 'Active' ElseIf Column8 == 'I' Then 'Inactive' Else 'Pending',Y,string,0,,,,"Active,Inactive,Pending",

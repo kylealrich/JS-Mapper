@@ -1,0 +1,4 @@
+TargetFieldName,StartPosition,Length,MappingLogic,Required,DataType,ImpliedDecimal
+RecordType,1,1,Column1,Y,string,0
+DetailID,2,4,RemoveLeadingZeroes(Column2),Y,integer,0
+DetailText,6,45,Trim(Column3),N,string,0

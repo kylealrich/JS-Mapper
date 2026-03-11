@@ -1,0 +1,5 @@
+TargetFieldName,StartPosition,Length,MappingLogic,Required,DataType,ImpliedDecimal
+RecordType,1,1,Column1,Y,string,0
+ProcessDate,2,8,DateReformat(Column2,'YYYYMMDD','YYYY-MM-DD'),Y,string,0
+BatchID,10,9,Trim(Column3),Y,string,0
+BatchName,19,25,Trim(Column4),Y,string,0

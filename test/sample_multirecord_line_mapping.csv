@@ -1,0 +1,9 @@
+TargetFieldName,StartPosition,Length,MappingLogic,Required,DataType,ImpliedDecimal
+RecordType,1,1,Column1,Y,string,0
+CustomerID,2,4,RemoveLeadingZeroes(Column2),Y,integer,0
+FirstName,6,10,Trim(Column3),Y,string,0
+LastName,16,10,Trim(Column4),Y,string,0
+Amount,26,7,Column5,Y,decimal,2
+StatusCode,33,1,Column6,Y,string,0
+TransactionDate,34,8,DateReformat(Column7,'YYYYMMDD','YYYY-MM-DD'),Y,string,0
+InvoiceNumber,42,10,Trim(Column8),Y,string,0

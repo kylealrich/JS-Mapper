@@ -1,0 +1,5 @@
+RecordType,RecordName,OutputName,ParentRecordType,MappingFile
+H,Header,Headers,,fixed_length_header_mapping.csv
+L,Line,LineItems,H,fixed_length_line_mapping.csv
+D,Detail,Details,L,fixed_length_detail_mapping.csv
+C,Comment,Comments,H,fixed_length_comment_mapping.csv

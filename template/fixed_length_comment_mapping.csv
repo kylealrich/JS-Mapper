@@ -1,0 +1,6 @@
+OutputFieldName,Start,End,Required,Justify,MappingLogic,DefaultValue
+Record Type,1,1,Y,left,,
+Order Number,2,13,Y,right,RemoveLeadingZeroes(Order Number),
+Comment Sequence,14,18,Y,right,RemoveLeadingZeroes(Comment Sequence),
+Comment Type,19,38,N,left,Trim(Comment Type),
+Comment Text,39,1000,N,left,Trim(Comment Text),

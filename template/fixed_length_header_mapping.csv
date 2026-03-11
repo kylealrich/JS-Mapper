@@ -1,0 +1,13 @@
+OutputFieldName,Start,End,Required,Justify,MappingLogic,DefaultValue
+Record Type,1,1,Y,left,,
+Company Code,2,5,Y,right,RemoveLeadingZeroes(Company Code),
+Order Number,6,17,Y,right,RemoveLeadingZeroes(Order Number),
+Sequence,18,22,N,right,,
+Customer Name,23,36,Y,left,Trim(Customer Name),
+State,37,40,Y,left,,
+Location Code,41,43,N,right,,
+Order Date,44,51,Y,left,DateReformat(Order Date,'YYYYMMDD','MM/DD/YYYY'),
+Order Time,52,55,N,left,,
+Department,56,73,N,left,Uppercase(Department),
+Status,74,83,N,left,,PENDING
+Notes,84,125,N,left,Trim(Notes),

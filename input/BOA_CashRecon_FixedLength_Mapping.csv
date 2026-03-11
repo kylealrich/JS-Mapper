@@ -1,0 +1,12 @@
+Field Name,Start,End,Length,Required,Pad Character,Justify,Default Value,Mapping Logic,Description
+Cash Management Account,1,7,7,Y,0,Right,,RemoveLeadingZeroes(Column1),Cash Management Account Number (7 leading zeros)
+Bank Account Number,8,22,15,Y,0,Right,,,Bank Account Number
+Status,23,23,1,Y, ,Left,,,P=Paid
+Check Number,24,29,6,Y,0,Right,,RemoveLeadingZeroes(Column4),Check Number
+Amount,30,40,11,Y,0,Right,,,Amount with 2 implied decimals
+Paid Date,41,46,6,Y,0,Left,,DateReformat(Column6,'MMDDYY','YYYYMMDD'),Paid Date MMDDYY
+Cleared Date,47,52,6,Y,0,Left,,DateReformat(Column7,'MMDDYY','YYYYMMDD'),Cleared Date MMDDYY
+Bank Code,53,53,1,N, ,Left,,,Bank Code
+Vendor Number,54,60,7,N,0,Right,,,Vendor Number
+Transaction Type,61,62,2,N, ,Left,,,Transaction Type WD=Withdrawal
+Filler,63,75,13,N, ,Left,,,Filler/Reserved

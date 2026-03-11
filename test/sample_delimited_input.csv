@@ -1,0 +1,6 @@
+CustomerID,FullName,Email,Phone,TransactionDate,Amount,Status,Tags,AccountNumber
+1001,John Doe,john.doe@example.com,555-123-4567,01/15/2025,1250.50,Active,"urgent,finance,approved",00012345
+1002,Jane Smith,jane.smith@company.org,800-555-9999,01/16/2025,750.25,Active,"standard,sales",00067890
+1003,Bob Johnson,bob@test.net,123-456-7890,01/17/2025,2500.00,Pending,"urgent,legal,review",00011111
+1004,Alice Williams,alice.w@domain.com,555-987-6543,01/18/2025,500.75,Inactive,"standard,hr",00099999
+1005,Charlie Brown,charlie.brown@email.net,800-123-4567,01/19/2025,3750.00,Active,"urgent,finance,executive",00054321

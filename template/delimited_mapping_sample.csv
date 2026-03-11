@@ -1,0 +1,12 @@
+OutputFieldName,MappingLogic,Required,DefaultValue
+Record Type,Column1,Y,
+Order ID,RemoveLeadingZeroes(Column2),Y,
+Customer Name,Trim(Column3),Y,
+Order Date,DateReformat(Column4,'YYYY-MM-DD','MM/DD/YYYY'),Y,
+Department,Uppercase(Column5),N,
+Location,Column6,N,
+Status,Column7,N,PENDING
+Full Name,Concat(Column3,' - ',Column5),N,
+Order Year,Left(Column4,4),N,
+Name Length,N,
+Total Value,N,

@@ -1,0 +1,10 @@
+OutputFieldName,Start,End,Required,Justify,MappingLogic,DefaultValue
+Record Type,1,1,Y,left,,
+Order Number,2,13,Y,right,RemoveLeadingZeroes(Order Number),
+Line Number,14,18,Y,right,RemoveLeadingZeroes(Line Number),
+Item Code,19,36,N,left,Trim(Item Code),
+Item Description,37,54,N,left,Trim(Item Description),
+Category,55,68,N,left,,
+Quantity,69,76,N,right,RemoveLeadingZeroes(Quantity),0
+Unit Price,77,86,N,right,,0.00
+Extended Amount,87,96,N,right,,0.00

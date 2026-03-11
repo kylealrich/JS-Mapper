@@ -1,0 +1,27 @@
+TargetFieldName,InputColumnNumber,MappingLogic,Required,DataType,MinLength,MaxLength,MinValue,MaxValue,ValidValues,Pattern
+CustomerID,1,RemoveLeadingZeroes(Column1),Y,integer,,,1,999999,,
+FirstName,2,Split(Column2, ' ', 1),Y,string,1,50,,,,
+LastName,2,Split(Column2, ' ', 2),Y,string,1,50,,,,
+EmailAddress,3,Lowercase(Column3),Y,string,5,100,,,,"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+EmailUser,3,Split(Column3, '@', 1),N,string,,,,,,"^[a-zA-Z0-9._%+-]+$"
+EmailDomain,3,Split(Column3, '@', 2),N,string,,,,,,"^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+AreaCode,4,Split(Column4, '-', 1),Y,string,3,3,,,,"^\d{3}$"
+PhoneExchange,4,Split(Column4, '-', 2),Y,string,3,3,,,,"^\d{3}$"
+PhoneNumber,4,Split(Column4, '-', 3),Y,string,4,4,,,,"^\d{4}$"
+FullPhone,4,Replace(Column4, '-', ''),Y,string,10,10,,,,"^\d{10}$"
+TransactionMonth,5,Split(Column5, '/', 1),Y,string,2,2,,,,"^(0[1-9]|1[0-2])$"
+TransactionDay,5,Split(Column5, '/', 2),Y,string,2,2,,,,"^(0[1-9]|[12][0-9]|3[01])$"
+TransactionYear,5,Split(Column5, '/', 3),Y,string,4,4,,,,"^\d{4}$"
+TransactionDate,5,DateReformat(Column5,'MM/DD/YYYY','YYYYMMDD'),Y,string,8,8,,,,
+Amount,6,Column6,Y,decimal,,,0.01,999999.99,,
+AmountRounded,6,Round(Column6, 0),N,integer,,,0,999999,,
+Status,7,If Column7 == '' Then 'ACTIVE' Else Column7,Y,string,,,,"Active,Inactive,Pending",
+StatusCode,7,If Column7 == 'Active' Then 'A' ElseIf Column7 == 'Inactive' Then 'I' Else 'P',Y,string,1,1,,,"A,I,P",
+Tag1,8,Split(Column8, ',', 1),N,string,0,50,,,,
+Tag2,8,Split(Column8, ',', 2),N,string,0,50,,,,
+Tag3,8,Split(Column8, ',', 3),N,string,0,50,,,,
+AccountNumber,9,RemoveLeadingZeroes(Column9),Y,string,1,20,,,,"^\d+$"
+AccountNumberPadded,9,PadLeft(Column9, 10, '0'),Y,string,10,10,,,,"^\d{10}$"
+RecordID,10,Increment By 1,Y,integer,,,1,999999,,
+ProcessDate,11,Today(),Y,string,8,10,,,,
+ProcessTimestamp,12,Now(),Y,string,15,25,,,,

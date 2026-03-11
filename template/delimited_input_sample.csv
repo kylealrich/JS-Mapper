@@ -1,0 +1,23 @@
+H,1001,John Smith,2025-03-15,Accounting,New York,Active
+L,1001,1,Widget A,Electronics,100,25.50,2550.00
+L,1001,2,Widget B,Electronics,50,45.00,2250.00
+D,1001,1,1,Color,Blue
+D,1001,1,2,Size,Large
+D,1001,2,1,Color,Red
+C,1001,1,Internal,Please expedite this order
+H,1002,Jane Doe,2025-03-16,Sales,Boston,Active
+L,1002,1,Service A,Consulting,10,150.00,1500.00
+L,1002,2,Service B,Training,5,200.00,1000.00
+D,1002,1,1,Duration,2 hours
+D,1002,2,1,Duration,4 hours
+C,1002,1,External,Customer requested rush delivery
+C,1002,2,Internal,Coordinate with warehouse team
+H,1003,Bob Johnson,2025-03-17,Operations,Chicago,Pending
+L,1003,1,Product X,Manufacturing,200,12.75,2550.00
+L,1003,2,Product Y,Manufacturing,150,18.50,2775.00
+L,1003,3,Product Z,Manufacturing,75,32.00,2400.00
+D,1003,1,1,Material,Steel
+D,1003,1,2,Finish,Powder Coat
+D,1003,2,1,Material,Aluminum
+D,1003,3,1,Material,Plastic
+C,1003,1,Internal,Quality inspection required

@@ -1,0 +1,5 @@
+RecordType,RecordTypeValue,MappingFile
+Header,H,sample_multirecord_header_mapping.csv
+Line,L,sample_multirecord_line_mapping.csv
+Detail,D,sample_multirecord_detail_mapping.csv
+Comment,C,sample_multirecord_comment_mapping.csv

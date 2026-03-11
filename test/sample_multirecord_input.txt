@@ -1,0 +1,7 @@
+H20250310BATCH001DAILY_TRANSACTIONS      
+L0001John      Doe       1250500A20250115INV-001   
+L0002Jane      Smith     0750250A20250116INV-002   
+L0003Bob       Johnson   2500000P20250117INV-003   
+D0001Additional details for transaction 0001
+D0002Additional details for transaction 0002
+C00035Summary: 3 transactions, Total: 4500.75

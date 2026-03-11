@@ -1,0 +1,5 @@
+0001John      Doe       john.doe@example.com        5551234567202501151250500A
+0002Jane      Smith     jane.smith@company.org      8005559999202501160750250A
+0003Bob       Johnson   bob@test.net                1234567890202501172500000P
+0004Alice     Williams  alice.w@domain.com          5559876543202501180500750I
+0005Charlie   Brown     charlie.brown@email.net     8001234567202501193750000A

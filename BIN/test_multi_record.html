@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Multi-Record-Type Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+    h2 { color: #333; }
+    pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Multi-Record-Type Mapper Test</h1>
+  
+  <div class="section">
+    <h2>Test Instructions</h2>
+    <ol>
+      <li>Open <code>JavaScript_Mapper.html</code> in your browser</li>
+      <li>Select "Fixed-Length" file type</li>
+      <li>Check the "Multi-Record-Type File" checkbox</li>
+      <li>Upload the following files:
+        <ul>
+          <li><strong>Input Data File:</strong> <code>input/omrq.bcs.20250405101502.txt</code></li>
+          <li><strong>Record Type Configuration:</strong> <code>input/OMRQ_RecordType_Config.csv</code></li>
+        </ul>
+      </li>
+      <li>Click "Preview Files" - you'll be prompted to select the 4 mapping files:
+        <ul>
+          <li><code>input/OMRQ_Header_FixedLength_Mapping.csv</code></li>
+          <li><code>input/OMRQ_Line_FixedLength_Mapping.csv</code></li>
+          <li><code>input/OMRQ_Detail_FixedLength_Mapping.csv</code></li>
+          <li><code>input/OMRQ_Comment_FixedLength_Mapping.csv</code></li>
+        </ul>
+      </li>
+      <li>Review the preview showing records grouped by type (H/L/D/C)</li>
+      <li>Click "Generate Mapper JS + Output CSV"</li>
+      <li>Verify the output:
+        <ul>
+          <li><strong>JavaScript Mapper:</strong> Contains <code>processMultiRecordTypeFile()</code> function</li>
+          <li><strong>Hierarchical JSON:</strong> Shows parent-child relationships (Headers → LineItems → Details, Headers → Comments)</li>
+        </ul>
+      </li>
+      <li>Download both files and verify they're valid</li>
+    </ol>
+  </div>
+  
+  <div class="section">
+    <h2>Expected Output Structure</h2>
+    <pre>[
+  {
+    "type": "Header",
+    "data": {
+      "Record Type": "H",
+      "Requisition Number": "00100000000000000",
+      ...
+    },
+    "children": {
+      "LineItems": [
+        {
+          "type": "Line",
+          "data": {
+            "Record Type": "L",
+            "Line Number": "00100000000000001",
+            ...
+          },
+          "children": {
+            "Details": [
+              {
+                "type": "Detail",
+                "data": {
+                  "Record Type": "D",
+                  ...
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "Comments": [
+        {
+          "type": "Comment",
+          "data": {
+            "Record Type": "C",
+            ...
+          }
+        }
+      ]
+    }
+  }
+]</pre>
+  </div>
+  
+  <div class="section">
+    <h2>Key Features Implemented</h2>
+    <ul>
+      <li><span class="success">✓</span> Multi-record-type file support with H/L/D/C records</li>
+      <li><span class="success">✓</span> Parent-child relationship configuration</li>
+      <li><span class="success">✓</span> Hierarchical JSON output structure</li>
+      <li><span class="success">✓</span> Reusable JavaScript mapper function generation</li>
+      <li><span class="success">✓</span> Fixed-length field extraction with padding support</li>
+      <li><span class="success">✓</span> Preview grouped by record type</li>
+      <li><span class="success">✓</span> Download as .js and .json files</li>
+    </ul>
+  </div>
+  
+  <div class="section">
+    <h2>Configuration Files Created</h2>
+    <ul>
+      <li><code>input/OMRQ_RecordType_Config.csv</code> - Defines record types and relationships</li>
+      <li><code>input/OMRQ_Header_FixedLength_Mapping.csv</code> - Header record field layout (52 fields)</li>
+      <li><code>input/OMRQ_Line_FixedLength_Mapping.csv</code> - Line item field layout (9 fields)</li>
+      <li><code>input/OMRQ_Detail_FixedLength_Mapping.csv</code> - Detail record field layout (6 fields)</li>
+      <li><code>input/OMRQ_Comment_FixedLength_Mapping.csv</code> - Comment record field layout (5 fields)</li>
+    </ul>
+  </div>
+</body>
+</html>

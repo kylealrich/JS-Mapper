@@ -1036,177 +1036,9 @@
       dataReader.readAsText(dataFile);
     }
     
-    // NEW: Auto-detect delimiter
-    function autoDetectDelimiter(text) {
-      var delimiters = [',', '|', ';', '\t', ':', '~'];
-      var lines = text.split(/\r?\n/).slice(0, 10); // Check first 10 lines
-      var scores = {};
-      
-      delimiters.forEach(function(delim) {
-        var counts = [];
-        lines.forEach(function(line) {
-          if (line.trim()) {
-            var count = line.split(delim).length - 1;
-            counts.push(count);
-          }
-        });
-        
-        if (counts.length > 0) {
-          // Check consistency
-          var firstCount = counts[0];
-          var consistent = counts.every(function(c) { return c === firstCount; });
-          var avgCount = counts.reduce(function(a, b) { return a + b; }, 0) / counts.length;
-          
-          scores[delim] = {
-            avgCount: avgCount,
-            consistent: consistent,
-            confidence: consistent && avgCount > 0 ? avgCount * 10 : 0
-          };
-        }
-      });
-      
-      // Find best delimiter
-      var bestDelim = ',';
-      var bestScore = 0;
-      Object.keys(scores).forEach(function(delim) {
-        if (scores[delim].confidence > bestScore) {
-          bestScore = scores[delim].confidence;
-          bestDelim = delim;
-        }
-      });
-      
-      return {
-        delimiter: bestDelim,
-        confidence: Math.min(bestScore * 10, 100),
-        allScores: scores
-      };
-    }
-    
-    // NEW: Auto-detect if first row is header
-    function autoDetectHeader(text, delimiter) {
-      var lines = text.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
-      if (lines.length < 2) return { hasHeader: false, confidence: 0 };
-      
-      var firstRow = parseCSV(lines[0], delimiter)[0];
-      var secondRow = parseCSV(lines[1], delimiter)[0];
-      
-      if (!firstRow || !secondRow || firstRow.length !== secondRow.length) {
-        return { hasHeader: false, confidence: 0 };
-      }
-      
-      var headerScore = 0;
-      var totalFields = firstRow.length;
-      
-      // Check each field
-      for (var i = 0; i < totalFields; i++) {
-        var first = (firstRow[i] || '').trim();
-        var second = (secondRow[i] || '').trim();
-        
-        // Header indicators
-        if (first && !/^\d+$/.test(first) && /^\d+$/.test(second)) {
-          headerScore++; // First is text, second is number
-        }
-        if (first && first.length < 30 && !/[,|;]/.test(first)) {
-          headerScore += 0.5; // Short, clean text
-        }
-        if (/name|id|date|amount|status|type|code/i.test(first)) {
-          headerScore++; // Common header words
-        }
-      }
-      
-      var confidence = Math.min((headerScore / totalFields) * 100, 100);
-      return {
-        hasHeader: confidence > 50,
-        confidence: confidence,
-        skipRows: confidence > 50 ? 1 : 0
-      };
-    }
-    
-    // NEW: Split column function
-    function splitColumn(value, delimiter, index) {
-      if (!value) return '';
-      var parts = value.toString().split(delimiter);
-      return parts[index] || '';
-    }
-    
-    // NEW: Detect duplicates
-    function detectDuplicates(data, keyColumns) {
-      var seen = {};
-      var duplicates = [];
-      
-      data.forEach(function(row, rowIndex) {
-        var key = keyColumns.map(function(col) {
-          return row[col - 1] || '';
-        }).join('|');
-        
-        if (seen[key]) {
-          duplicates.push({
-            rowIndex: rowIndex,
-            firstSeen: seen[key],
-            key: key
-          });
-        } else {
-          seen[key] = rowIndex;
-        }
-      });
-      
-      return duplicates;
-    }
-    
-    // Delimited preview handler with auto-detection
+    // Delimited preview handler
     function previewDelimited(mappingFile, dataFile) {
       var delimiter = document.getElementById('delimiter').value;
-      
-      // NEW: Auto-detect delimiter if not manually set
-      var dataReader = new FileReader();
-      dataReader.onload = function(ev) {
-        var rawData = ev.target.result;
-        
-        // Auto-detect delimiter
-        var detectedDelim = autoDetectDelimiter(rawData);
-        if (delimiter === ',' && detectedDelim.confidence > 70 && detectedDelim.delimiter !== ',') {
-          var useDetected = confirm(
-            'Auto-detected delimiter: ' + (detectedDelim.delimiter === '\t' ? 'Tab' : detectedDelim.delimiter) + 
-            ' (confidence: ' + Math.round(detectedDelim.confidence) + '%)\n\n' +
-            'Current selection: Comma\n\n' +
-            'Use auto-detected delimiter?'
-          );
-          if (useDetected) {
-            delimiter = detectedDelim.delimiter;
-            document.getElementById('delimiter').value = delimiter;
-          }
-        }
-        
-        // Auto-detect header row
-        var headerDetection = autoDetectHeader(rawData, delimiter);
-        if (headerDetection.confidence > 70) {
-          var currentSkip = parseInt(document.getElementById('skipRows').value) || 0;
-          if (currentSkip !== headerDetection.skipRows) {
-            var useDetected = confirm(
-              'Auto-detected: First row ' + (headerDetection.hasHeader ? 'IS' : 'is NOT') + ' a header\n' +
-              '(confidence: ' + Math.round(headerDetection.confidence) + '%)\n\n' +
-              'Suggested Skip Rows: ' + headerDetection.skipRows + '\n' +
-              'Current Skip Rows: ' + currentSkip + '\n\n' +
-              'Use auto-detected setting?'
-            );
-            if (useDetected) {
-              document.getElementById('skipRows').value = headerDetection.skipRows;
-            }
-          }
-        }
-        
-        if (rawData.indexOf(delimiter) === -1) {
-          return alert('Selected delimiter "' + (delimiter === '\t' ? 'Tab' : delimiter) + '" not found in input file.');
-        }
-        
-        var allData = parseCSV(rawData, delimiter);
-        var skipRows = parseInt(document.getElementById('skipRows').value) || 0;
-        inputData = allData.slice(skipRows);
-        document.getElementById('inputPreview').value = rawData;
-        filesLoaded.data = true;
-        if (filesLoaded.mapping && filesLoaded.data) enableGenerate();
-      };
-      dataReader.readAsText(dataFile);
 
       // Mapping file
       var mappingReader = new FileReader();
@@ -1231,13 +1063,6 @@
             return alert('Mapping table error on row ' + (i + 1) + ': InputColumnNumber and MappingLogic cannot both have values. Use either direct column mapping OR transformation logic, not both.');
           }
           
-          // NEW: Add validation columns support
-          obj['datatype'] = obj['datatype'] || '';
-          obj['minvalue'] = obj['minvalue'] || '';
-          obj['maxvalue'] = obj['maxvalue'] || '';
-          obj['pattern'] = obj['pattern'] || '';
-          obj['validvalues'] = obj['validvalues'] || '';
-          
           parsedMappings.push(obj);
         }
         renderTable(rows[0], parsedMappings);
@@ -1245,6 +1070,22 @@
         if (filesLoaded.mapping && filesLoaded.data) enableGenerate();
       };
       mappingReader.readAsText(mappingFile);
+
+      // Data file
+      var dataReader = new FileReader();
+      dataReader.onload = function(ev) {
+        var rawData = ev.target.result;
+        if (rawData.indexOf(delimiter) === -1) {
+          return alert('Selected delimiter "' + (delimiter === '\t' ? 'Tab' : delimiter) + '" not found in input file.');
+        }
+        var allData = parseCSV(rawData, delimiter);
+        var skipRows = parseInt(document.getElementById('skipRows').value) || 0;
+        inputData = allData.slice(skipRows);
+        document.getElementById('inputPreview').value = rawData;
+        filesLoaded.data = true;
+        if (filesLoaded.mapping && filesLoaded.data) enableGenerate();
+      };
+      dataReader.readAsText(dataFile);
     }
     
     // Multi-record-type preview handler
@@ -1318,7 +1159,7 @@
       input.click();
     }
     
-    // Parse fixed-length mapping with enhanced validation columns
+    // Parse fixed-length mapping
     function parseFixedLengthMapping(content) {
       var rows = parseCSV(content, ',');
       var headers = rows[0].map(normalizeKey);
@@ -1340,17 +1181,7 @@
           endPos: parseInt(fieldObj['end']) || 0,
           padChar: fieldObj['padcharacter'] || fieldObj['padchar'] || '',
           justify: (fieldObj['justify'] || '').toLowerCase(),
-          defaultValue: fieldObj['defaultvalue'] || '',
-          required: fieldObj['required'] || 'N',
-          // NEW: Enhanced validation fields
-          dataType: fieldObj['datatype'] || '',
-          decimalPlaces: parseInt(fieldObj['decimalplaces']) || 0,
-          minValue: fieldObj['minvalue'] || '',
-          maxValue: fieldObj['maxvalue'] || '',
-          minLength: fieldObj['minlength'] || '',
-          maxLength: fieldObj['maxlength'] || '',
-          pattern: fieldObj['pattern'] || '',
-          validValues: fieldObj['validvalues'] || ''
+          defaultValue: fieldObj['defaultvalue'] || ''
         });
       }
       
@@ -1440,102 +1271,13 @@
       return null;
     }
     
-    // NEW: Field validation function
-    function validateField(fieldDef, value) {
-      // Required field validation
-      if (fieldDef.required && fieldDef.required.toUpperCase() === 'Y') {
-        if (!value || !value.toString().trim()) {
-          return 'Required field is empty';
-        }
-      }
-      
-      // Data type validation
-      if (fieldDef.dataType) {
-        var dataType = fieldDef.dataType.toLowerCase();
-        
-        if (dataType === 'numeric' || dataType === 'number') {
-          if (!/^-?\d*\.?\d+$/.test(value.toString().trim())) {
-            return 'Invalid numeric value: ' + value;
-          }
-        }
-        
-        if (dataType === 'alpha' || dataType === 'alphabetic') {
-          if (!/^[A-Za-z\s]*$/.test(value)) {
-            return 'Invalid alphabetic value: ' + value;
-          }
-        }
-        
-        if (dataType === 'alphanumeric') {
-          if (!/^[A-Za-z0-9\s]*$/.test(value)) {
-            return 'Invalid alphanumeric value: ' + value;
-          }
-        }
-        
-        if (dataType === 'date') {
-          if (!/^\d{8}$/.test(value) && !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-            return 'Invalid date format: ' + value;
-          }
-        }
-      }
-      
-      // Min/Max value validation (for numeric fields)
-      if (fieldDef.minValue !== undefined && fieldDef.minValue !== '') {
-        var numValue = parseFloat(value);
-        if (!isNaN(numValue) && numValue < parseFloat(fieldDef.minValue)) {
-          return 'Value ' + value + ' is below minimum ' + fieldDef.minValue;
-        }
-      }
-      
-      if (fieldDef.maxValue !== undefined && fieldDef.maxValue !== '') {
-        var numValue = parseFloat(value);
-        if (!isNaN(numValue) && numValue > parseFloat(fieldDef.maxValue)) {
-          return 'Value ' + value + ' exceeds maximum ' + fieldDef.maxValue;
-        }
-      }
-      
-      // Length validation
-      if (fieldDef.minLength && value.length < parseInt(fieldDef.minLength)) {
-        return 'Value length ' + value.length + ' is below minimum ' + fieldDef.minLength;
-      }
-      
-      if (fieldDef.maxLength && value.length > parseInt(fieldDef.maxLength)) {
-        return 'Value length ' + value.length + ' exceeds maximum ' + fieldDef.maxLength;
-      }
-      
-      // Pattern validation (regex)
-      if (fieldDef.pattern) {
-        try {
-          var regex = new RegExp(fieldDef.pattern);
-          if (!regex.test(value)) {
-            return 'Value does not match required pattern: ' + fieldDef.pattern;
-          }
-        } catch (e) {
-          return 'Invalid pattern definition: ' + fieldDef.pattern;
-        }
-      }
-      
-      // Valid values list
-      if (fieldDef.validValues) {
-        var validList = fieldDef.validValues.split('|');
-        if (validList.indexOf(value) === -1) {
-          return 'Value "' + value + '" not in valid list: ' + fieldDef.validValues;
-        }
-      }
-      
-      return null; // No errors
-    }
-    
-    // Extract fixed-length fields with enhancements
-    function extractFixedLengthFields(line, fields, options) {
+    // Extract fixed-length fields
+    function extractFixedLengthFields(line, fields) {
       var record = {};
-      var errors = [];
-      options = options || {};
-      
       fields.forEach(function(fd) {
         var raw = line.substring(fd.startPos - 1, fd.endPos);
         var value = raw;
         
-        // Remove padding
         if (fd.padChar) {
           if (fd.justify === 'right') {
             value = value.replace(new RegExp('^' + fd.padChar + '+'), '');
@@ -1546,36 +1288,12 @@
           value = value.trim();
         }
         
-        // Apply default value if empty
         if (!value && fd.defaultValue) {
           value = fd.defaultValue;
         }
         
-        // NEW: Implied decimal support
-        if (value && fd.decimalPlaces && !isNaN(value)) {
-          var numValue = parseFloat(value);
-          value = (numValue / Math.pow(10, parseInt(fd.decimalPlaces))).toFixed(fd.decimalPlaces);
-        }
-        
-        // NEW: Data type validation
-        if (options.validate && value) {
-          var validationError = validateField(fd, value);
-          if (validationError) {
-            errors.push({
-              field: fd.fieldName,
-              value: value,
-              error: validationError
-            });
-          }
-        }
-        
         record[fd.fieldName] = value;
       });
-      
-      if (options.validate && errors.length > 0) {
-        record._validationErrors = errors;
-      }
-      
       return record;
     }
     
@@ -1730,7 +1448,7 @@
       jsLines.push("  }");
       jsLines.push("");
       jsLines.push("  // Unquoted static values");
-      jsLines.push("  if (!/Column\\d+/i.test(logic) && !/^(RemoveLeadingZeroes|Trim|Concat|Split|Sum|If|Today|Now|Increment|DateReformat|Hardcode)/i.test(logic)) {");
+      jsLines.push("  if (!/Column\\d+/i.test(logic) && !/^(RemoveLeadingZeroes|Trim|Concat|Sum|If|Today|Now|Increment|DateReformat|Hardcode)/i.test(logic)) {");
       jsLines.push("    return logic;");
       jsLines.push("  }");
       jsLines.push("");
@@ -1767,14 +1485,6 @@
       if (/^Right\(Column(\d+),\s*(\d+)\)/i.test(logic)) {
         var match = logic.match(/Right\(Column(\d+),\s*(\d+)\)/i);
         return "(data[" + (match[1] - 1) + "] || '').slice(-" + match[2] + ")";
-      }
-      
-      if (/^Split\(Column(\d+),\s*'([^']*)',\s*(\d+)\)/i.test(logic)) {
-        var match = logic.match(/Split\(Column(\d+),\s*'([^']*)',\s*(\d+)\)/i);
-        var colIndex = match[1] - 1;
-        var delimiter = match[2];
-        var index = match[3] - 1;
-        return "(data[" + colIndex + "] || '').split(" + JSON.stringify(delimiter) + ")[" + index + "] || ''";
       }
       
       if (/^DateReformat\(Column(\d+),\s*'([^']*)',\s*'([^']*)'\)/i.test(logic)) {
@@ -1922,16 +1632,6 @@
         "    var match = logic.match(/AddRight\\(Column(\\d+),\\s*'([^']*)',\\s*(\\d+)\\)/i);",
         "    if (match) { var suffix = ''; for (var i = 0; i < parseInt(match[3]); i++) suffix += match[2]; return (data[match[1]-1] || '') + suffix; }",
         "  }",
-        "  if (/^Split\\(/i.test(logic)) {",
-        "    var match = logic.match(/Split\\(Column(\\d+),\\s*'([^']*)',\\s*(\\d+)\\)/i);",
-        "    if (match) {",
-        "      var value = data[match[1]-1] || '';",
-        "      var delimiter = match[2];",
-        "      var index = parseInt(match[3]) - 1;",
-        "      var parts = value.split(delimiter);",
-        "      return parts[index] || '';",
-        "    }",
-        "  }",
         "",
         "  // Math Functions",
         "  if (/^Sum\\(/i.test(logic)) {",
@@ -2055,7 +1755,7 @@
         "  }",
         "  ",
         "  // Handle unquoted static values (but not function names)",
-        "  if (!/Column\\d+/i.test(logic) && !/^(RemoveLeadingZeroes|RemoveTrailingSpaces|Trim|Concat|Substring|Uppercase|Lowercase|Left|Right|Replace|PadLeft|PadRight|AddLeft|AddRight|Split|Sum|Multiply|Divide|Round|Abs|Max|Min|If|Today|Now|Increment|DateReformat|Hardcode|IsEmpty|IsNumeric)/i.test(logic)) {",
+        "  if (!/Column\\d+/i.test(logic) && !/^(RemoveLeadingZeroes|RemoveTrailingSpaces|Trim|Concat|Substring|Uppercase|Lowercase|Left|Right|Replace|PadLeft|PadRight|AddLeft|AddRight|Sum|Multiply|Divide|Round|Abs|Max|Min|If|Today|Now|Increment|DateReformat|Hardcode|IsEmpty|IsNumeric)/i.test(logic)) {",
         "    return logic;",
         "  }",
         "  ",
@@ -2611,7 +2311,6 @@
         ['PadRight(ColumnN, length, \'char\')', 'Right pad with character', 'PadRight(Column1, 5, \'0\')', '123 → 12300'],
         ['AddLeft(ColumnN, \'char\', count)', 'Add character N times to start', 'AddLeft(Column1, \'0\', 2)', '123 → 00123'],
         ['AddRight(ColumnN, \'char\', count)', 'Add character N times to end', 'AddRight(Column1, \'0\', 2)', '123 → 12300'],
-        ['Split(ColumnN, \'delimiter\', index)', 'Split column by delimiter and get part', 'Split(Column1, \',\', 2)', 'A,B,C → B'],
         ['DateReformat(ColumnN, \'input\', \'output\')', 'Reformat date strings', 'DateReformat(Column18,\'MMDDYYYY\',\'YYYYMMDD\')', '10252025 → 20251025']
       ],
       math: [
@@ -3417,69 +3116,6 @@
         this.classList.add('active');
         document.getElementById(target + '-content').classList.add('active');
       };
-    });
-    
-    // NEW: Drag-and-drop file upload functionality
-    function enableDragAndDrop(fileInputId) {
-      var fileInput = document.getElementById(fileInputId);
-      if (!fileInput) return;
-      
-      var dropZone = fileInput.parentElement;
-      
-      // Prevent default drag behaviors
-      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function(eventName) {
-        dropZone.addEventListener(eventName, preventDefaults, false);
-        document.body.addEventListener(eventName, preventDefaults, false);
-      });
-      
-      function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      
-      // Highlight drop zone when item is dragged over it
-      ['dragenter', 'dragover'].forEach(function(eventName) {
-        dropZone.addEventListener(eventName, highlight, false);
-      });
-      
-      ['dragleave', 'drop'].forEach(function(eventName) {
-        dropZone.addEventListener(eventName, unhighlight, false);
-      });
-      
-      function highlight(e) {
-        dropZone.style.background = 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)';
-        dropZone.style.border = '2px dashed #3b82f6';
-        dropZone.style.borderRadius = '6px';
-      }
-      
-      function unhighlight(e) {
-        dropZone.style.background = '';
-        dropZone.style.border = '';
-      }
-      
-      // Handle dropped files
-      dropZone.addEventListener('drop', handleDrop, false);
-      
-      function handleDrop(e) {
-        var dt = e.dataTransfer;
-        var files = dt.files;
-        
-        if (files.length > 0) {
-          fileInput.files = files;
-          
-          // Trigger change event
-          var event = new Event('change', { bubbles: true });
-          fileInput.dispatchEvent(event);
-        }
-      }
-    }
-    
-    // Initialize drag-and-drop on page load
-    window.addEventListener('DOMContentLoaded', function() {
-      enableDragAndDrop('dataFile');
-      enableDragAndDrop('mappingFile');
-      enableDragAndDrop('fixedLengthMappingFile');
-      enableDragAndDrop('recordTypeConfigFile');
     });
   </script>
 </body>

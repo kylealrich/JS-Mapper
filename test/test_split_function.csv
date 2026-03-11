@@ -1,0 +1,8 @@
+TargetFieldName,InputColumnNumber,MappingLogic
+FirstName,1,Split(Column1, ' ', 1)
+LastName,1,Split(Column1, ' ', 2)
+EmailUser,2,Split(Column2, '@', 1)
+EmailDomain,2,Split(Column2, '@', 2)
+AreaCode,3,Split(Column3, '-', 1)
+PhoneExchange,3,Split(Column3, '-', 2)
+PhoneNumber,3,Split(Column3, '-', 3)

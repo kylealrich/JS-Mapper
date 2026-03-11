@@ -1,0 +1,4 @@
+CustomerID|FullName|Email|Phone|TransactionDate|Amount|Status|Tags|AccountNumber
+2001|Sarah Connor|sarah.connor@skynet.com|310-555-1234|02/15/2025|5000.00|Active|urgent,security,classified|00087654
+2002|Kyle Reese|kyle.reese@resistance.org|310-555-5678|02/16/2025|1500.50|Active|standard,military|00012398
+2003|John Connor|john.connor@future.net|310-555-9999|02/17/2025|10000.00|Active|urgent,leadership,critical|00099887

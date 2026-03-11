@@ -1,0 +1,7 @@
+OutputFieldName,Start,End,Required,Justify,MappingLogic,DefaultValue
+Record Type,1,1,Y,left,,
+Order Number,2,13,Y,right,RemoveLeadingZeroes(Order Number),
+Line Number,14,18,Y,right,RemoveLeadingZeroes(Line Number),
+Detail Sequence,19,22,Y,right,RemoveLeadingZeroes(Detail Sequence),
+Attribute Name,23,42,N,left,Trim(Attribute Name),
+Attribute Value,43,102,N,left,Trim(Attribute Value),

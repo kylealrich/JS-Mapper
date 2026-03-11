@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMRQ Multi-Record Mapper - Output Results</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background:
+        linear-gradient(rgba(248,250,252,0.9), rgba(248,250,252,0.9)),
+        repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(148,163,184,0.1) 20px),
+        repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(148,163,184,0.1) 20px),
+        radial-gradient(circle at 20px 20px, rgba(59,130,246,0.15) 2px, transparent 2px),
+        #f8fafc;
+      background-size: 40px 40px;
+      color: #1f2937;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.1);
+      padding: 32px;
+      max-width: 1400px;
+      margin: auto;
+      border: 1px solid #e5e7eb;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 4px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    
+    .title-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px 8px 0 0;
+      font-weight: 600;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 0 0 8px 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th {
+      background: #f9fafb;
+      padding: 12px 8px;
+      text-align: left;
+      font-weight: 600;
+      color: #374151;
+      border-bottom: 2px solid #e5e7eb;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #f3f4f6;
+      color: #4b5563;
+    }
+
+    tr:hover {
+      background: #f9fafb;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #9ca3af;
+      font-style: italic;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e7eb;
+      color: #6b7280;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>
+      <i class="fas fa-file-code"></i>
+      <span class="title-text">OMRQ Multi-Record Mapper Output</span>
+    </h1>
+    <div class="subtitle">
+      Generated: March 11, 2026 | Input: omrq.bcs.20250405101502.txt | Type: Runtime Flexible
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number">1</div>
+        <div class="stat-label">Headers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Line Items</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">7</div>
+        <div class="stat-label">Details</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">8</div>
+        <div class="stat-label">Comments</div>
+      </div>
+    </div>
+
+    <!-- HEADERS SECTION -->
+    <div class="section">
+      <div class="section-header">
+        <i class="fas fa-file-alt"></i>
+        Headers (1 record)
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Record Type</th>
+              <th>Company</th>
+              <th>Req Number</th>
+              <th>Requester</th>
+              <th>Req Location</th>
+              <th>Req Del Date</th>
+              <th>From Company</th>
+              <th>From Location</th>
+              <th>Buyer Code</th>
+              <th>Vendor</th>
+              <th>Account Unit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>H</td>
+              <td>10</td>
+              <td>0</td>
+              <td>RQ500OMBCS</td>
+              <td>72000</td>
+              <td>00000000</td>
+              <td>10</td>
+              <td>WARE</td>
+              <td>BCS</td>
+              <td>10864</td>
+              <td>10325</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LINE ITEMS SECTION -->
+    <div class="section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        Line Items (4 records)
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Record Type</th>
+              <th>Requisition Number</th>
+              <th>Line Number</th>
+              <th>Item Number</th>
+              <th>Item Description</th>
+              <th>Quantity</th>
+              <th>Unit of Measure</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>L</td>
+              <td>0010000000000</td>
+              <td>0001SC-4275</td>
+              <td>X Precisi</td>
+              <td>on Hex Wrench</td>
+              <td>000000000004800</td>
+              <td>00</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>0010000000000</td>
+              <td>0002138152</td>
+              <td>N ALPHA F</td>
+              <td>EEELINK REMOTE KITBLE</td>
+              <td>000000000150000</td>
+              <td>00</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>0010000000000</td>
+              <td>0003138153</td>
+              <td>N Precisi</td>
+              <td>on Charging System</td>
+              <td>000000000150000</td>
+              <td>00</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>0010000000000</td>
+              <td>0004138104</td>
+              <td>N WAVEWRI</td>
+              <td>TER ALPHA 32 IPG KIT</td>
+              <td>000000001930000</td>
+              <td>00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DETAILS SECTION -->
+    <div class="section">
+      <div class="section-header">
+        <i class="fas fa-info-circle"></i>
+        Details (7 records)
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Record Type</th>
+              <th>Requisition Number</th>
+              <th>Line Number</th>
+              <th>Detail Sequence</th>
+              <th>Detail Type</th>
+              <th>Detail Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>D</td>
+              <td>0010000000000</td>
+              <td>0001</td>
+              <td></td>
+              <td>PLOT: 35867216</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>0010000000000</td>
+              <td>0002</td>
+              <td></td>
+              <td>PSER: 533799</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>0010000000000</td>
+              <td>0002</td>
+              <td></td>
+              <td>PLOT: 533799</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>0010000000000</td>
+              <td>0003</td>
+              <td></td>
+              <td>PSER: 511619</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>0010000000000</td>
+              <td>0003</td>
+              <td></td>
+              <td>PLOT: 511619</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>0010000000000</td>
+              <td>0004</td>
+              <td></td>
+              <td>PSER: 780019</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>0010000000000</td>
+              <td>0004</td>
+              <td></td>
+              <td>PLOT: 780019</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- COMMENTS SECTION -->
+    <div class="section">
+      <div class="section-header">
+        <i class="fas fa-comment"></i>
+        Comments (8 records)
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Record Type</th>
+              <th>Requisition Number</th>
+              <th>Comment Sequence</th>
+              <th>Comment Type</th>
+              <th>Comment Text (truncated)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>C</td>
+              <td>S0010WARE 720</td>
+              <td>002025040500000</td>
+              <td>00000000000 BILL NNN</td>
+              <td>202504052025040500 K 10325...</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>S0010WARE 720</td>
+              <td>002025040500000</td>
+              <td>00000000000 BILL NNN</td>
+              <td>202504052025040500 K 10325...</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>S0010WARE 720</td>
+              <td>002025040500000</td>
+              <td>00000000000 BILL NNN</td>
+              <td>202504052025040500 K 10325...</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>S0010WARE 720</td>
+              <td>002025040500000</td>
+              <td>00000000000 BILL NNN</td>
+              <td>202504052025040500 K 10325...</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>0010000000000</td>
+              <td>0000</td>
+              <td>PMRN: 0004729561408aa</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>0010000000000</td>
+              <td>0000</td>
+              <td>PCase Number: Main202</td>
+              <td>53029</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>0010000000000</td>
+              <td>0000</td>
+              <td>PDate Of Service: 04-</td>
+              <td>03-2025</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>0010000000000</td>
+              <td>0000</td>
+              <td>PDocument Number: 101</td>
+              <td>590</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p><strong>JavaScript Mapper</strong> - Multi-Record Fixed-Length Processing</p>
+      <p>Runtime Flexible Generation | ES5 Compatible | March 11, 2026</p>
+    </div>
+  </div>
+</body>
+</html>
