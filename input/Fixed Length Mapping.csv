@@ -1,0 +1,74 @@
+﻿Position,Field Name,Field Type and Length,Description,Sample values,Table-Field,Field,Remarks
+1,Record Type,Alpha 1,H = Header.,H,,, 
+,,,"If the record type is not H, L, C, or D, the program prints the record in error and an error message.",,,,
+5-Feb,Company,Num 4,Company number.,10,RQH-COMPANY,Company,FSM to trim leading zeroes
+12-Jun,Req Number,Num 7,Requisition number assigned to the requisition.,0,RQH-REQNUMBER,Requisition,FSM to translate string of zero value to BLANK
+13-18,(Line Number),Num 6,Equals zero.,0,,,FSM to translate string of zero value to BLANK
+19-28,Requester,AlphaLower 10,"Person, department, or area requesting the items.",RQ500OMOR,RQH-REQUESTER,Requester,FSM to crosswalk values based on Pre-requisite 1 (Configuration Parameter)
+29-33,Req Location,Alpha 5,Location requesting the items.,72000,RQH-REQLOCATION,RequestingLocation,Assumed to be the same with the existing Requesting Locations in FSM
+34-41,Req Del Date,Num 8,Requested delivery date.,20231010,RQH-REQDELDATE,RequestedDeliveryDate,FSM to translate to required Date Format if needed
+,,,Format = YYYYMMDD,,,,
+42-49,Creation Date,Date 8,Date the line was added to the requisition.,20231005,RQH-CREATIONDATE,CreationDate,FSM to translate to required Date Format if needed
+,,,Format = YYYYMMDD,,,,
+50-53,From Company,Num 4,From company.,0,RQH-FROMCOMPANY,FromCompanyLocation.FromCompany,"If there’s a value, FSM to trim leading zeroes."
+,,,,,,,
+,,,,,,,"Otherwise, FSM to translate string of zero value to BLANK, then let FSM default the value from the Requesting Location"
+54-58,From Location,Alpha 5,Inventory location that supplies the items or the purchase order ship to location that receives the items.,WARE,RQH-FROMLOCATION,FromCompanyLocation.FromLocation,Assumed to be the same with the existing Inventory Locations in FSM
+59-88,Deliver To,AlphaLower 30,Additional information regarding where to deliver the requested items.,,RQH-DELIVERTO,DeliverTo,FSM will take the value from Owens and Minor as it is
+,,,Note from old documentation: don't send anything here,,,,
+89-91,Buyer Code,Alpha 3,User-defined code defined on Buyer (PO04.1).,,RQH-BUYERCODE,Buyer,Expected to be BLANK
+92-100,Vendor,AlphaRight 9,Vendor ID for the vendor suggested for the requisition.,,RQH-VENDOR,Vendor,Expected to be BLANK
+,,,,,,,
+101-104,Purchase From Loc,Alpha 4,Location code for the suggested vendor location.,,RQH-PURCHFRLOC,PurchaseFromLocation,Expected to be BLANK
+,,,,,,,
+105-134,Vendor Name,Alpha 30,Name of the vendor suggested for the requisition.,,RQH-VENDORNAME,,Expected to be BLANK
+,,,,,,,
+135,Print Req Fl,Alpha 1,Indicates whether to print the requisition in Print Requisitions (RQ111).,N,RQH-PRINTREQFL,PrintRequisition,FSM to translate to Boolean
+,,,Valid values: Yes or No,,,,
+136-165,Agreement Ref,Alpha 30,The agreement reference.,,RLN-AGREEMENTREF,,Expected to be be BLANK
+166,PO User Fld 1,Alpha 1,Purchase order header user field one.,,RQH-POUSERFLD1,PurchaseOrderUserField1,Expected to be be BLANK
+167-176,PO User Fld 3,AlphaLower 10,Purchase order header user field three.,,RQH-POUSERFLD3,PurchaseOrderUserField3,Expected to be be BLANK
+177-206,PO User Fld 5,AlphaLower 30,Purchase order header user field five.,,RQH-POUSERFLD5,PurchaseOrderUserField5,Expected to be be BLANK
+207-214,User Date 1,Num 8,Format = YYYYMMDD,0,,UserDate1,FSM to translate string of zero value to BLANK
+215-222,User Date 2,Num 8,Format = YYYYMMDD,0,,UserDate2,FSM to translate string of zero value to BLANK
+223-224,Allocate Priority,Num 2,Allocation priority value. Valid values: 00-99. The default is 50.,0,RQH-ALLOCPRI,AllocationPriority,FSM will take the value from Owens and Minor as it is
+225,Quote Fl,Alpha 1,Indicates if the buyer should get quotes for this requisition before it is turned into a purchase order. Valid values: 00-99,N,RQH-QUOTEFL,QuoteRequired,FSM to translate to Boolean
+226-240,Activity,Alpha 15,Activity code as defined in the Project Accounting application.,,RQH-ACTIVITY,DefaultDistributionAccount.Project,Expected to be BLANK.
+,,,,,,,Not used by Aultman on OM Requisitions.
+241-245,Account Category,Alpha 5,"Accounting category code, used for reporting and inquiry functions.",,RQH-ACCTCATEGORY,DefaultDistributionAccount.FinanceDimension3,Expected to be BLANK.
+,,,,,,,Not used by Aultman on OM Requisitions.
+246-277,Billing Category,Alpha 32,Billing category.,,,,Expected to be BLANK.
+,,,,,,,Not used by Aultman in FSM..
+278-292,Account Unit,Alpha 15,Posting accounting unit.,10325,RQH-ACCTUNIT,DefaultDistributionAccount.FinanceDimension1,"In FSM, this is the Cost Center for Aultman."
+,,,,,,,
+,,,,,,,Assumed to be the same with the existing Finance Dimension1 in FSM
+293-298,Account,Num 6,Account from the general ledger for this purchase order.,,RQH-ACCOUNT,DefaultDistributionAccount.GeneralLedgerChartAccount,Assumed to be the same with the existing GeneralLedgerChartAccount in FSM
+299-302,Sub Account,Num 4,Subaccount from the general ledger charged for this requisition.,,RQH-SUBACCT,,Expected to be BLANK.
+,,,,,,,Not used by Aultman in FSM.
+303-312,Purchase Tax Code,Alpha 10,Code used to determine if the item is taxable when purchased at this location.,,RQH-PURCHTXCD,PurchaseTaxCode,Expected to be BLANK
+,,,,,,,
+313,Purchase Tax Fl,Alpha 1,Indicates if the item is taxable.,N,RQH-PURCHTAXFL,PurchaseTaxable,FSM to translate to Boolean
+,,,Valid values: Yes or No,,,,
+314-323,Operator Id,Alpha 10,Identifier for the person who entered the transaction.,,,OperatorID,Expected to be BLANK
+324,Dropship Fl,Alpha 1,Dropship flag. Indicates whether the goods will be delivered through a dropshipment.,N,RQH-DROPSHIPFL,Dropship,FSM to translate to Boolean
+325,Dropsh Req Loc,Alpha 1,Indicates whether the receiving process needs to be done for the goods shipped.,N,,,Expected to be BLANK if DropShip is N
+326,Dropsh Req,Alpha 1,Dropship request.,,,,Expected to be BLANK if DropShip is N
+327-356,Sh Name,AlphaLower 30,Ship To name.,,RQH-SHNAME,DropshipName,Expected to be BLANK if DropShip is N
+357-386,Sh Addr 1,AlphaLower 30,Line 1 of Ship To address.,,RQH-SHADDR1,DropshipAddress.DeliveryAddress.AddressLine1,Expected to be BLANK if DropShip is N
+387-416,Sh Addr 2,AlphaLower 30,Line 2 of Ship To address.,,RQH-SHADDR2,DropshipAddress.DeliveryAddress.AddressLine1,Expected to be BLANK if DropShip is N
+417-446,Sh Addr 3,AlphaLower 30,Line 3 of Ship To address.,,RQH-SHADDR3,DropshipAddress.DeliveryAddress.AddressLine1,Expected to be BLANK if DropShip is N
+447-476,Sh Addr 4,AlphaLower 30,Line 4 of Ship To address.,,RQH-SHADDR4,DropshipAddress.DeliveryAddress.AddressLine1,Expected to be BLANK if DropShip is N
+477-494,Sh City-Addr5,AlphaLower 18,Line 5 of Ship To address. Reserved for the name of the city.,,RQH-SHCITYADDR5,DropshipAddress.Municipality,Expected to be BLANK if DropShip is N
+495-496,Sh State-Prov,Alpha 2,The state of the Ship To address.,,RQH-SHSTATEPROV,DropshipAddress.StateProvince,Expected to be BLANK if DropShip is N
+497-506,Sh Post Code,AlphaLower 10,The postal code of the Ship To address.,,RQH-SHPOSTCODE,DropshipAddress.PostalCode,Expected to be BLANK if DropShip is N
+507-536,Sh Country,AlphaLower 30,The country of the Ship To address.,,RQH-SHCOUNTRYCD,DropshipAddress.Country,Expected to be BLANK if DropShip is N
+537-561,Sh County,AlphaLower 25,The county of the Ship To address.,,RQH-SHCOUNTY,DropshipAddress.County,Expected to be BLANK if DropShip is N
+562-567,Sh Phone Pref,Alpha 6,Phone prefix number.,,RQH-SHPHONEPREF,DropshipPhoneNumber.InternationalPrefix,Expected to be BLANK if DropShip is N
+568-582,Sh Phone,Alpha 15,Phone number.,,RQH-SHPHONE,DropshipPhoneNumber.SubscriberNumber,Expected to be BLANK if DropShip is N
+583-587,Sh Phone Ext,Alpha 5,Phone extension.,,RQH-SHPHONEEXT,DropshipPhoneNumber.Extension,Expected to be BLANK if DropShip is N
+588-617,Sh Contact,AlphaLower 30,Name of contact person at Ship To location.,,RQH-SHCONTACT,DropshipContact,Expected to be BLANK if DropShip is N
+618-622,Tran Curr Code,Alpha 5,Transaction currency code.,,RQH-TRANCURRCODE,TransactionCurrencyCode,Expected to be BLANK
+623,One Src One PO,Num 1,One document to one purchase order.,1,RQH-ONESRCONEPO,OneSourceDocumentToOnePO,FSM to translate to equivalent value
+624-635,Location Rule ,Alpha 12,,,RQH-LOCATIONRULE,LocationRule,Expected to be BLANK
+636-738,Segment Block,Alpha 103,Identifies the user analysis values included in the transaction.,,,,Expected to be BLANK
+,,,,,,,
