@@ -11,17 +11,6 @@ A web-based data transformation tool that generates JavaScript mapping functions
 
 Built for data analysts, healthcare IT teams, and integration engineers who need repeatable, configuration-driven data transformations without writing code from scratch.
 
-## Quick Start
-
-1. Open `JavaScript_Mapper.html` in any modern browser
-2. Select your file type (Delimited or Fixed-Length)
-3. Upload a mapping CSV and an input data file
-4. Click "Preview Files" to validate
-5. Click "Generate Mapper JS + Output CSV" to produce output
-6. Download the generated JavaScript and transformed CSV
-
-No server, no install, no dependencies.
-
 ## Features
 
 ### File Format Support
