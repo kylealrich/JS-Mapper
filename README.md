@@ -47,39 +47,6 @@ if (result.success) {
 
 Key functions: `transformData()`, `createDynamicMapper()`, `parseCSV()`, `applyLogic()`.
 
-## Project Structure
-
-```
-├── JavaScript_Mapper.html      # Main application (single-file, self-contained)
-├── mapper-core.js              # Core transformation engine for IPA/Node.js
-├── docs/                       # Documentation
-│   ├── README.md               # Detailed feature documentation
-│   ├── api-reference.md        # Function reference and API docs
-│   ├── mapping-configuration.md
-│   ├── ipa-integration.md      # IPA integration patterns
-│   ├── multi-record-type-guide.md
-│   ├── pdf-to-mapping-guide.md
-│   ├── troubleshooting.md
-│   └── ui-components.md
-├── template/                   # Sample templates for both delimited and fixed-length
-│   ├── delimited_input_sample.csv
-│   ├── delimited_mapping_sample.csv
-│   ├── fixed_length_*_mapping.csv
-│   ├── record_type_config.csv
-│   └── README.md
-├── test/                       # Test data and validation files
-│   ├── sample_delimited_*.csv
-│   ├── sample_fixedlength_*
-│   ├── sample_multirecord_*
-│   ├── sample_pipe_delimited_input.txt
-│   └── TEST_FILES_GUIDE.md
-├── input/                      # Working input files
-├── output/                     # Generated output files
-├── BIN/                        # Archived/backup files (not for active development)
-├── archive/                    # Legacy files and historical references
-└── ANA050/                     # Project-specific analysis specs (Aultman Health)
-```
-
 ## Mapping Table Format
 
 A mapping CSV defines how each output field is produced. Columns:
