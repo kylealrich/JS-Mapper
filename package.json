@@ -1,0 +1,14 @@
+{
+  "name": "javascript-mapper-cli",
+  "version": "1.0.0",
+  "description": "JavaScript Mapper CLI - Standalone exe for Generate Mapper JS",
+  "main": "mapper-cli.js",
+  "bin": "mapper-cli.js",
+  "pkg": {
+    "targets": ["node18-win-x64"],
+    "outputPath": "dist"
+  },
+  "scripts": {
+    "build": "npx pkg . --targets node18-win-x64 --output dist/JavaScriptMapper.exe"
+  }
+}
