@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMRQ Mapped Output Viewer</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background:
+        linear-gradient(rgba(248,250,252,0.9), rgba(248,250,252,0.9)),
+        repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(148,163,184,0.1) 20px),
+        repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(148,163,184,0.1) 20px),
+        radial-gradient(circle at 20px 20px, rgba(59,130,246,0.15) 2px, transparent 2px),
+        #f8fafc;
+      background-size: 40px 40px;
+      color: #1f2937;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.1);
+      padding: 32px;
+      max-width: 1400px;
+      margin: auto;
+      border: 1px solid #e5e7eb;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 4px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .title-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .gradient-divider {
+      height: 4px;
+      background: linear-gradient(90deg, #1e3a8a 0%, #3730a3 25%, #5b21b6 50%, #7c2d12 75%, #1e40af 100%);
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+
+    /* Summary Cards */
+    .summary-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .summary-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 16px 20px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .summary-card:hover {
+      border-color: #93c5fd;
+      box-shadow: 0 4px 12px rgba(59,130,246,0.1);
+      transform: translateY(-1px);
+    }
+    .summary-card .count {
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .summary-card .label {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+    .summary-card .icon {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    .sc-header .icon { color: #3b82f6; }
+    .sc-line .icon { color: #10b981; }
+    .sc-detail .icon { color: #f59e0b; }
+    .sc-comment .icon { color: #8b5cf6; }
+
+    /* Tab Navigation */
+    .tab-nav {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 0;
+      border-bottom: 2px solid #e5e7eb;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 10px 20px;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-btn:hover { color: #374151; background: #f9fafb; }
+    .tab-btn.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+      font-weight: 600;
+    }
+    .tab-btn .badge {
+      font-size: 11px;
+      background: #e5e7eb;
+      color: #6b7280;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    .tab-btn.active .badge {
+      background: #ede9fe;
+      color: #667eea;
+    }
+
+    /* Table Styles */
+    .tab-content { display: none; padding-top: 20px; }
+    .tab-content.active { display: block; }
+
+    .data-table-wrapper {
+      overflow-x: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    thead th {
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      color: #374151;
+      border-bottom: 2px solid #e5e7eb;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+    }
+    tbody td {
+      padding: 8px 14px;
+      border-bottom: 1px solid #f3f4f6;
+      color: #4b5563;
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    tbody tr:hover { background: #f9fafb; }
+    tbody tr:nth-child(even) { background: #fafbfc; }
+    tbody tr:nth-child(even):hover { background: #f3f4f6; }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #9ca3af;
+    }
+    .empty-state i { font-size: 36px; margin-bottom: 8px; display: block; }
+
+    /* Info bar */
+    .info-bar {
+      background: linear-gradient(135deg, #eff6ff, #f5f3ff);
+      border: 1px solid #c7d2fe;
+      border-radius: 10px;
+      padding: 16px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: #4b5563;
+    }
+    .info-bar .info-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .info-bar .info-item i { color: #6366f1; }
+    .info-bar .info-label { font-weight: 600; color: #374151; }
+
+    @media (max-width: 600px) {
+      .container { padding: 16px; }
+      .summary-bar { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fa-solid fa-table-list" style="color:#667eea"></i> <span class="title-text">OMRQ Mapped Output</span></h1>
+    <p class="subtitle">Multi-Record Fixed-Length Data Transformation Results</p>
+    <div class="gradient-divider"></div>
+
+    <div class="info-bar">
+      <div class="info-item"><i class="fa-solid fa-file-lines"></i> <span class="info-label">Input:</span> omrq.bcs.20250405101502.txt</div>
+      <div class="info-item"><i class="fa-solid fa-gear"></i> <span class="info-label">Type:</span> Fixed-Length Multi-Record</div>
+      <div class="info-item"><i class="fa-solid fa-code"></i> <span class="info-label">Mode:</span> Runtime Flexible</div>
+      <div class="info-item"><i class="fa-solid fa-calendar"></i> <span class="info-label">Generated:</span> <span id="genDate"></span></div>
+    </div>
+
+    <div class="summary-bar">
+      <div class="summary-card sc-header"><div class="icon"><i class="fa-solid fa-file-invoice"></i></div><div class="count" id="headerCount">0</div><div class="label">Header Records</div></div>
+      <div class="summary-card sc-line"><div class="icon"><i class="fa-solid fa-list-ol"></i></div><div class="count" id="lineCount">0</div><div class="label">Line Records</div></div>
+      <div class="summary-card sc-detail"><div class="icon"><i class="fa-solid fa-circle-info"></i></div><div class="count" id="detailCount">0</div><div class="label">Detail Records</div></div>
+      <div class="summary-card sc-comment"><div class="icon"><i class="fa-solid fa-comment-dots"></i></div><div class="count" id="commentCount">0</div><div class="label">Comment Records</div></div>
+    </div>
+
+    <div class="tab-nav" role="tablist" aria-label="Record type tabs">
+      <button class="tab-btn active" data-tab="header" role="tab" aria-selected="true"><i class="fa-solid fa-file-invoice"></i> Header <span class="badge" id="headerBadge">0</span></button>
+      <button class="tab-btn" data-tab="line" role="tab" aria-selected="false"><i class="fa-solid fa-list-ol"></i> Line <span class="badge" id="lineBadge">0</span></button>
+      <button class="tab-btn" data-tab="detail" role="tab" aria-selected="false"><i class="fa-solid fa-circle-info"></i> Detail <span class="badge" id="detailBadge">0</span></button>
+      <button class="tab-btn" data-tab="comment" role="tab" aria-selected="false"><i class="fa-solid fa-comment-dots"></i> Comment <span class="badge" id="commentBadge">0</span></button>
+    </div>
+
+    <div class="tab-content active" id="tab-header"></div>
+    <div class="tab-content" id="tab-line"></div>
+    <div class="tab-content" id="tab-detail"></div>
+    <div class="tab-content" id="tab-comment"></div>
+  </div>
+
+<script>
+var CSV_DATA = {
+  header: "Record Type,Company,Req Number,Line Number,Requester,Req Location,Req Del Date,Creation Date,From Company,From Location,Deliver To,Buyer Code,Vendor,Purchase From Loc,Vendor Name,Print Req Fl,Agreement Ref,PO User Fld 1,PO User Fld 3,PO User Fld 5,User Date 1,User Date 2,Allocate Priority,Quote Fl,Activity,Account Category,Billing Category,Account Unit,Account,Sub Account,Purchase Tax Code,Purchase Tax Fl,Operator Id,Dropship Fl,Dropsh Req Loc,Dropsh Req,Sh Name,Sh Addr 1,Sh Addr 2,Sh Addr 3,Sh Addr 4,Sh City-Addr5,Sh State-Prov,Sh Post Code,Sh Country,Sh County,Sh Phone Pref,Sh Phone,Sh Phone Ext,Sh Contact,Tran Curr Code,One Src One PO,Location Rule,Segment Block\nH,10,0,000000,RQ500OMBCS,72000,00000000,20250405,10,WARE,,BCS,10864,P001,,N,,,,101590,00000000,00000000,50,N,,,,10325,000000,0000,,N,,N,N,,,,,,,,,,,,,,,,,1,,",
+  line: "Record Type,Requisition Number,Line Number,Item Number,Item Description,Quantity,Unit of Measure,Unit Price,Extended Amount,Taxable Flag\nL,0010000000000,0001SC-4275,X Precisi,on Hex Wrench          0000000010000EA,0,00,0,0,\nL,0010000000000,0002138152,N ALPHA F,EEELINK REMOTE KITBLE  0000000010000EA,0,00,0,0,\nL,0010000000000,0003138153,N Precisi,on Charging System     0000000010000EA,0,00,0,0,\nL,0010000000000,0004138104,N WAVEWRI,TER ALPHA 32 IPG KIT   0000000010000EA,0,00,0,0,",
+  detail: "Record Type,Requisition Number,Line Number,Detail Sequence,Detail Type,Detail Value\nD,0010000000000,0001,,PLOT: 35867216,\nD,0010000000000,0002,,PSER: 533799,\nD,0010000000000,0002,,PLOT: 533799,\nD,0010000000000,0003,,PSER: 511619,\nD,0010000000000,0003,,PLOT: 511619,\nD,0010000000000,0004,,PSER: 780019,\nD,0010000000000,0004,,PLOT: 780019,",
+  comment: "Record Type,Requisition Number,Comment Sequence,Comment Type,Comment Text\nC,0010000000000,0000,PMRN: 0004729561408aa,\nC,0010000000000,0000,PCase Number: Main202,53029\nC,0010000000000,0000,PDate Of Service: 04-,03-2025\nC,0010000000000,0000,PDocument Number: 101,590"
+};
+
+function parseCSV(text) {
+  var lines = text.split('\n').filter(function(l) { return l.trim() !== ''; });
+  return lines.map(function(line) {
+    var result = [];
+    var current = '';
+    var inQuotes = false;
+    for (var i = 0; i < line.length; i++) {
+      var ch = line[i];
+      if (ch === '"') {
+        if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+        else { inQuotes = !inQuotes; }
+      } else if (ch === ',' && !inQuotes) { result.push(current); current = ''; }
+      else { current += ch; }
+    }
+    result.push(current);
+    return result;
+  });
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function buildTable(csvText) {
+  var rows = parseCSV(csvText);
+  if (rows.length === 0) return '<div class="empty-state"><i class="fa-regular fa-folder-open"></i><p>No data available</p></div>';
+  var headers = rows[0];
+  var dataRows = rows.slice(1);
+  var html = '<div class="data-table-wrapper"><table><thead><tr>';
+  for (var h = 0; h < headers.length; h++) {
+    html += '<th>' + escapeHtml(headers[h]) + '</th>';
+  }
+  html += '</tr></thead><tbody>';
+  for (var r = 0; r < dataRows.length; r++) {
+    html += '<tr>';
+    for (var c = 0; c < headers.length; c++) {
+      var val = dataRows[r][c] != null ? dataRows[r][c] : '';
+      html += '<td title="' + escapeHtml(val) + '">' + escapeHtml(val) + '</td>';
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function countRows(csvText) {
+  var lines = csvText.split('\n').filter(function(l) { return l.trim() !== ''; });
+  return Math.max(0, lines.length - 1);
+}
+
+// Render tables
+document.getElementById('tab-header').innerHTML = buildTable(CSV_DATA.header);
+document.getElementById('tab-line').innerHTML = buildTable(CSV_DATA.line);
+document.getElementById('tab-detail').innerHTML = buildTable(CSV_DATA.detail);
+document.getElementById('tab-comment').innerHTML = buildTable(CSV_DATA.comment);
+
+// Update counts
+var hc = countRows(CSV_DATA.header);
+var lc = countRows(CSV_DATA.line);
+var dc = countRows(CSV_DATA.detail);
+var cc = countRows(CSV_DATA.comment);
+document.getElementById('headerCount').textContent = hc;
+document.getElementById('lineCount').textContent = lc;
+document.getElementById('detailCount').textContent = dc;
+document.getElementById('commentCount').textContent = cc;
+document.getElementById('headerBadge').textContent = hc;
+document.getElementById('lineBadge').textContent = lc;
+document.getElementById('detailBadge').textContent = dc;
+document.getElementById('commentBadge').textContent = cc;
+document.getElementById('genDate').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+// Tab switching
+var tabBtns = document.querySelectorAll('.tab-btn');
+for (var i = 0; i < tabBtns.length; i++) {
+  tabBtns[i].addEventListener('click', function() {
+    for (var j = 0; j < tabBtns.length; j++) {
+      tabBtns[j].classList.remove('active');
+      tabBtns[j].setAttribute('aria-selected', 'false');
+    }
+    this.classList.add('active');
+    this.setAttribute('aria-selected', 'true');
+    var tabs = document.querySelectorAll('.tab-content');
+    for (var k = 0; k < tabs.length; k++) { tabs[k].classList.remove('active'); }
+    document.getElementById('tab-' + this.getAttribute('data-tab')).classList.add('active');
+  });
+}
+</script>
+</body>
+</html>

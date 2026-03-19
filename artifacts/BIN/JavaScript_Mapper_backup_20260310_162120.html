@@ -1,0 +1,3122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript Mapper - AI Powered</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+    
+    body { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+      background: 
+        linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)),
+        repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(148, 163, 184, 0.1) 20px),
+        repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(148, 163, 184, 0.1) 20px),
+        radial-gradient(circle at 20px 20px, rgba(59, 130, 246, 0.15) 2px, transparent 2px),
+        #f8fafc;
+      background-size: 40px 40px, 40px 40px, 40px 40px, 40px 40px;
+      color: #1f2937; 
+      margin: 0; 
+      padding: 20px; 
+      min-height: 100vh; 
+    }
+    
+    .container { 
+      background: #ffffff; 
+      border-radius: 12px; 
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.1); 
+      padding: 32px; 
+      max-width: 1400px; 
+      margin: auto; 
+      border: 1px solid #e5e7eb; 
+    }
+    
+    .main-content { 
+      flex: 1; 
+      min-width: 0; 
+    }
+    
+
+    
+    h2 { 
+      color: #111827; 
+      margin-bottom: 16px; 
+      font-size: 32px; 
+      font-weight: 700; 
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    
+    .title-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .gradient-divider {
+      height: 4px;
+      background: linear-gradient(90deg, #1e3a8a 0%, #3730a3 25%, #5b21b6 50%, #7c2d12 75%, #1e40af 100%);
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+    
+    .tab-container {
+      display: flex;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 32px;
+    }
+    
+    .tab {
+      padding: 12px 24px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-bottom: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: #6b7280;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .tab:first-child {
+      border-top-left-radius: 6px;
+    }
+    
+    .tab:last-child {
+      border-top-right-radius: 6px;
+    }
+    
+    .tab.active {
+      background: #ffffff;
+      color: #3b82f6;
+      border-bottom: 2px solid #3b82f6;
+      margin-bottom: -2px;
+    }
+    
+    .tab:hover:not(.active) {
+      background: #f3f4f6;
+      color: #374151;
+    }
+    
+    .tab-content {
+      display: none !important;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    .tab-content.active {
+      display: block !important;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    #fileType {
+      width: 180px;
+    }
+    
+    #delimiter {
+      width: 160px;
+    }
+    
+    #skipRows {
+      width: 80px;
+    }
+    
+    .ai-icon {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 36px;
+    }
+    
+    .input-grid {
+      margin-bottom: 20px;
+    }
+    
+    .grid-row {
+      display: grid;
+      grid-template-columns: 300px 300px 200px;
+      gap: 24px;
+      margin-bottom: 20px;
+      align-items: end;
+    }
+    
+    .grid-row:nth-child(2) {
+      grid-template-columns: 180px 200px 1fr;
+    }
+    
+    .grid-col {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    h3 { 
+      color: #374151; 
+      margin-top: 32px; 
+      margin-bottom: 16px; 
+      font-size: 20px; 
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    label { 
+      font-weight: 600; 
+      display: block; 
+      margin-top: 16px; 
+      margin-bottom: 6px; 
+      color: #374151;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    input[type="file"], input[type="number"], select { 
+      padding: 12px 16px; 
+      border: 1px solid #d1d5db; 
+      border-radius: 6px; 
+      background: #ffffff; 
+      color: #374151; 
+      font-size: 14px; 
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    input[type="file"]:focus, input[type="number"]:focus, select:focus { 
+      outline: none; 
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    button {
+      margin-top: 20px; 
+      padding: 12px 24px; 
+      font-size: 14px; 
+      font-weight: 600;
+      border: none; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      transition: all 0.2s ease;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: white; 
+      box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    button:hover { 
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      transform: translateY(-1px); 
+      box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    }
+    
+    button:disabled { 
+      background: #9ca3af; 
+      cursor: not-allowed; 
+      transform: none; 
+      box-shadow: none; 
+    }
+    
+    textarea {
+      width: 95%; 
+      height: 250px; 
+      margin-top: 16px; 
+      font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+      white-space: pre; 
+      border-radius: 6px; 
+      border: 1px solid #d1d5db;
+      padding: 16px; 
+      background: #f9fafb; 
+      color: #374151; 
+      font-size: 13px;
+      transition: border-color 0.2s ease;
+    }
+    
+    textarea:focus { 
+      outline: none; 
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    table { 
+      border-collapse: collapse; 
+      width: 100%; 
+      margin-top: 16px; 
+      border-radius: 8px; 
+      overflow: hidden; 
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+      table-layout: auto; 
+    }
+    
+    #tablePreview, #extractedTablePreview { 
+      height: 300px;
+      overflow: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+    
+    #extractedTablePreview {
+      margin-top: 16px;
+    }
+    
+    th, td { 
+      border: 1px solid #e5e7eb; 
+      padding: 12px 16px; 
+      text-align: left; 
+      font-size: 12px; 
+      white-space: nowrap;
+      transition: background-color 0.2s ease;
+    }
+    
+    tr:hover td {
+      background-color: #f0f9ff !important;
+    }
+    
+    th { 
+      min-width: 120px; 
+    }
+    
+    td { 
+      max-width: 200px; 
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+    }
+    
+    td:nth-child(5) { 
+      white-space: normal; 
+      word-wrap: break-word; 
+      max-width: 300px; 
+    }
+    
+    th { 
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      color: #374151; 
+      font-weight: 600; 
+    }
+    
+    td { 
+      background: #ffffff; 
+    }
+    
+    tr:nth-child(even) td { 
+      background: #f9fafb; 
+    }
+    
+    #previewSection, #resultSection { 
+      display: none; 
+      margin-top: 32px; 
+    }
+    
+    .stickman { 
+      position: absolute; 
+      top: 50%; 
+      right: -50px; 
+      transform: translateY(-50%); 
+      z-index: 1000; 
+      display: none; 
+    }
+    
+    .stickman svg { 
+      width: 40px; 
+      height: 40px; 
+    }
+    
+    .stickman-animate { 
+      animation: stickmanReset 2s ease-in-out; 
+    }
+    
+    @keyframes stickmanReset {
+      0% { transform: translateY(-50%) scale(0) rotate(0deg); opacity: 0; }
+      50% { transform: translateY(-50%) scale(1.2) rotate(180deg); opacity: 1; }
+      100% { transform: translateY(-50%) scale(0) rotate(360deg); opacity: 0; }
+    }
+    
+    .button-container { 
+      position: relative; 
+      display: inline-block; 
+    }
+    
+    .feature-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      color: #065f46;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-left: 12px;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+    
+    .automation-icon {
+      color: #3b82f6;
+    }
+    
+    .ai-badge {
+      background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+      color: #5b21b6;
+      font-weight: 600;
+      border: 1px solid #a855f7;
+    }
+    
+    .extraction-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 12px;
+    }
+    
+    .status-success {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      color: #065f46;
+      border: 1px solid #10b981;
+    }
+    
+    .status-warning {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      color: #92400e;
+      border: 1px solid #f59e0b;
+    }
+    
+    .status-error {
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+      color: #991b1b;
+      border: 1px solid #ef4444;
+    }
+    
+    .table-stats {
+      display: flex;
+      gap: 16px;
+      margin: 12px 0;
+      font-size: 13px;
+      color: #6b7280;
+    }
+    
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .enhanced-table {
+      position: relative;
+    }
+    
+    .table-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      z-index: 10;
+    }
+    
+    .loading-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #e5e7eb;
+      border-top: 3px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .side-by-side-container {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    
+    .table-column {
+      min-width: 0;
+    }
+    
+    .table-column h3 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    
+    .conversion-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 300px;
+      font-size: 24px;
+      color: #3b82f6;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-radius: 8px;
+      border: 2px dashed #3b82f6;
+    }
+    
+    .table-column .enhanced-table {
+      height: 300px;
+      overflow: auto;
+    }
+    
+    .reference-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+    }
+    
+    .howto-sidebar {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 20px;
+      overflow-y: auto;
+      position: sticky;
+      top: 0;
+      height: fit-content;
+      max-height: calc(100vh - 200px);
+    }
+    
+    .reference-main {
+      min-width: 0;
+    }
+    
+    /* Enhanced responsive design */
+    @media (max-width: 768px) {
+      .grid-row {
+        grid-template-columns: 1fr !important;
+        gap: 16px;
+      }
+      
+      .container {
+        padding: 16px;
+        margin: 10px;
+      }
+      
+      h2 {
+        font-size: 24px;
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .tab {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+      
+      #tablePreview, #extractedTablePreview {
+        height: 200px;
+      }
+      
+      .table-stats {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .side-by-side-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      
+      .conversion-arrow {
+        height: 60px;
+        transform: rotate(90deg);
+      }
+      
+      .reference-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      
+      .howto-sidebar {
+        position: relative;
+        max-height: none;
+        margin-bottom: 20px;
+      }
+    }
+    
+    /* Print styles */
+    @media print {
+      .container {
+        box-shadow: none;
+        border: none;
+      }
+      
+      .tab-container, button {
+        display: none;
+      }
+      
+      .tab-content {
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="main-content">
+      <h2>
+        <i class="fas fa-robot ai-icon"></i>
+        <span class="title-text">JavaScript Mapper</span>
+        <span class="feature-badge ai-badge">
+          <i class="fas fa-brain"></i>
+          AI Powered
+        </span>
+      </h2>
+      <div class="gradient-divider"></div>
+      
+      <div class="tab-container">
+        <div class="tab active" data-tab="js-generator">
+          <i class="fas fa-code"></i>
+          JS Generator
+        </div>
+        <div class="tab" data-tab="mapping-converter">
+          <i class="fas fa-exchange-alt"></i>
+          Mapping Table Converter
+        </div>
+        <div class="tab" data-tab="reference">
+          <i class="fas fa-book"></i>
+          Reference
+        </div>
+
+      </div>
+
+      <div class="tab-content active" id="js-generator-content">
+        <div class="input-grid">
+          <div class="grid-row">
+            <div class="grid-col">
+              <label for="dataFile">
+                <i class="fas fa-file automation-icon"></i>
+                Select Input Data File:
+              </label>
+              <input type="file" id="dataFile" accept=".csv,.txt" />
+            </div>
+            
+            <div class="grid-col">
+              <label for="mappingFile">
+                <i class="fas fa-sitemap automation-icon"></i>
+                Select Mapping CSV:
+              </label>
+              <input type="file" id="mappingFile" accept=".csv" />
+            </div>
+            
+            <div class="grid-col">
+              <label for="fileType">
+                <i class="fas fa-file-alt automation-icon"></i>
+                File Type:
+              </label>
+              <select id="fileType">
+                <option value="delimited">Delimited</option>
+                <option value="fixed-length">Fixed-Length</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="grid-row">
+            <div class="grid-col" id="delimiterCol">
+              <label for="delimiter">
+                <i class="fas fa-cogs automation-icon"></i>
+                Delimiter:
+              </label>
+              <select id="delimiter">
+                <option value=",">Comma (,)</option>
+                <option value="|">Pipe (|)</option>
+                <option value=";">Semicolon (;)</option>
+                <option value="\t">Tab</option>
+                <option value=":">Colon (:)</option>
+                <option value=" ">Space ( )</option>
+                <option value="~">Tilde (~)</option>
+                <option value="^">Caret (^)</option>
+              </select>
+            </div>
+            
+            <div class="grid-col" id="skipRowsCol">
+              <label for="skipRows">
+                <i class="fas fa-layer-group automation-icon"></i>
+                Skip Rows:
+              </label>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <input type="number" id="skipRows" value="1" min="0">
+                <span style="color: #6b7280; font-size: 11px; white-space: nowrap;">Number of rows to skip from top</span>
+              </div>
+            </div>
+            
+            <div class="grid-col">
+              <!-- Empty column for alignment -->
+            </div>
+          </div>
+        </div>
+        
+        <div id="fixedLengthMessage" style="display: none; margin-bottom: 20px;">
+          <div class="input-grid">
+            <div class="grid-row" style="grid-template-columns: 300px 1fr;">
+              <div class="grid-col">
+                <label for="fixedLengthMappingFile">
+                  <i class="fas fa-ruler-horizontal automation-icon"></i>
+                  Fixed-Length Mapping CSV:
+                </label>
+                <input type="file" id="fixedLengthMappingFile" accept=".csv" />
+              </div>
+              <div class="grid-col" style="align-self: end;">
+                <div style="padding: 12px 16px; background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%); border: 1px solid #a855f7; border-radius: 6px; color: #5b21b6; font-size: 13px;">
+                  <i class="fas fa-info-circle"></i>
+                  CSV columns: Field Name, Start, End, Length, Required, Mapping Logic. Use separate Start/End numbers to avoid Excel date corruption. See <code>input/FixedLength_Mapping_Template.csv</code> for a blank template.
+                </div>
+              </div>
+            </div>
+            
+            <div style="margin-top: 16px; padding: 12px; background: #f0f9ff; border: 1px solid #3b82f6; border-radius: 6px;">
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin: 0;">
+                <input type="checkbox" id="multiRecordTypeMode" style="width: auto; margin: 0;">
+                <span style="font-weight: 600; color: #1e40af;">
+                  <i class="fas fa-layer-group"></i>
+                  Multi-Record-Type File (H/L/D records with different layouts)
+                </span>
+              </label>
+              
+              <div id="multiRecordTypeConfig" style="display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #93c5fd;">
+                <label for="recordTypeConfigFile" style="margin-top: 0;">
+                  <i class="fas fa-sitemap automation-icon"></i>
+                  Record Type Configuration CSV:
+                </label>
+                <input type="file" id="recordTypeConfigFile" accept=".csv" style="margin-top: 6px;" />
+                <div style="margin-top: 8px; font-size: 12px; color: #1e40af;">
+                  Config defines record types (H/L/D), their mappings, and parent-child relationships. See <code>input/RecordType_Config_Template.csv</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-container">
+          <button id="previewBtn">
+            <i class="fas fa-eye"></i>
+            Preview Files
+          </button>
+          <button id="resetBtn" style="margin-left: 12px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+            <i class="fas fa-redo"></i>
+            Reset
+          </button>
+          <div class="stickman" id="stickman">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="20" r="8" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/>
+              <line x1="50" y1="28" x2="50" y2="65" stroke="#3b82f6" stroke-width="3"/>
+              <line x1="50" y1="40" x2="35" y2="55" stroke="#3b82f6" stroke-width="3"/>
+              <line x1="50" y1="40" x2="65" y2="55" stroke="#3b82f6" stroke-width="3"/>
+              <line x1="50" y1="65" x2="35" y2="85" stroke="#3b82f6" stroke-width="3"/>
+              <line x1="50" y1="65" x2="65" y2="85" stroke="#3b82f6" stroke-width="3"/>
+            </svg>
+          </div>
+        </div>
+
+        <div id="previewSection">
+          <h3>
+            <i class="fas fa-table automation-icon"></i>
+            Mapping Table Preview
+          </h3>
+          <div id="tablePreview"></div>
+          
+          <h3>
+            <i class="fas fa-file-alt automation-icon"></i>
+            Input File Preview
+          </h3>
+          <textarea id="inputPreview" readonly style="height: 150px; width: 95%;"></textarea>
+          
+          <div style="display: flex; align-items: end; gap: 16px; margin-top: 20px;">
+            <div style="display: flex; flex-direction: column;">
+              <label for="generationType">
+                <i class="fas fa-cogs automation-icon"></i>
+                Generation Type:
+              </label>
+              <select id="generationType" style="width: 200px;">
+                <option value="dynamic">Runtime Flexible (requires mapping CSV)</option>
+                <option value="static">Self-Contained (embedded rules)</option>
+              </select>
+            </div>
+            <button id="generateBtn" disabled>
+              <i class="fas fa-magic"></i>
+              Generate Mapper JS + Output CSV
+              <span class="feature-badge">
+                <i class="fas fa-bolt"></i>
+                Automated
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div id="resultSection">
+          <h3>
+            <i class="fas fa-code automation-icon"></i>
+            Generated JavaScript Mapper
+          </h3>
+          <textarea id="output" readonly></textarea>
+          <button id="downloadJsBtn" style="display:none;">
+            <i class="fas fa-download"></i>
+            Download JS File
+          </button>
+
+          <h3>
+            <i class="fas fa-file-export automation-icon"></i>
+            Mapped CSV Output (Preview)
+          </h3>
+          <textarea id="mappedData" readonly></textarea>
+          <button id="downloadCsvBtn" style="display:none;">
+            <i class="fas fa-download"></i>
+            Download CSV File
+          </button>
+        </div>
+      </div>
+      
+      <div class="tab-content" id="mapping-converter-content">
+        <div id="converterWipMessage" style="margin-bottom: 20px; padding: 16px; background: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; color: #92400e; text-align: center;">
+          <i class="fas fa-construction automation-icon" style="font-size: 24px; margin-bottom: 8px;"></i>
+          <div style="font-weight: 600; margin-bottom: 4px;">Work In Progress</div>
+          <div>Mapping Table Converter functionality is coming soon</div>
+        </div>
+        
+        <div class="input-grid">
+          <div class="grid-row" style="grid-template-columns: 400px 1fr;">
+            <div class="grid-col">
+              <label for="csvFile" style="opacity: 0.5;">
+                <i class="fas fa-file-csv automation-icon" style="color: #9ca3af;"></i>
+                Select CSV Mapping File:
+              </label>
+              <input type="file" id="csvFile" accept=".csv" disabled style="opacity: 0.5; cursor: not-allowed;" />
+            </div>
+            <div class="grid-col">
+              <button id="convertBtn" disabled style="width: auto; min-width: 160px; opacity: 0.5; cursor: not-allowed;">
+                <i class="fas fa-exchange-alt"></i>
+                Convert Table
+                <span class="feature-badge">
+                  <i class="fas fa-magic"></i>
+                  Enhanced
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div id="conversionStatus" style="display: none;"></div>
+        
+        <div id="csvPreviewSection" style="display: none; margin-top: 32px;">
+          <div class="side-by-side-container">
+            <div class="table-column">
+              <h3>
+                <i class="fas fa-file-csv automation-icon" style="color: #6b7280;"></i>
+                Original CSV Format
+              </h3>
+              <div class="table-stats" id="originalTableStats" style="display: none;"></div>
+              <div class="enhanced-table">
+                <div id="originalTablePreview"></div>
+              </div>
+            </div>
+            
+            <div class="conversion-arrow">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+            
+            <div class="table-column">
+              <h3>
+                <i class="fas fa-table automation-icon" style="color: #059669;"></i>
+                Standard Format
+              </h3>
+              <div class="table-stats" id="csvTableStats" style="display: none;"></div>
+              <div class="enhanced-table">
+                <div id="convertedTablePreview"></div>
+                <div class="table-overlay" id="csvTableOverlay" style="display: none;">
+                  <div class="loading-spinner"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div style="margin-top: 20px; text-align: center;">
+            <button id="downloadConvertedBtn" style="display: none;">
+              <i class="fas fa-download"></i>
+              Download Standard CSV
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-content" id="reference-content">
+        <div class="reference-layout">
+          <div class="howto-sidebar">
+            <h3 style="margin: 0 0 16px 0; color: #0c4a6e; display: flex; align-items: center; gap: 8px; font-size: 18px;">
+              <i class="fas fa-graduation-cap" style="color: #0ea5e9;"></i>
+              How-To Guide
+            </h3>
+            <div id="howtoGuide"></div>
+          </div>
+          
+          <div class="reference-main">
+            <div style="margin-bottom: 20px;">
+              <label for="referenceView">
+                <i class="fas fa-book automation-icon"></i>
+                Function Reference:
+              </label>
+              <select id="referenceView" style="width: 300px; margin-top: 8px;">
+                <option value="basic">Basic Commands</option>
+                <option value="string">String Functions</option>
+                <option value="math">Math Functions</option>
+                <option value="conditional">Conditional Logic</option>
+                <option value="validation">Validation Functions</option>
+                <option value="errors">Error Handling</option>
+              </select>
+            </div>
+            
+            <div id="referenceTable"></div>
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+
+  </div>
+
+  <script>
+    var parsedMappings = [];
+    var inputData = [];
+    var filesLoaded = { mapping: false, data: false };
+
+    function normalizeKey(key) {
+      return key.replace(/\s+/g, '').trim().toLowerCase();
+    }
+
+    function parseCSV(text, delimiter) {
+      var lines = text.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
+      return lines.map(function(line) {
+        var result = [];
+        var current = '';
+        var inQuotes = false;
+        for (var i = 0; i < line.length; i++) {
+          var char = line[i];
+          if (char === '"') {
+            if (inQuotes && line[i + 1] === '"') {
+              current += '"';
+              i++;
+            } else {
+              inQuotes = !inQuotes;
+            }
+          } else if (char === delimiter && !inQuotes) {
+            result.push(current);
+            current = '';
+          } else {
+            current += char;
+          }
+        }
+        result.push(current);
+        return result;
+      });
+    }
+
+    document.getElementById('previewBtn').addEventListener('click', function() {
+      var fileType = document.getElementById('fileType').value;
+      var dataFile = document.getElementById('dataFile').files[0];
+      
+      if (fileType === 'fixed-length') {
+        var isMultiMode = document.getElementById('multiRecordTypeMode').checked;
+        if (isMultiMode) {
+          // Multi-record-type mode
+          var configFile = document.getElementById('recordTypeConfigFile').files[0];
+          if (!configFile || !dataFile) return alert('Please select both a record type config file and a data file.');
+          previewMultiRecordType(configFile, dataFile);
+        } else {
+          // Single mapping mode
+          var flMappingFile = document.getElementById('fixedLengthMappingFile').files[0];
+          if (!flMappingFile || !dataFile) return alert('Please select both a data file and a fixed-length mapping CSV.');
+          previewFixedLength(flMappingFile, dataFile);
+        }
+      } else {
+        // Delimited mode
+        var mappingFile = document.getElementById('mappingFile').files[0];
+        if (!mappingFile || !dataFile) return alert('Please select both files.');
+        previewDelimited(mappingFile, dataFile);
+      }
+    });
+    
+    // Fixed-length preview handler
+    function previewFixedLength(flMappingFile, dataFile) {
+      var flMappingReader = new FileReader();
+      flMappingReader.onload = function(e) {
+        var content = e.target.result;
+        var rows = parseCSV(content, ',');
+        var headers = rows[0].map(normalizeKey);
+        
+        // Parse fixed-length mapping columns
+        var fields = [];
+        for (var i = 1; i < rows.length; i++) {
+          var row = rows[i];
+          var fieldObj = {};
+          for (var j = 0; j < headers.length; j++) {
+            fieldObj[headers[j]] = (row[j] || '').trim();
+          }
+          
+          var fieldName = fieldObj['fieldname'] || '';
+          if (!fieldName) continue;
+          
+          var start = parseInt(fieldObj['start']) || 0;
+          var end = parseInt(fieldObj['end']) || 0;
+          var padChar = fieldObj['padcharacter'] || fieldObj['padchar'] || '';
+          var justify = (fieldObj['justify'] || '').toLowerCase();
+          var defaultValue = fieldObj['defaultvalue'] || '';
+          
+          fields.push({
+            fieldName: fieldName,
+            startPos: start,
+            endPos: end,
+            padChar: padChar,
+            justify: justify,
+            defaultValue: defaultValue
+          });
+        }
+        
+        window.fixedLengthFields = fields;
+        
+        // Display preview
+        var html = '<table><thead><tr>';
+        html += '<th>Field Name</th><th>Start</th><th>End</th><th>Length</th>';
+        html += '</tr></thead><tbody>';
+        fields.forEach(function(f) {
+          html += '<tr>';
+          html += '<td>' + f.fieldName + '</td>';
+          html += '<td>' + f.startPos + '</td>';
+          html += '<td>' + f.endPos + '</td>';
+          html += '<td>' + (f.endPos - f.startPos + 1) + '</td>';
+          html += '</tr>';
+        });
+        html += '</tbody></table>';
+        document.getElementById('tablePreview').innerHTML = html;
+        
+        filesLoaded.mapping = true;
+        if (filesLoaded.mapping && filesLoaded.data) enableGenerate();
+      };
+      flMappingReader.readAsText(flMappingFile);
+      
+      // Data file
+      var dataReader = new FileReader();
+      dataReader.onload = function(ev) {
+        var rawData = ev.target.result;
+        var lines = rawData.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
+        inputData = lines;
+        document.getElementById('inputPreview').value = rawData.substring(0, 1000) + (rawData.length > 1000 ? '\n...(truncated)' : '');
+        filesLoaded.data = true;
+        if (filesLoaded.mapping && filesLoaded.data) enableGenerate();
+      };
+      dataReader.readAsText(dataFile);
+    }
+    
+    // Delimited preview handler
+    function previewDelimited(mappingFile, dataFile) {
+      var delimiter = document.getElementById('delimiter').value;
+
+      // Mapping file
+      var mappingReader = new FileReader();
+      mappingReader.onload = function(e) {
+        var content = e.target.result;
+        if (content.indexOf(delimiter) === -1) {
+          return alert('Selected delimiter "' + (delimiter === '\t' ? 'Tab' : delimiter) + '" not found in mapping file.');
+        }
+        var rows = parseCSV(content, delimiter);
+        var headers = rows[0].map(normalizeKey);
+        parsedMappings = [];
+        for (var i = 1; i < rows.length; i++) {
+          var obj = {};
+          for (var j = 0; j < headers.length; j++) {
+            obj[headers[j]] = (rows[i][j] || '').trim();
+          }
+          
+          // Validate InputColumnNumber and MappingLogic are not both populated
+          var inputCol = obj['inputcolumnnumber'] || '';
+          var mappingLogic = obj['mappinglogic'] || '';
+          if (inputCol && mappingLogic) {
+            return alert('Mapping table error on row ' + (i + 1) + ': InputColumnNumber and MappingLogic cannot both have values. Use either direct column mapping OR transformation logic, not both.');
+          }
+          
+          parsedMappings.push(obj);
+        }
+        renderTable(rows[0], parsedMappings);
+        filesLoaded.mapping = true;
+        if (filesLoaded.mapping && filesLoaded.data) enableGenerate();
+      };
+      mappingReader.readAsText(mappingFile);
+
+      // Data file
+      var dataReader = new FileReader();
+      dataReader.onload = function(ev) {
+        var rawData = ev.target.result;
+        if (rawData.indexOf(delimiter) === -1) {
+          return alert('Selected delimiter "' + (delimiter === '\t' ? 'Tab' : delimiter) + '" not found in input file.');
+        }
+        var allData = parseCSV(rawData, delimiter);
+        var skipRows = parseInt(document.getElementById('skipRows').value) || 0;
+        inputData = allData.slice(skipRows);
+        document.getElementById('inputPreview').value = rawData;
+        filesLoaded.data = true;
+        if (filesLoaded.mapping && filesLoaded.data) enableGenerate();
+      };
+      dataReader.readAsText(dataFile);
+    }
+    
+    // Multi-record-type preview handler
+    function previewMultiRecordType(configFile, dataFile) {
+      var configReader = new FileReader();
+      configReader.onload = function(e) {
+        var content = e.target.result;
+        var rows = parseCSV(content, ',');
+        var headers = rows[0].map(normalizeKey);
+        
+        // Parse record type configuration
+        var recordTypes = [];
+        for (var i = 1; i < rows.length; i++) {
+          var row = rows[i];
+          var config = {};
+          for (var j = 0; j < headers.length; j++) {
+            config[headers[j]] = (row[j] || '').trim();
+          }
+          
+          recordTypes.push({
+            name: config['recordtype'] || '',
+            indicatorPos: parseInt(config['typeindicatorposition']) || 1,
+            indicatorValue: config['typeindicatorvalue'] || '',
+            mappingFile: config['mappingfile'] || '',
+            parentType: config['parentrecordtype'] || '',
+            outputName: config['outputname'] || ''
+          });
+        }
+        
+        window.multiRecordTypeConfig = recordTypes;
+        
+        // Prompt user to select all mapping files
+        loadMultipleMappingFiles(recordTypes, dataFile);
+      };
+      configReader.readAsText(configFile);
+    }
+    
+    // Load multiple mapping files
+    function loadMultipleMappingFiles(recordTypes, dataFile) {
+      var input = document.createElement('input');
+      input.type = 'file';
+      input.multiple = true;
+      input.accept = '.csv';
+      
+      input.onchange = function(e) {
+        var files = Array.from(e.target.files);
+        var mappingsByType = {};
+        var filesProcessed = 0;
+        
+        recordTypes.forEach(function(rt) {
+          var matchingFile = files.find(function(f) { return f.name === rt.mappingFile; });
+          if (!matchingFile) {
+            alert('Missing mapping file: ' + rt.mappingFile);
+            return;
+          }
+          
+          var reader = new FileReader();
+          reader.onload = function(ev) {
+            var mapping = parseFixedLengthMapping(ev.target.result);
+            mappingsByType[rt.name] = mapping;
+            filesProcessed++;
+            
+            if (filesProcessed === recordTypes.length) {
+              processMultiRecordTypeData(dataFile, mappingsByType);
+            }
+          };
+          reader.readAsText(matchingFile);
+        });
+      };
+      
+      input.click();
+    }
+    
+    // Parse fixed-length mapping
+    function parseFixedLengthMapping(content) {
+      var rows = parseCSV(content, ',');
+      var headers = rows[0].map(normalizeKey);
+      var fields = [];
+      
+      for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        var fieldObj = {};
+        for (var j = 0; j < headers.length; j++) {
+          fieldObj[headers[j]] = (row[j] || '').trim();
+        }
+        
+        var fieldName = fieldObj['fieldname'] || '';
+        if (!fieldName) continue;
+        
+        fields.push({
+          fieldName: fieldName,
+          startPos: parseInt(fieldObj['start']) || 0,
+          endPos: parseInt(fieldObj['end']) || 0,
+          padChar: fieldObj['padcharacter'] || fieldObj['padchar'] || '',
+          justify: (fieldObj['justify'] || '').toLowerCase(),
+          defaultValue: fieldObj['defaultvalue'] || ''
+        });
+      }
+      
+      return { fields: fields };
+    }
+    
+    // Process multi-record-type data
+    function processMultiRecordTypeData(dataFile, mappingsByType) {
+      var dataReader = new FileReader();
+      dataReader.onload = function(ev) {
+        var rawData = ev.target.result;
+        var lines = rawData.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
+        
+        var recordsByType = {};
+        var hierarchicalData = [];
+        var currentParent = null;
+        
+        lines.forEach(function(line, lineIndex) {
+          var recordType = detectRecordType(line, window.multiRecordTypeConfig);
+          if (!recordType) return;
+          
+          var mapping = mappingsByType[recordType.name];
+          if (!mapping) return;
+          
+          var extractedData = extractFixedLengthFields(line, mapping.fields);
+          extractedData._recordType = recordType.name;
+          extractedData._lineNumber = lineIndex + 1;
+          
+          if (!recordsByType[recordType.name]) {
+            recordsByType[recordType.name] = [];
+          }
+          recordsByType[recordType.name].push(extractedData);
+          
+          // Build hierarchical structure
+          if (!recordType.parentType) {
+            currentParent = {
+              type: recordType.name,
+              data: extractedData,
+              children: {}
+            };
+            hierarchicalData.push(currentParent);
+          } else {
+            if (currentParent) {
+              var childArrayName = recordType.outputName || recordType.name;
+              if (!currentParent.children[childArrayName]) {
+                currentParent.children[childArrayName] = [];
+              }
+              
+              var childRecord = {
+                type: recordType.name,
+                data: extractedData,
+                children: {}
+              };
+              currentParent.children[childArrayName].push(childRecord);
+              
+              if (recordType.parentType === currentParent.type) {
+                currentParent = childRecord;
+              }
+            }
+          }
+        });
+        
+        window.multiRecordTypeResults = {
+          byType: recordsByType,
+          hierarchical: hierarchicalData,
+          mappings: mappingsByType
+        };
+        
+        displayMultiRecordTypePreview(recordsByType, mappingsByType);
+        
+        filesLoaded.mapping = true;
+        filesLoaded.data = true;
+        enableGenerate();
+      };
+      dataReader.readAsText(dataFile);
+    }
+    
+    // Detect record type
+    function detectRecordType(line, recordTypes) {
+      for (var i = 0; i < recordTypes.length; i++) {
+        var rt = recordTypes[i];
+        var indicator = line.substring(rt.indicatorPos - 1, rt.indicatorPos);
+        if (indicator === rt.indicatorValue) {
+          return rt;
+        }
+      }
+      return null;
+    }
+    
+    // Extract fixed-length fields
+    function extractFixedLengthFields(line, fields) {
+      var record = {};
+      fields.forEach(function(fd) {
+        var raw = line.substring(fd.startPos - 1, fd.endPos);
+        var value = raw;
+        
+        if (fd.padChar) {
+          if (fd.justify === 'right') {
+            value = value.replace(new RegExp('^' + fd.padChar + '+'), '');
+          } else {
+            value = value.replace(new RegExp(fd.padChar + '+$'), '');
+          }
+        } else {
+          value = value.trim();
+        }
+        
+        if (!value && fd.defaultValue) {
+          value = fd.defaultValue;
+        }
+        
+        record[fd.fieldName] = value;
+      });
+      return record;
+    }
+    
+    // Display multi-record-type preview
+    function displayMultiRecordTypePreview(recordsByType, mappingsByType) {
+      var html = '<div style="margin-top: 16px;">';
+      html += '<h3><i class="fas fa-layer-group automation-icon"></i> Multi-Record-Type Preview</h3>';
+      
+      Object.keys(recordsByType).forEach(function(typeName) {
+        var records = recordsByType[typeName];
+        var mapping = mappingsByType[typeName];
+        
+        html += '<div style="margin-top: 20px; padding: 12px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px;">';
+        html += '<h4 style="margin: 0 0 12px 0; color: #374151;">' + typeName + ' (' + records.length + ' records)</h4>';
+        
+        if (records.length > 0) {
+          html += '<div style="max-height: 200px; overflow: auto;">';
+          html += '<table style="width: 100%; font-size: 11px;"><thead><tr>';
+          
+          var fields = mapping.fields;
+          fields.forEach(function(f) {
+            html += '<th>' + f.fieldName + '</th>';
+          });
+          html += '</tr></thead><tbody>';
+          
+          records.slice(0, 5).forEach(function(rec, idx) {
+            html += '<tr style="background: ' + (idx % 2 === 0 ? '#ffffff' : '#f9fafb') + ';">';
+            fields.forEach(function(f) {
+              html += '<td style="padding: 6px 8px; border: 1px solid #e5e7eb;">' + (rec[f.fieldName] || '') + '</td>';
+            });
+            html += '</tr>';
+          });
+          
+          if (records.length > 5) {
+            html += '<tr><td colspan="' + fields.length + '" style="text-align: center; padding: 8px; color: #6b7280; font-style: italic;">... and ' + (records.length - 5) + ' more records</td></tr>';
+          }
+          
+          html += '</tbody></table></div>';
+        }
+        html += '</div>';
+      });
+      
+      html += '</div>';
+      document.getElementById('tablePreview').innerHTML = html;
+      document.getElementById('inputPreview').value = 'Multi-record-type file loaded with ' + Object.keys(recordsByType).length + ' record types';
+    }
+
+    function enableGenerate() {
+      document.getElementById('previewSection').style.display = 'block';
+      document.getElementById('generateBtn').disabled = false;
+    }
+
+    function renderTable(headers, data) {
+      var html = '<table><thead><tr>';
+      headers.forEach(function(h) { html += '<th>' + h + '</th>'; });
+      html += '</tr></thead><tbody>';
+      data.forEach(function(row) {
+        html += '<tr>';
+        headers.forEach(function(h) { html += '<td>' + (row[normalizeKey(h)] || '') + '</td>'; });
+        html += '</tr>';
+      });
+      html += '</tbody></table>';
+      document.getElementById('tablePreview').innerHTML = html;
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', function() {
+      // Check if multi-record-type mode
+      if (window.multiRecordTypeResults) {
+        generateMultiRecordTypeOutput();
+        return;
+      }
+      
+      if (!parsedMappings.length || !inputData.length) {
+        return alert('Missing mapping or input data.');
+      }
+
+      var generationType = document.getElementById('generationType').value;
+      
+      if (generationType === 'static') {
+        generateStaticMapper();
+      } else {
+        generateDynamicMapper();
+      }
+    });
+    
+    function generateStaticMapper() {
+      // Generate self-contained mapper with embedded rules
+      var jsLines = [
+        "// Self-Contained Static Mapper - No external mapping table required",
+        "var incrementCounter = 0;",
+        "",
+        "function mapRecord(data, rowIndex) {",
+        "  var record = {};",
+        "  ",
+        "  function safeGet(d, i, f, r) {",
+        "    if (i >= d.length) throw new Error('Row ' + (r + 1) + ': Column ' + (i + 1) + ' missing for \"' + f + '\"');",
+        "    return d[i] || '';",
+        "  }",
+        "  "
+      ];
+      
+      // Add field mappings
+      parsedMappings.forEach(function(mapping) {
+        var field = mapping['targetfieldname'] || '';
+        var logic = mapping['mappinglogic'] || '';
+        var colNum = mapping['inputcolumnnumber'] || '';
+        var required = (mapping['required'] || '').toUpperCase() === 'Y';
+        
+        if (!field) return;
+        
+        jsLines.push("  // " + field);
+        
+        if (logic && logic.trim()) {
+          // Generate inline logic
+          var inlineLogic = generateInlineLogic(logic, field);
+          jsLines.push("  record[" + JSON.stringify(field) + "] = " + inlineLogic + ";");
+        } else if (colNum) {
+          // Direct column mapping
+          var colIndex = parseInt(colNum) - 1;
+          jsLines.push("  record[" + JSON.stringify(field) + "] = safeGet(data, " + colIndex + ", " + JSON.stringify(field) + ", rowIndex);");
+        } else {
+          jsLines.push("  record[" + JSON.stringify(field) + "] = null;");
+        }
+        
+        if (required) {
+          jsLines.push("  if (!record[" + JSON.stringify(field) + "] || !record[" + JSON.stringify(field) + "].toString().trim()) {");
+          jsLines.push("    throw new Error('Required field \"' + " + JSON.stringify(field) + " + '\" is blank in row ' + (rowIndex + 1));");
+          jsLines.push("  }");
+        }
+        jsLines.push("");
+      });
+      
+      jsLines.push("  return record;");
+      jsLines.push("}");
+      jsLines.push("");
+      
+      // Add applyLogic function for complex cases
+      jsLines.push("// Fallback function for complex mapping logic");
+      jsLines.push("function applyLogic(logic, data, field) {");
+      jsLines.push("  if (!logic) return null;");
+      jsLines.push("  logic = logic.trim();");
+      jsLines.push("");
+      jsLines.push("  // Handle basic cases that weren't inlined");
+      jsLines.push("  if (/^Column(\\d+)$/i.test(logic)) {");
+      jsLines.push("    var colMatch = logic.match(/^Column(\\d+)$/i);");
+      jsLines.push("    return data[colMatch[1] - 1] || '';");
+      jsLines.push("  }");
+      jsLines.push("");
+      jsLines.push("  // Static values");
+      jsLines.push("  if (/^['\"].*['\"]$/.test(logic)) {");
+      jsLines.push("    return logic.slice(1, -1);");
+      jsLines.push("  }");
+      jsLines.push("");
+      jsLines.push("  // Unquoted static values");
+      jsLines.push("  if (!/Column\\d+/i.test(logic) && !/^(RemoveLeadingZeroes|Trim|Concat|Sum|If|Today|Now|Increment|DateReformat|Hardcode)/i.test(logic)) {");
+      jsLines.push("    return logic;");
+      jsLines.push("  }");
+      jsLines.push("");
+      jsLines.push("  return null;");
+      jsLines.push("}");
+      
+      // Add CSV parser and usage at the end
+      addCSVParserAndFinalize(jsLines, true); // true = static mode
+    }
+    
+    function generateInlineLogic(logic, field) {
+      logic = logic.trim();
+      
+      // Handle common cases
+      if (/^Hardcode\s+['"](.*)['"]/i.test(logic)) {
+        var match = logic.match(/^Hardcode\s+['"](.*)['"]/i);
+        return JSON.stringify(match[1]);
+      }
+      
+      if (/^Increment By 1$/i.test(logic)) {
+        return "++incrementCounter";
+      }
+      
+      if (/^RemoveLeadingZeroes\(Column(\d+)\)/i.test(logic)) {
+        var col = logic.match(/Column(\d+)/i);
+        return "(data[" + (col[1] - 1) + "] || '').replace(/^0+/, '') || '0'";
+      }
+      
+      if (/^Left\(Column(\d+),\s*(\d+)\)/i.test(logic)) {
+        var match = logic.match(/Left\(Column(\d+),\s*(\d+)\)/i);
+        return "(data[" + (match[1] - 1) + "] || '').substring(0, " + match[2] + ")";
+      }
+      
+      if (/^Right\(Column(\d+),\s*(\d+)\)/i.test(logic)) {
+        var match = logic.match(/Right\(Column(\d+),\s*(\d+)\)/i);
+        return "(data[" + (match[1] - 1) + "] || '').slice(-" + match[2] + ")";
+      }
+      
+      if (/^DateReformat\(Column(\d+),\s*'([^']*)',\s*'([^']*)'\)/i.test(logic)) {
+        var match = logic.match(/DateReformat\(Column(\d+),\s*'([^']*)',\s*'([^']*)'\)/i);
+        var colIndex = match[1] - 1;
+        var inputFormat = match[2].toUpperCase();
+        var outputFormat = match[3].toUpperCase();
+        if (inputFormat === 'MMDDYYYY' && outputFormat === 'YYYYMMDD') {
+          return "(function(dateStr) { return dateStr && dateStr.length === 8 ? dateStr.substring(4, 8) + dateStr.substring(0, 4) : dateStr; })(data[" + colIndex + "] || '')";
+        }
+      }
+      
+      if (/^If\s+Column(\d+)\s*(==?|!=)\s*'([^']*)'\s+Then\s+'([^']*)'(?:\s+Else\s+'([^']*)')?/i.test(logic)) {
+        var match = logic.match(/If\s+Column(\d+)\s*(==?|!=)\s*'([^']*)'\s+Then\s+'([^']*)'(?:\s+Else\s+'([^']*)')?/i);
+        var colIndex = match[1] - 1;
+        var operator = match[2];
+        var compareValue = match[3];
+        var thenValue = match[4];
+        var elseValue = match[5] || '';
+        
+        if (operator === '==' || operator === '=') {
+          return "(data[" + colIndex + "] || '') == " + JSON.stringify(compareValue) + " ? " + JSON.stringify(thenValue) + " : " + JSON.stringify(elseValue);
+        } else if (operator === '!=') {
+          return "(data[" + colIndex + "] || '') != " + JSON.stringify(compareValue) + " ? " + JSON.stringify(thenValue) + " : " + JSON.stringify(elseValue);
+        }
+      }
+      
+      // Fallback for complex logic
+      return "applyLogic(" + JSON.stringify(logic) + ", data, " + JSON.stringify(field) + ")";
+    }
+    
+    function generateDynamicMapper() {
+      // Generate universal dynamic mapper for IPA
+      var jsLines = [
+        "// Universal Dynamic Mapper - Works with any mapping table",
+        "function createMapper(MappingTable) {",
+        "  var mappingRows = parseCSV(MappingTable, ',');",
+        "  var mappingHeaders = mappingRows[0].map(function(h) { return h.replace(/\\s+/g, '').trim().toLowerCase(); });",
+        "  var mappingRules = [];",
+        "  var headers = [];",
+        "",
+        "  for (var i = 1; i < mappingRows.length; i++) {",
+        "    var obj = {};",
+        "    for (var j = 0; j < mappingHeaders.length; j++) {",
+        "      obj[mappingHeaders[j]] = (mappingRows[i][j] || '').trim();",
+        "    }",
+        "    var field = obj['targetfieldname'] || '';",
+        "    if (!field) continue;",
+        "    mappingRules.push({",
+        "      field: field,",
+        "      logic: obj['mappinglogic'] || '',",
+        "      colNum: obj['inputcolumnnumber'] ? parseInt(obj['inputcolumnnumber']) - 1 : null,",
+        "      required: (obj['required'] || '').toUpperCase() === 'Y'",
+        "    });",
+        "    headers.push(field);",
+        "  }",
+        "",
+        "  return {",
+        "    mapRecord: function(data, rowIndex) {",
+        "      var record = {};",
+        "      function safeGet(d, i, f, r) { if (i >= d.length) throw new Error('Column ' + (i + 1) + ' missing for \"' + f + '\"'); return d[i] || ''; }",
+        "",
+        "      mappingRules.forEach(function(rule) {",
+        "        var value;",
+        "        if (rule.logic && rule.logic.trim()) {",
+        "          value = applyLogic(rule.logic, data, rule.field);",
+        "        } else if (rule.colNum !== null) {",
+        "          value = safeGet(data, rule.colNum, rule.field, rowIndex);",
+        "        } else {",
+        "          value = null;",
+        "        }",
+        "        record[rule.field] = value;",
+        "        if (rule.required && (!value || !value.toString().trim())) {",
+        "          // Required field validation - field is blank",
+        "        }",
+        "      });",
+        "      return record;",
+        "    },",
+        "    headers: headers",
+        "  };",
+        "}",
+        "",
+        "function applyLogic(logic, data, field) {",
+        "  if (!logic) return null;",
+        "  logic = logic.trim();",
+        "",
+        "  // String Functions",
+        "  if (/^RemoveLeadingZeroes\\(/i.test(logic)) {",
+        "    var col = logic.match(/Column(\\d+)/i);",
+        "    if (col) return (data[col[1]-1] || '').replace(/^0+/, '') || '0';",
+        "  }",
+        "  if (/^RemoveTrailingSpaces\\(/i.test(logic)) {",
+        "    var col = logic.match(/Column(\\d+)/i);",
+        "    if (col) return (data[col[1]-1] || '').replace(/\\s+$/, '');",
+        "  }",
+        "  if (/^Trim\\(/i.test(logic)) {",
+        "    var col = logic.match(/Trim\\(Column(\\d+)\\)/i);",
+        "    if (col) {",
+        "      var value = data[col[1]-1];",
+        "      if (value === null || value === undefined) return '';",
+        "      return value.toString().trim();",
+        "    }",
+        "  }",
+        "  if (/^Concat\\(/i.test(logic)) {",
+        "    var cols = logic.match(/Column(\\d+)/gi);",
+        "    if (cols) return cols.map(function(c) { var n = c.match(/\\d+/)[0]; return data[n-1] || ''; }).join('');",
+        "  }",
+        "  if (/^Substring\\(/i.test(logic)) {",
+        "    var match = logic.match(/Substring\\(Column(\\d+),\\s*(\\d+),\\s*(\\d+)\\)/i);",
+        "    if (match) return (data[match[1]-1] || '').substring(parseInt(match[2]), parseInt(match[2]) + parseInt(match[3]));",
+        "  }",
+        "  if (/^Uppercase\\(/i.test(logic)) {",
+        "    var col = logic.match(/Column(\\d+)/i);",
+        "    if (col) return (data[col[1]-1] || '').toUpperCase();",
+        "  }",
+        "  if (/^Lowercase\\(/i.test(logic)) {",
+        "    var col = logic.match(/Column(\\d+)/i);",
+        "    if (col) return (data[col[1]-1] || '').toLowerCase();",
+        "  }",
+        "  if (/^Left\\(/i.test(logic)) {",
+        "    var match = logic.match(/Left\\(Column(\\d+),\\s*(\\d+)\\)/i);",
+        "    if (match) return (data[match[1]-1] || '').substring(0, parseInt(match[2]));",
+        "  }",
+        "  if (/^Right\\(/i.test(logic)) {",
+        "    var match = logic.match(/Right\\(Column(\\d+),\\s*(\\d+)\\)/i);",
+        "    if (match) return (data[match[1]-1] || '').slice(-parseInt(match[2]));",
+        "  }",
+        "  if (/^Replace\\(/i.test(logic)) {",
+        "    var match = logic.match(/Replace\\(Column(\\d+),\\s*'([^']*)',\\s*'([^']*)'\\)/i);",
+        "    if (match) return (data[match[1]-1] || '').replace(new RegExp(match[2], 'g'), match[3]);",
+        "  }",
+        "  if (/^PadLeft\\(/i.test(logic)) {",
+        "    var match = logic.match(/PadLeft\\(Column(\\d+),\\s*(\\d+),\\s*'([^']*)'\\)/i);",
+        "    if (match) { var str = data[match[1]-1] || ''; while (str.length < parseInt(match[2])) str = match[3] + str; return str; }",
+        "  }",
+        "  if (/^PadRight\\(/i.test(logic)) {",
+        "    var match = logic.match(/PadRight\\(Column(\\d+),\\s*(\\d+),\\s*'([^']*)'\\)/i);",
+        "    if (match) { var str = data[match[1]-1] || ''; while (str.length < parseInt(match[2])) str = str + match[3]; return str; }",
+        "  }",
+        "  if (/^AddLeft\\(/i.test(logic)) {",
+        "    var match = logic.match(/AddLeft\\(Column(\\d+),\\s*'([^']*)',\\s*(\\d+)\\)/i);",
+        "    if (match) { var prefix = ''; for (var i = 0; i < parseInt(match[3]); i++) prefix += match[2]; return prefix + (data[match[1]-1] || ''); }",
+        "  }",
+        "  if (/^AddRight\\(/i.test(logic)) {",
+        "    var match = logic.match(/AddRight\\(Column(\\d+),\\s*'([^']*)',\\s*(\\d+)\\)/i);",
+        "    if (match) { var suffix = ''; for (var i = 0; i < parseInt(match[3]); i++) suffix += match[2]; return (data[match[1]-1] || '') + suffix; }",
+        "  }",
+        "",
+        "  // Math Functions",
+        "  if (/^Sum\\(/i.test(logic)) {",
+        "    var cols = logic.match(/Column(\\d+)/gi);",
+        "    if (cols) {",
+        "      var sum = 0;",
+        "      cols.forEach(function(col) {",
+        "        var n = col.match(/\\d+/)[0];",
+        "        var val = data[n - 1] || '0';",
+        "        if (!/^-?\\d*\\.?\\d+$/.test(val.toString().trim())) throw new Error('Non-numeric value in Sum: ' + val);",
+        "        sum += parseFloat(val);",
+        "      });",
+        "      return sum;",
+        "    }",
+        "  }",
+        "  if (/^Multiply\\(/i.test(logic)) {",
+        "    var cols = logic.match(/Column(\\d+)/gi);",
+        "    if (cols && cols.length >= 2) {",
+        "      var result = 1;",
+        "      cols.forEach(function(col) {",
+        "        var n = col.match(/\\d+/)[0];",
+        "        result *= parseFloat(data[n - 1] || 0);",
+        "      });",
+        "      return result;",
+        "    }",
+        "  }",
+        "  if (/^Divide\\(/i.test(logic)) {",
+        "    var cols = logic.match(/Column(\\d+)/gi);",
+        "    if (cols && cols.length >= 2) {",
+        "      var n1 = cols[0].match(/\\d+/)[0];",
+        "      var n2 = cols[1].match(/\\d+/)[0];",
+        "      var divisor = parseFloat(data[n2 - 1]);",
+        "      return divisor !== 0 ? parseFloat(data[n1 - 1] || 0) / divisor : 0;",
+        "    }",
+        "  }",
+        "  if (/^Round\\(/i.test(logic)) {",
+        "    var match = logic.match(/Round\\(Column(\\d+),\\s*(\\d+)\\)/i);",
+        "    if (match) return Math.round(parseFloat(data[match[1]-1] || 0) * Math.pow(10, parseInt(match[2]))) / Math.pow(10, parseInt(match[2]));",
+        "  }",
+        "  if (/^Abs\\(/i.test(logic)) {",
+        "    var col = logic.match(/Column(\\d+)/i);",
+        "    if (col) return Math.abs(parseFloat(data[col[1]-1] || 0));",
+        "  }",
+        "  if (/^Max\\(/i.test(logic)) {",
+        "    var cols = logic.match(/Column(\\d+)/gi);",
+        "    if (cols) return Math.max.apply(Math, cols.map(function(c) { var n = c.match(/\\d+/)[0]; return parseFloat(data[n-1] || 0); }));",
+        "  }",
+        "  if (/^Min\\(/i.test(logic)) {",
+        "    var cols = logic.match(/Column(\\d+)/gi);",
+        "    if (cols) return Math.min.apply(Math, cols.map(function(c) { var n = c.match(/\\d+/)[0]; return parseFloat(data[n-1] || 0); }));",
+        "  }",
+        "",
+        "  // Increment By 1 functionality",
+        "  if (/^Increment By 1$/i.test(logic)) {",
+        "    if (typeof incrementCounter === 'undefined') incrementCounter = 0;",
+        "    incrementCounter++;",
+        "    return incrementCounter;",
+        "  }",
+        "  ",
+        "  // Hardcode functionality",
+        "  if (/^Hardcode\\s+['\"](.*)['\"]/i.test(logic)) {",
+        "    var match = logic.match(/^Hardcode\\s+['\"](.*)['\"]/i);",
+        "    return match[1];",
+        "  }",
+        "  ",
+
+        "  if (/^Today\\(\\)$/i.test(logic)) {",
+        "    return new Date().toLocaleDateString('en-US');",
+        "  }",
+        "  if (/^Now\\(\\)$/i.test(logic)) {",
+        "    return new Date().toLocaleString('en-US');",
+        "  }",
+        "  if (/^DateReformat\\(/i.test(logic)) {",
+        "    var match = logic.match(/DateReformat\\(Column(\\d+),\\s*'([^']*)',\\s*'([^']*)'\\)/i);",
+        "    if (match) {",
+        "      var dateStr = data[match[1]-1] || '';",
+        "      var inputFormat = match[2].toUpperCase();",
+        "      var outputFormat = match[3].toUpperCase();",
+        "      if (inputFormat === 'MMDDYYYY' && outputFormat === 'YYYYMMDD' && dateStr.length === 8) {",
+        "        return dateStr.substring(4, 8) + dateStr.substring(0, 4);",
+        "      }",
+        "      return dateStr;",
+        "    }",
+        "  }",
+        "",
+        "  // Conditional Logic",
+        "  if (/^If\\s/i.test(logic)) {",
+        "    var simpleMatch = logic.match(/If\\s+([^!=<>]+)\\s*(==?|!=|>|<|>=|<=)\\s*'?([^'\\s]*)'?\\s+Then\\s+'?([^'\\s]+)'?(?:\\s+ElseIf\\s+([^!=<>]+)\\s*(==?|!=|>|<|>=|<=)\\s*'?([^'\\s]*)'?\\s+Then\\s+'?([^'\\s]+)'?)*(?:\\s+Else\\s+'?([^'\\s]+)'?)?/i);",
+        "    if (simpleMatch) {",
+        "      var conditionRef = simpleMatch[1].trim().replace(/Column(\\d+)/gi, function(_, n) { return data[n - 1] || ''; });",
+        "      var operator = simpleMatch[2];",
+        "      var compareValue = simpleMatch[3];",
+        "      var thenResult = simpleMatch[4].replace(/Column(\\d+)/gi, function(_, n) { return data[n - 1] || ''; });",
+        "      var elseResult = simpleMatch[9] ? simpleMatch[9].replace(/Column(\\d+)/gi, function(_, n) { return data[n - 1] || ''; }) : '';",
+        "      ",
+        "      var condition = false;",
+        "      if (operator === '==' || operator === '=') condition = conditionRef == compareValue;",
+        "      else if (operator === '!=') condition = conditionRef != compareValue;",
+        "      else if (operator === '>') condition = parseFloat(conditionRef) > parseFloat(compareValue);",
+        "      else if (operator === '<') condition = parseFloat(conditionRef) < parseFloat(compareValue);",
+        "      else if (operator === '>=') condition = parseFloat(conditionRef) >= parseFloat(compareValue);",
+        "      else if (operator === '<=') condition = parseFloat(conditionRef) <= parseFloat(compareValue);",
+        "      ",
+        "      return condition ? thenResult : elseResult;",
+        "    }",
+        "  }",
+        "",
+        "  // Validation Functions",
+        "  if (/^IsEmpty\\(/i.test(logic)) {",
+        "    var col = logic.match(/Column(\\d+)/i);",
+        "    if (col) return (!data[col[1]-1] || data[col[1]-1].toString().trim() === '') ? 'true' : 'false';",
+        "  }",
+        "  if (/^IsNumeric\\(/i.test(logic)) {",
+        "    var col = logic.match(/Column(\\d+)/i);",
+        "    if (col) return /^-?\\d*\\.?\\d+$/.test((data[col[1]-1] || '').toString().trim()) ? 'true' : 'false';",
+        "  }",
+        "",
+        "  // Static values",
+        "  if (/^['\"].*['\"]$/.test(logic)) {",
+        "    return logic.slice(1, -1);",
+        "  }",
+        "  ",
+        "  // Handle unquoted static values (but not function names)",
+        "  if (!/Column\\d+/i.test(logic) && !/^(RemoveLeadingZeroes|RemoveTrailingSpaces|Trim|Concat|Substring|Uppercase|Lowercase|Left|Right|Replace|PadLeft|PadRight|AddLeft|AddRight|Sum|Multiply|Divide|Round|Abs|Max|Min|If|Today|Now|Increment|DateReformat|Hardcode|IsEmpty|IsNumeric)/i.test(logic)) {",
+        "    return logic;",
+        "  }",
+        "  ",
+        "  // Column references",
+        "  var colMatch = logic.match(/^Column(\\d+)$/i);",
+        "  if (colMatch) {",
+        "    return data[colMatch[1] - 1] || '';",
+        "  }",
+        "",
+        "  return null;",
+        "}"
+      ];
+      var headers = [];
+      parsedMappings.forEach(function(m) {
+        var field = m['targetfieldname'] || '';
+        if (field) headers.push(field);
+      });
+      jsLines.push("");
+      jsLines.push("// Parse input file data:");
+      jsLines.push("function parseCSV(text, delimiter) {");
+      jsLines.push("  var lines = text.split(/\\r?\\n/).filter(function(l) { return l.trim() !== ''; });");
+      jsLines.push("  return lines.map(function(line) {");
+      jsLines.push("    var result = [];");
+      jsLines.push("    var current = '';");
+      jsLines.push("    var inQuotes = false;");
+      jsLines.push("    for (var i = 0; i < line.length; i++) {");
+      jsLines.push("      var char = line[i];");
+      jsLines.push("      if (char === '\"') {");
+      jsLines.push("        if (inQuotes && line[i + 1] === '\"') {");
+      jsLines.push("          current += '\"';");
+      jsLines.push("          i++;")
+      jsLines.push("        } else {");
+      jsLines.push("          inQuotes = !inQuotes;");
+      jsLines.push("        }");
+      jsLines.push("      } else if (char === delimiter && !inQuotes) {");
+      jsLines.push("        result.push(current);");
+      jsLines.push("        current = '';");
+      jsLines.push("      } else {");
+      jsLines.push("        current += char;");
+      jsLines.push("      }");
+      jsLines.push("    }");
+      jsLines.push("    result.push(current);");
+      jsLines.push("    return result;");
+      jsLines.push("  });");
+      jsLines.push("}");
+      jsLines.push("");
+      jsLines.push("");
+      jsLines.push("// Helper Functions for IPA:");
+      jsLines.push("");
+      jsLines.push("// IPA Usage - Copy all functions above, then use:");
+      jsLines.push("// Step 1: Create mapper from mapping table");
+      jsLines.push("// var mapper = createMapper(readFile_mappingTable);");
+      jsLines.push("");
+      jsLines.push("// Step 2: Parse and process input data");
+      jsLines.push("// var inputData = parseCSV(readFile_inputData, '" + document.getElementById('delimiter').value + "');");
+      jsLines.push("// var dataRows = inputData.slice(" + (parseInt(document.getElementById('skipRows').value) || 0) + "); // Skip " + (parseInt(document.getElementById('skipRows').value) || 0) + " rows");
+      jsLines.push("");
+      jsLines.push("// Step 3: Transform data with error handling");
+      jsLines.push("// try {");
+      jsLines.push("//   var results = dataRows.map(function(row, index) {");
+      jsLines.push("//     return mapper.mapRecord(row, index);");
+      jsLines.push("//   });");
+      jsLines.push("// } catch (error) {");
+      jsLines.push("//   ErrorMessage = error.message;");
+      jsLines.push("//   results = [];");
+      jsLines.push("// }");
+      jsLines.push("");
+      jsLines.push("// Step 4: Convert to CSV format");
+      jsLines.push("// var csvLines = [mapper.headers.join(',')];");
+      jsLines.push("// results.forEach(function(r) {");
+      jsLines.push("//   var row = mapper.headers.map(function(h) {");
+      jsLines.push("//     var v = r[h] != null ? r[h].toString() : '';");
+      jsLines.push("//     return /[\",\\n]/.test(v) ? '\"' + v.replace(/\"/g, '\"\"') + '\"' : v;");
+      jsLines.push("//   });");
+      jsLines.push("//   csvLines.push(row.join(','));");
+      jsLines.push("// });");
+      jsLines.push("// var outputCSV = csvLines.join('\\n');");
+      addCSVParserAndFinalize(jsLines);
+    }
+    
+    function addCSVParserAndFinalize(jsLines, isStaticMode) {
+      var headers = [];
+      parsedMappings.forEach(function(m) {
+        var field = m['targetfieldname'] || '';
+        if (field) headers.push(field);
+      });
+      
+      // Add CSV parser if not already added
+      if (jsLines.join('').indexOf('function parseCSV') === -1) {
+        jsLines.push("");
+        jsLines.push("// Parse input file data:");
+        jsLines.push("function parseCSV(text, delimiter) {");
+        jsLines.push("  var lines = text.split(/\\r?\\n/).filter(function(l) { return l.trim() !== ''; });");
+        jsLines.push("  return lines.map(function(line) {");
+        jsLines.push("    var result = [];");
+        jsLines.push("    var current = '';");
+        jsLines.push("    var inQuotes = false;");
+        jsLines.push("    for (var i = 0; i < line.length; i++) {");
+        jsLines.push("      var char = line[i];");
+        jsLines.push("      if (char === '\"') {");
+        jsLines.push("        if (inQuotes && line[i + 1] === '\"') {");
+        jsLines.push("          current += '\"';");
+        jsLines.push("          i++;")
+        jsLines.push("        } else {");
+        jsLines.push("          inQuotes = !inQuotes;");
+        jsLines.push("        }");
+        jsLines.push("      } else if (char === delimiter && !inQuotes) {");
+        jsLines.push("        result.push(current);");
+        jsLines.push("        current = '';");
+        jsLines.push("      } else {");
+        jsLines.push("        current += char;");
+        jsLines.push("      }");
+        jsLines.push("    }");
+        jsLines.push("    result.push(current);");
+        jsLines.push("    return result;");
+        jsLines.push("  });");
+        jsLines.push("}");
+      }
+      
+      // Add usage instructions for static mode
+      if (isStaticMode) {
+        jsLines.push("");
+        jsLines.push("// Usage Instructions for Static Mapper:");
+        jsLines.push("// 1. Parse your input data:");
+        jsLines.push("// var inputData = parseCSV(yourInputFileContent, '" + document.getElementById('delimiter').value + "');");
+        jsLines.push("// var dataRows = inputData.slice(" + (parseInt(document.getElementById('skipRows').value) || 0) + "); // Skip " + (parseInt(document.getElementById('skipRows').value) || 0) + " rows");
+        jsLines.push("");
+        jsLines.push("// 2. Transform each row:");
+        jsLines.push("// var results = dataRows.map(function(row, index) {");
+        jsLines.push("//   return mapRecord(row, index);");
+        jsLines.push("// });");
+        jsLines.push("");
+        jsLines.push("// 3. Convert to CSV:");
+        jsLines.push("// var headers = [" + headers.map(function(h) { return "'" + h + "'"; }).join(", ") + "];");
+        jsLines.push("// var csvLines = [headers.join(',')];");
+        jsLines.push("// results.forEach(function(r) {");
+        jsLines.push("//   var row = headers.map(function(h) {");
+        jsLines.push("//     var v = r[h] != null ? r[h].toString() : '';");
+        jsLines.push("//     return /[\",\\n]/.test(v) ? '\"' + v.replace(/\"/g, '\"\"') + '\"' : v;");
+        jsLines.push("//   });");
+        jsLines.push("//   csvLines.push(row.join(','));");
+        jsLines.push("// });");
+        jsLines.push("// var outputCSV = csvLines.join('\\n');");
+      }
+      
+      var jsCode = jsLines.join("\n");
+      document.getElementById('output').value = jsCode;
+      document.getElementById('downloadJsBtn').style.display = 'inline-block';
+      document.getElementById('resultSection').style.display = 'block';
+
+      // Run mapping for demo
+      runMappingDemo(jsCode, headers);
+    }
+    
+    function runMappingDemo(jsCode, headers) {
+      var mappedRows = [];
+      var generationType = document.getElementById('generationType').value;
+      
+      try {
+        eval(jsCode);
+        
+        if (generationType === 'static') {
+          // Static mapper - direct function call
+          inputData.forEach(function(r, i) { 
+            mappedRows.push(mapRecord(r, i)); 
+          });
+        } else {
+          // Dynamic mapper - requires mapping file
+          var mappingFileReader = new FileReader();
+          var mappingFile = document.getElementById('mappingFile').files[0];
+          if (mappingFile) {
+            mappingFileReader.onload = function(e) {
+              var mappingContent = e.target.result;
+              var mapper = createMapper(mappingContent);
+              inputData.forEach(function(r, i) { 
+                mappedRows.push(mapper.mapRecord(r, i)); 
+              });
+              buildCSVOutput(mappedRows, headers);
+            };
+            mappingFileReader.readAsText(mappingFile);
+            return;
+          }
+        }
+        
+        buildCSVOutput(mappedRows, headers);
+      } catch (e) {
+        alert('Mapping logic error: ' + e.message + '\n\nCheck the generated JavaScript code in the output area for syntax errors.');
+        return;
+      }
+    }
+    
+    function generateMultiRecordTypeOutput() {
+      // Generate hierarchical JSON output for multi-record-type files
+      var results = window.multiRecordTypeResults;
+      if (!results) return alert('No multi-record-type data loaded.');
+      
+      // Build hierarchical JSON
+      var hierarchicalJSON = JSON.stringify(results.hierarchical, null, 2);
+      
+      // Build config summary for comments
+      var configSummary = window.multiRecordTypeConfig.map(function(rt) {
+        return { type: rt.name, parent: rt.parentType || 'root', output: rt.outputName };
+      });
+      
+      // Build mappings object for embedding
+      var mappingsForEmbed = {};
+      Object.keys(results.mappings).forEach(function(typeName) {
+        mappingsForEmbed[typeName] = results.mappings[typeName].fields.map(function(f) {
+          return {
+            fieldName: f.fieldName,
+            startPos: f.startPos,
+            endPos: f.endPos,
+            padChar: f.padChar,
+            justify: f.justify,
+            defaultValue: f.defaultValue
+          };
+        });
+      });
+      
+      // Generate JavaScript mapper code
+      var jsLines = [
+        "// Multi-Record-Type Hierarchical Mapper",
+        "// Generated from configuration with parent-child relationships",
+        "",
+        "// Record Type Configuration:",
+        "// " + JSON.stringify(configSummary),
+        "",
+        "function processMultiRecordTypeFile(fileContent) {",
+        "  var lines = fileContent.split(/\\r?\\n/).filter(function(l) { return l.trim() !== ''; });",
+        "  var hierarchicalData = [];",
+        "  var currentParent = null;",
+        "  var parentStack = [];",
+        "  ",
+        "  // Record type configuration",
+        "  var recordTypes = " + JSON.stringify(window.multiRecordTypeConfig) + ";",
+        "  ",
+        "  // Field mappings by record type",
+        "  var mappingsByType = " + JSON.stringify(mappingsForEmbed, null, 2) + ";",
+        "  ",
+        "  lines.forEach(function(line, lineIndex) {",
+        "    // Detect record type",
+        "    var recordType = null;",
+        "    for (var i = 0; i < recordTypes.length; i++) {",
+        "      var rt = recordTypes[i];",
+        "      var indicator = line.substring(rt.indicatorPos - 1, rt.indicatorPos);",
+        "      if (indicator === rt.indicatorValue) {",
+        "        recordType = rt;",
+        "        break;",
+        "      }",
+        "    }",
+        "    if (!recordType) return;",
+        "    ",
+        "    // Extract fields",
+        "    var fields = mappingsByType[recordType.name];",
+        "    if (!fields) return;",
+        "    ",
+        "    var record = {};",
+        "    fields.forEach(function(fd) {",
+        "      var raw = line.substring(fd.startPos - 1, fd.endPos);",
+        "      var value = raw;",
+        "      ",
+        "      // Strip padding",
+        "      if (fd.padChar) {",
+        "        if (fd.justify === 'right') {",
+        "          value = value.replace(new RegExp('^' + fd.padChar + '+'), '');",
+        "        } else {",
+        "          value = value.replace(new RegExp(fd.padChar + '+$'), '');",
+        "        }",
+        "      } else {",
+        "        value = value.trim();",
+        "      }",
+        "      ",
+        "      // Apply default value",
+        "      if (!value && fd.defaultValue) {",
+        "        value = fd.defaultValue;",
+        "      }",
+        "      ",
+        "      record[fd.fieldName] = value;",
+        "    });",
+        "    ",
+        "    record._recordType = recordType.name;",
+        "    record._lineNumber = lineIndex + 1;",
+        "    ",
+        "    // Build hierarchical structure",
+        "    if (!recordType.parentType) {",
+        "      // Root record",
+        "      currentParent = {",
+        "        type: recordType.name,",
+        "        data: record,",
+        "        children: {}",
+        "      };",
+        "      hierarchicalData.push(currentParent);",
+        "      parentStack = [currentParent];",
+        "    } else {",
+        "      // Child record",
+        "      if (currentParent) {",
+        "        var childArrayName = recordType.outputName || recordType.name;",
+        "        if (!currentParent.children[childArrayName]) {",
+        "          currentParent.children[childArrayName] = [];",
+        "        }",
+        "        ",
+        "        var childRecord = {",
+        "          type: recordType.name,",
+        "          data: record,",
+        "          children: {}",
+        "        };",
+        "        currentParent.children[childArrayName].push(childRecord);",
+        "        ",
+        "        // Update parent for nested children",
+        "        if (recordType.parentType === currentParent.type) {",
+        "          currentParent = childRecord;",
+        "          parentStack.push(currentParent);",
+        "        }",
+        "      }",
+        "    }",
+        "  });",
+        "  ",
+        "  return hierarchicalData;",
+        "}",
+        "",
+        "// Usage:",
+        "// var fileContent = '...'; // Read your fixed-length file",
+        "// var hierarchicalData = processMultiRecordTypeFile(fileContent);",
+        "// console.log(JSON.stringify(hierarchicalData, null, 2));"
+      ];
+      
+      // Display results
+      document.getElementById('output').value = jsLines.join('\n');
+      document.getElementById('mappedData').value = hierarchicalJSON;
+      
+      document.getElementById('resultSection').style.display = 'block';
+      document.getElementById('downloadJsBtn').style.display = 'inline-block';
+      document.getElementById('downloadCsvBtn').style.display = 'inline-block';
+      
+      // Update download button handlers
+      document.getElementById('downloadJsBtn').onclick = function() {
+        var blob = new Blob([jsLines.join('\n')], { type: 'text/javascript' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'multi_record_mapper.js';
+        a.click();
+      };
+      
+      document.getElementById('downloadCsvBtn').onclick = function() {
+        var blob = new Blob([hierarchicalJSON], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'hierarchical_output.json';
+        a.click();
+      };
+      
+      alert('Multi-record-type mapper generated successfully!\n\nOutput Format: Hierarchical JSON with parent-child relationships\n\nThe JavaScript file contains a reusable function that can process similar files.');
+    }
+    
+    function buildCSVOutput(mappedRows, headers) {
+      var csvLines = [headers.join(',')];
+      mappedRows.forEach(function(r) {
+        var row = headers.map(function(h) {
+          var v = r[h];
+          if (v === null || v === undefined) v = '';
+          v = v.toString();
+          return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+        });
+        csvLines.push(row.join(','));
+      });
+      document.getElementById('mappedData').value = csvLines.join('\n');
+      document.getElementById('downloadCsvBtn').style.display = 'inline-block';
+      document.getElementById('resultSection').style.display = 'block';
+    }
+
+    // Reset functionality
+    document.getElementById('resetBtn').addEventListener('click', function() {
+      var stickman = document.getElementById('stickman');
+      stickman.style.display = 'block';
+      stickman.classList.add('stickman-animate');
+      
+      setTimeout(function() {
+        document.getElementById('mappingFile').value = '';
+        document.getElementById('dataFile').value = '';
+        document.getElementById('delimiter').value = ',';
+        document.getElementById('skipRows').value = '1';
+        document.getElementById('fileType').value = 'delimited';
+        document.getElementById('fixedLengthMappingFile').value = '';
+        document.getElementById('recordTypeConfigFile').value = '';
+        document.getElementById('multiRecordTypeMode').checked = false;
+        document.getElementById('fixedLengthMessage').style.display = 'none';
+        document.getElementById('multiRecordTypeConfig').style.display = 'none';
+        document.getElementById('delimiterCol').style.visibility = 'visible';
+        document.getElementById('skipRowsCol').style.visibility = 'visible';
+        document.getElementById('mappingFile').parentElement.style.display = 'flex';
+        window.fixedLengthFields = null;
+        window.multiRecordTypeResults = null;
+        window.multiRecordTypeConfig = null;
+        document.getElementById('previewSection').style.display = 'none';
+        document.getElementById('resultSection').style.display = 'none';
+        document.getElementById('tablePreview').innerHTML = '';
+        document.getElementById('inputPreview').value = '';
+        document.getElementById('output').value = '';
+        document.getElementById('mappedData').value = '';
+        document.getElementById('generateBtn').disabled = true;
+        document.getElementById('downloadJsBtn').style.display = 'none';
+        document.getElementById('downloadCsvBtn').style.display = 'none';
+        parsedMappings = [];
+        inputData = [];
+        filesLoaded = { mapping: false, data: false };
+        
+        // Reset increment counter for next generation
+        window.incrementCounter = 0;
+        
+        stickman.classList.remove('stickman-animate');
+        stickman.style.display = 'none';
+      }, 2000);
+    });
+
+
+
+    // File type toggle functionality
+    document.getElementById('fileType').addEventListener('change', function() {
+      var fileType = this.value;
+      var fixedLengthMessage = document.getElementById('fixedLengthMessage');
+      var previewBtn = document.getElementById('previewBtn');
+      var delimiterCol = document.getElementById('delimiterCol');
+      var skipRowsCol = document.getElementById('skipRowsCol');
+      
+      if (fileType === 'delimited') {
+        delimiterCol.style.visibility = 'visible';
+        skipRowsCol.style.visibility = 'visible';
+        fixedLengthMessage.style.display = 'none';
+        previewBtn.style.display = 'inline-flex';
+        document.getElementById('mappingFile').parentElement.style.display = 'flex';
+      } else {
+        delimiterCol.style.visibility = 'hidden';
+        skipRowsCol.style.visibility = 'hidden';
+        fixedLengthMessage.style.display = 'block';
+        previewBtn.style.display = 'inline-flex';
+        document.getElementById('mappingFile').parentElement.style.display = 'none';
+      }
+    });
+    
+    // Multi-record-type mode toggle
+    document.getElementById('multiRecordTypeMode').addEventListener('change', function() {
+      var isMultiMode = this.checked;
+      var configDiv = document.getElementById('multiRecordTypeConfig');
+      var singleMappingInput = document.getElementById('fixedLengthMappingFile');
+      
+      if (isMultiMode) {
+        configDiv.style.display = 'block';
+        singleMappingInput.disabled = true;
+        singleMappingInput.style.opacity = '0.5';
+        singleMappingInput.parentElement.querySelector('label').style.opacity = '0.5';
+      } else {
+        configDiv.style.display = 'none';
+        singleMappingInput.disabled = false;
+        singleMappingInput.style.opacity = '1';
+        singleMappingInput.parentElement.querySelector('label').style.opacity = '1';
+      }
+    });
+
+    // How-to guide content
+    var howtoContent = [
+      {
+        title: "Getting Started",
+        icon: "fa-play-circle",
+        content: [
+          "1. Select your input data file (CSV or TXT)",
+          "2. Select your mapping CSV file with transformation rules",
+          "3. Choose file type (Delimited or Fixed-Length)",
+          "4. Set delimiter and skip rows if needed",
+          "5. Click 'Preview Files' to validate",
+          "6. Choose generation type (Dynamic or Static)",
+          "7. Click 'Generate Mapper JS + Output CSV'"
+        ]
+      },
+      {
+        title: "File Requirements",
+        icon: "fa-file-alt",
+        content: [
+          "Input Data: CSV or TXT files with delimited data",
+          "Mapping File: CSV with columns: Target Field Name, Input Column Number, Mapping Logic, Required",
+          "Supported Delimiters: Comma, Pipe, Semicolon, Tab, Colon, Space, Tilde, Caret",
+          "Skip Rows: Number of header rows to ignore in input file"
+        ]
+      },
+      {
+        title: "Generation Types",
+        icon: "fa-cogs",
+        content: [
+          "Dynamic Mode: Creates universal mapper that requires mapping CSV at runtime (for IPA)",
+          "Static Mode: Creates self-contained mapper with embedded rules (standalone)",
+          "Dynamic: Best for production systems with changing mapping rules",
+          "Static: Best for one-time conversions or embedded applications"
+        ]
+      },
+      {
+        title: "Mapping Logic Examples",
+        icon: "fa-code",
+        content: [
+          "Direct Column: Leave Mapping Logic blank, set Input Column Number",
+          "Hardcoded Value: Hardcode 'AHF'",
+          "String Functions: Left(Column1, 6), Right(Column2, 3), Trim(Column3)",
+          "Conditionals: If Column1 == 'A' Then 'Active' Else 'Inactive'",
+          "Date Formatting: DateReformat(Column4, 'MMDDYYYY', 'YYYYMMDD')",
+          "Math Operations: Sum(Column1, Column2), Increment By 1"
+        ]
+      },
+      {
+        title: "Common Issues & Solutions",
+        icon: "fa-exclamation-triangle",
+        content: [
+          "Delimiter Not Found: Ensure selected delimiter exists in both files",
+          "Missing Columns: Check Input Column Number matches actual data columns",
+          "Required Field Errors: Mark Required=Y only for mandatory fields",
+          "Date Format Issues: Use DateReformat function for date conversions",
+          "Logic Conflicts: Don't use both Input Column Number AND Mapping Logic"
+        ]
+      },
+      {
+        title: "Best Practices",
+        icon: "fa-lightbulb",
+        content: [
+          "Test with small data samples first",
+          "Use Preview Files to validate before generation",
+          "Keep mapping logic simple and readable",
+          "Document complex transformations in mapping CSV",
+          "Use Static mode for better performance in standalone apps",
+          "Use Dynamic mode for flexible production systems"
+        ]
+      }
+    ];
+    
+    // Reference data
+    var referenceData = {
+      basic: [
+        ['Column1', 'Direct column mapping', 'Column1', 'Value from column 1'],
+        ["'Static Value'", 'Use literal text in quotes', "'Hello'", 'Hello'],
+        ["Hardcode 'value'", 'Explicit static value', "Hardcode '1'", '1'],
+        ['Increment By 1', 'Auto-increment counter', 'Increment By 1', '1, 2, 3...'],
+        ['Today()', 'Current date', 'Today()', '1/15/2025'],
+        ['Now()', 'Current timestamp', 'Now()', '1/15/2025, 2:30:45 PM']
+      ],
+      string: [
+        ['RemoveLeadingZeroes(ColumnN)', 'Remove leading zeros', 'RemoveLeadingZeroes(Column1)', '00123 → 123'],
+        ['RemoveTrailingSpaces(ColumnN)', 'Remove trailing spaces', 'RemoveTrailingSpaces(Column1)', 'Hello   → Hello'],
+        ['Trim(ColumnN)', 'Remove leading/trailing whitespace', 'Trim(Column1)', '  Hello  → Hello'],
+        ['Concat(Column1, Column2, ...)', 'Concatenate columns', 'Concat(Column1, Column2)', 'John + Doe → JohnDoe'],
+        ['Substring(ColumnN, start, length)', 'Extract substring', 'Substring(Column1, 1, 3)', 'Hello → Hel'],
+        ['Uppercase(ColumnN)', 'Convert to uppercase', 'Uppercase(Column1)', 'hello → HELLO'],
+        ['Lowercase(ColumnN)', 'Convert to lowercase', 'Lowercase(Column1)', 'HELLO → hello'],
+        ['Left(ColumnN, length)', 'Extract leftmost characters', 'Left(Column5,6)', 'Hello123 → Hello1'],
+        ['Right(ColumnN, length)', 'Extract rightmost characters', 'Right(Column4,5)', 'Hello123 → o123'],
+        ['Replace(ColumnN, \'old\', \'new\')', 'Replace text patterns', 'Replace(Column1, \'o\', \'a\')', 'Hello → Hella'],
+        ['PadLeft(ColumnN, length, \'char\')', 'Left pad with character', 'PadLeft(Column1, 5, \'0\')', '123 → 00123'],
+        ['PadRight(ColumnN, length, \'char\')', 'Right pad with character', 'PadRight(Column1, 5, \'0\')', '123 → 12300'],
+        ['AddLeft(ColumnN, \'char\', count)', 'Add character N times to start', 'AddLeft(Column1, \'0\', 2)', '123 → 00123'],
+        ['AddRight(ColumnN, \'char\', count)', 'Add character N times to end', 'AddRight(Column1, \'0\', 2)', '123 → 12300'],
+        ['DateReformat(ColumnN, \'input\', \'output\')', 'Reformat date strings', 'DateReformat(Column18,\'MMDDYYYY\',\'YYYYMMDD\')', '10252025 → 20251025']
+      ],
+      math: [
+        ['Sum(Column1, Column2, ...)', 'Add multiple numeric fields', 'Sum(Column1, Column2)', '10 + 20 → 30'],
+        ['Multiply(Column1, Column2)', 'Multiply values', 'Multiply(Column1, Column2)', '10 * 3 → 30'],
+        ['Divide(Column1, Column2)', 'Divide values', 'Divide(Column1, Column2)', '20 / 4 → 5'],
+        ['Round(ColumnN, decimals)', 'Round to decimal places', 'Round(Column1, 2)', '3.14159 → 3.14'],
+        ['Abs(ColumnN)', 'Absolute value', 'Abs(Column1)', '-5 → 5'],
+        ['Max(Column1, Column2, ...)', 'Maximum value', 'Max(Column1, Column2)', 'Max(10, 20) → 20'],
+        ['Min(Column1, Column2, ...)', 'Minimum value', 'Min(Column1, Column2)', 'Min(10, 20) → 10']
+      ],
+      conditional: [
+        ['If Column1 == \'value\' Then \'result\'', 'Simple conditional', 'If Column6 == \'\' Then \'TC\' Else Column6', 'Empty → TC, Value → Value'],
+        ['If Column1 != \'value\' Then Column2', 'Not equal condition', 'If Column15 == \'\' Then \'GL\' Else Column15', 'Empty → GL, Value → Value'],
+        ['If Column1 > 5 Then \'result\'', 'Numeric comparison', 'If Column1 > 5 Then \'High\'', '10 → High'],
+        ['If...ElseIf...Else', 'Multiple conditions', 'If Column1 == \'A\' Then \'Active\' ElseIf Column1 == \'I\' Then \'Inactive\' Else \'Unknown\'', 'A → Active, I → Inactive'],
+        ['If Function(...) != \'value\' Then result', 'Function in condition', 'If Left(Column1, 1) == \'G\' Then \'General\'', 'General → General'],
+        ['IsEmpty(ColumnN)', 'Check if empty', 'IsEmpty(Column1)', 'Empty → true, Value → false'],
+        ['IsNumeric(ColumnN)', 'Check if numeric', 'IsNumeric(Column1)', '123 → true, ABC → false']
+      ],
+      validation: [
+        ['ValidateLength(ColumnN, min, max)', 'Validate string length', 'ValidateLength(Column1, 5, 10)', 'Checks if length is 5-10 chars'],
+        ['ValidateRange(ColumnN, min, max)', 'Validate numeric range', 'ValidateRange(Column1, 1, 100)', 'Checks if number is 1-100'],
+        ['ValidateFormat(ColumnN, \'type\')', 'Validate format', 'ValidateFormat(Column1, \'email\')', 'Checks email format']
+      ],
+      errors: [
+        ['Required Field Validation', 'Fields marked Y must have values', 'Required=Y', 'Validates non-empty values'],
+        ['Numeric Validation', 'Sum rejects non-numeric values', 'Sum(Column1, Column2)', 'Rejects "2s00", "abc"'],
+        ['CSV Parsing Errors', 'Handles quoted fields properly', 'Quoted fields', 'Processes "Smith, John" correctly'],
+        ['Missing Logic', 'Fields without logic default to null', 'Empty MappingLogic', 'Returns null value'],
+        ['Length Validation', 'ValidateLength checks min/max', 'ValidateLength errors', 'String too short/long'],
+        ['Range Validation', 'ValidateRange checks numeric limits', 'ValidateRange errors', 'Number out of range'],
+        ['Format Validation', 'ValidateFormat checks patterns', 'ValidateFormat errors', 'Invalid email/phone/date'],
+        ['Column Reference Errors', 'safeGet validates column exists', 'Missing columns', 'Column N missing for field']
+      ]
+    };
+    
+    function renderReferenceTable(category) {
+      var data = referenceData[category] || [];
+      var html = '<table style="width: 100%; border-collapse: collapse; margin-top: 16px;">';
+      html += '<thead><tr>';
+      html += '<th style="background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); color: #374151; font-weight: 600; padding: 12px 16px; border: 1px solid #e5e7eb;">Function</th>';
+      html += '<th style="background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); color: #374151; font-weight: 600; padding: 12px 16px; border: 1px solid #e5e7eb;">Description</th>';
+      html += '<th style="background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); color: #374151; font-weight: 600; padding: 12px 16px; border: 1px solid #e5e7eb;">Syntax</th>';
+      html += '<th style="background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); color: #374151; font-weight: 600; padding: 12px 16px; border: 1px solid #e5e7eb;">Example</th>';
+      html += '</tr></thead><tbody>';
+      
+      data.forEach(function(row, index) {
+        var bgColor = index % 2 === 0 ? '#ffffff' : '#f9fafb';
+        html += '<tr>';
+        html += '<td style="background: ' + bgColor + '; padding: 12px 16px; border: 1px solid #e5e7eb; font-family: monospace; font-weight: 600;">' + row[0] + '</td>';
+        html += '<td style="background: ' + bgColor + '; padding: 12px 16px; border: 1px solid #e5e7eb;">' + row[1] + '</td>';
+        html += '<td style="background: ' + bgColor + '; padding: 12px 16px; border: 1px solid #e5e7eb; font-family: monospace;">' + row[2] + '</td>';
+        html += '<td style="background: ' + bgColor + '; padding: 12px 16px; border: 1px solid #e5e7eb; font-family: monospace; color: #059669;">' + row[3] + '</td>';
+        html += '</tr>';
+      });
+      
+      html += '</tbody></table>';
+      document.getElementById('referenceTable').innerHTML = html;
+    }
+    
+    function renderHowToGuide() {
+      var html = '';
+      
+      howtoContent.forEach(function(section) {
+        html += '<div style="margin-bottom: 20px; padding: 16px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">';
+        html += '<h4 style="margin: 0 0 10px 0; color: #374151; display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600;">';
+        html += '<i class="fas ' + section.icon + '" style="color: #0ea5e9; font-size: 12px;"></i>' + section.title + '</h4>';
+        html += '<ul style="margin: 0; padding-left: 14px; line-height: 1.4;">';
+        
+        section.content.forEach(function(item) {
+          html += '<li style="margin-bottom: 4px; color: #4b5563; font-size: 12px;">' + item + '</li>';
+        });
+        
+        html += '</ul></div>';
+      });
+      
+      document.getElementById('howtoGuide').innerHTML = html;
+    }
+    
+    // Reference dropdown functionality
+    document.getElementById('referenceView').addEventListener('change', function() {
+      renderReferenceTable(this.value);
+    });
+    
+    // Initialize reference content
+    renderHowToGuide();
+    renderReferenceTable('basic');
+    
+
+
+    // Download buttons
+    document.getElementById('downloadJsBtn').onclick = function() {
+      var blob = new Blob([document.getElementById('output').value], { type: 'text/javascript' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'mapping.js';
+      a.click();
+    };
+    document.getElementById('downloadCsvBtn').onclick = function() {
+      var blob = new Blob([document.getElementById('mappedData').value], { type: 'text/csv' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'mapped_data.csv';
+      a.click();
+    };
+    
+
+    // CSV mapping file conversion functionality
+    var convertedMappingData = [];
+    
+    // Mapping Table Converter - Disabled (Work In Progress)
+    // document.getElementById('csvFile').addEventListener('change', function() {
+    //   var file = this.files[0];
+    //   if (file) {
+    //     document.getElementById('convertBtn').disabled = false;
+    //   } else {
+    //     document.getElementById('convertBtn').disabled = true;
+    //   }
+    // });
+    
+    // document.getElementById('convertBtn').addEventListener('click', function() {
+    //   var file = document.getElementById('csvFile').files[0];
+    //   if (!file) return alert('Please select a CSV file.');
+    //   
+    //   showConversionStatus('Processing CSV file...', 'loading');
+    //   document.getElementById('csvTableOverlay').style.display = 'flex';
+    //   
+    //   var reader = new FileReader();
+    //   reader.onload = function(e) {
+    //     try {
+    //       convertMappingCSV(e.target.result);
+    //     } catch (error) {
+    //       showConversionStatus('Error reading CSV file: ' + error.message, 'error');
+    //       document.getElementById('csvTableOverlay').style.display = 'none';
+    //     }
+    //   };
+    //   reader.readAsText(file);
+    // });
+    
+    function showConversionStatus(message, type) {
+      var statusDiv = document.getElementById('conversionStatus');
+      var iconClass = type === 'success' ? 'fa-check-circle' : 
+                     type === 'warning' ? 'fa-exclamation-triangle' : 
+                     type === 'error' ? 'fa-times-circle' : 'fa-spinner fa-spin';
+      
+      statusDiv.innerHTML = '<div class="extraction-status status-' + type + '">' +
+        '<i class="fas ' + iconClass + '"></i>' + message + '</div>';
+      statusDiv.style.display = 'block';
+      
+      if (type !== 'loading') {
+        setTimeout(function() {
+          statusDiv.style.display = 'none';
+        }, 5000);
+      }
+    }
+    
+    function extractMappingTableFromWord(arrayBuffer) {
+      // Load mammoth.js library dynamically
+      if (typeof mammoth === 'undefined') {
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js';
+        script.onload = function() {
+          processWordDocument(arrayBuffer);
+        };
+        document.head.appendChild(script);
+      } else {
+        processWordDocument(arrayBuffer);
+      }
+    }
+    
+    function convertMappingCSV(csvText) {
+      try {
+        var rows = parseCSV(csvText, ',');
+        document.getElementById('csvTableOverlay').style.display = 'none';
+        
+        if (rows.length < 2) {
+          showConversionStatus('CSV file appears to be empty or invalid', 'error');
+          return;
+        }
+        
+        var convertedTable = analyzeAndConvertCSV(rows);
+        
+        if (convertedTable.length > 0) {
+          convertedMappingData = convertedTable;
+          renderOriginalTable(rows);
+          renderConvertedTable(convertedTable);
+          showOriginalTableStats(rows);
+          showCSVTableStats(convertedTable);
+          document.getElementById('csvPreviewSection').style.display = 'block';
+          document.getElementById('downloadConvertedBtn').style.display = 'inline-block';
+          
+          var rowCount = convertedTable.length - 1;
+          showConversionStatus('Successfully converted ' + rowCount + ' field mappings', 'success');
+        } else {
+          showConversionStatus('Could not identify mapping structure in CSV', 'warning');
+        }
+      } catch (error) {
+        document.getElementById('csvTableOverlay').style.display = 'none';
+        showConversionStatus('Error processing CSV: ' + error.message, 'error');
+      }
+    }
+    
+    function renderOriginalTable(data) {
+      if (data.length === 0) return;
+      
+      var html = '<table style="width: 100%; border-collapse: collapse; font-size: 11px;">';
+      
+      html += '<thead><tr>';
+      data[0].forEach(function(header) {
+        html += '<th style="background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%); color: #6b7280; font-weight: 600; padding: 8px 12px; border: 1px solid #e5e7eb;">' + header + '</th>';
+      });
+      html += '</tr></thead><tbody>';
+      
+      for (var i = 1; i < Math.min(data.length, 11); i++) {
+        var bgColor = i % 2 === 0 ? '#fafafa' : '#ffffff';
+        html += '<tr>';
+        data[i].forEach(function(cell) {
+          var cellContent = (cell || '').substring(0, 30);
+          if (cell && cell.length > 30) cellContent += '...';
+          html += '<td style="background: ' + bgColor + '; padding: 8px 12px; border: 1px solid #e5e7eb; max-width: 120px; overflow: hidden; text-overflow: ellipsis;" title="' + (cell || '') + '">' + cellContent + '</td>';
+        });
+        html += '</tr>';
+      }
+      
+      if (data.length > 11) {
+        html += '<tr><td colspan="' + data[0].length + '" style="text-align: center; padding: 8px; color: #6b7280; font-style: italic;">... and ' + (data.length - 11) + ' more rows</td></tr>';
+      }
+      
+      html += '</tbody></table>';
+      document.getElementById('originalTablePreview').innerHTML = html;
+    }
+    
+    function analyzeAndConvertCSV(rows) {
+      var headers = rows[0];
+      var standardHeaders = ['Target Field Name', 'Input Column Number', 'Mapping Logic', 'Required'];
+      var convertedRows = [standardHeaders];
+      
+      // Find relevant columns
+      var targetCol = findColumn(headers, ['target', 'field', 'name']);
+      var sourceCol = findColumn(headers, ['input', 'source', 'column']);
+      var remarksCol = findColumn(headers, ['remarks', 'logic', 'transformation']);
+      var requiredCol = findColumn(headers, ['required', 'mandatory']);
+      
+      for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        if (!row || row.length === 0 || !row[targetCol]) continue;
+        
+        var targetField = row[targetCol] || '';
+        var sourceField = row[sourceCol] || '';
+        var remarks = row[remarksCol] || '';
+        var required = row[requiredCol] || 'N';
+        
+        // Extract mapping logic from source and remarks
+        var mappingLogic = extractMappingLogic(sourceField, remarks);
+        var inputColumn = extractInputColumn(sourceField, remarks);
+        
+        convertedRows.push([
+          targetField,
+          inputColumn,
+          mappingLogic,
+          required.toUpperCase() === 'Y' ? 'Y' : 'N'
+        ]);
+      }
+      
+      return convertedRows;
+    }
+    
+    function findColumn(headers, keywords) {
+      for (var i = 0; i < headers.length; i++) {
+        var header = headers[i].toLowerCase();
+        for (var j = 0; j < keywords.length; j++) {
+          if (header.indexOf(keywords[j]) !== -1) {
+            return i;
+          }
+        }
+      }
+      return 0;
+    }
+    
+    function extractMappingLogic(sourceField, remarks) {
+      var combined = (sourceField + ' ' + remarks).toLowerCase();
+      
+      // Handle hardcoded values
+      if (/hardcode[d]?\s*=\s*([^,\n]+)/i.test(combined)) {
+        var match = combined.match(/hardcode[d]?\s*=\s*([^,\n]+)/i);
+        return "Hardcode '" + match[1].trim() + "'";
+      }
+      if (/hardcode|hardcoded/.test(combined) && sourceField && !/column/.test(sourceField.toLowerCase())) {
+        return "Hardcode '" + sourceField + "'";
+      }
+      
+      // Handle increment patterns
+      if (/increment by 1|sequence|starts 1 with increment/.test(combined)) {
+        return 'Increment By 1';
+      }
+      
+      // Handle string transformations
+      if (/remove leading zero/.test(combined)) {
+        return 'RemoveLeadingZeroes(Column1)';
+      }
+      if (/truncate to (\d+)/.test(combined)) {
+        var match = combined.match(/truncate to (\d+)/);
+        return match ? 'Left(Column1, ' + match[1] + ')' : '';
+      }
+      if (/first \d+ digit/.test(combined)) {
+        var match = combined.match(/first (\d+) digit/);
+        return match ? 'Left(Column1, ' + match[1] + ')' : '';
+      }
+      if (/last \d+ digit/.test(combined)) {
+        var match = combined.match(/last (\d+) digit/);
+        return match ? 'Right(Column1, ' + match[1] + ')' : '';
+      }
+      
+      // Handle conditional logic
+      if (/if blank[,\s]*default to ([^,\n]+)/i.test(combined)) {
+        var match = combined.match(/if blank[,\s]*default to ([^,\n]+)/i);
+        return "If Column1 == '' Then '" + match[1].trim() + "' Else Column1";
+      }
+      
+      // Handle date formats
+      if (/mm\/dd\/yyyy/.test(combined)) {
+        return "DateReformat(Column1, 'MMDDYYYY', 'YYYYMMDD')";
+      }
+      if (/yyyymmdd/.test(combined)) {
+        return "DateReformat(Column1, 'MMDDYYYY', 'YYYYMMDD')";
+      }
+      
+      // Handle run group patterns
+      if (/prefmmddyy|venyyyy/.test(combined)) {
+        return "Today('YYYYMMDD') + 'PREF'";
+      }
+      
+      return '';
+    }
+    
+    function extractInputColumn(sourceField, remarks) {
+      var combined = sourceField + ' ' + remarks;
+      
+      // Handle column letter references (Column A, Column B, etc.)
+      var columnMatch = combined.match(/column\s*([a-z])/i);
+      if (columnMatch) {
+        var colLetter = columnMatch[1].toUpperCase();
+        return (colLetter.charCodeAt(0) - 64).toString();
+      }
+      
+      // Handle negative column references (-1, -2, etc.)
+      var negativeMatch = combined.match(/-([0-9]+)/);
+      if (negativeMatch) {
+        return negativeMatch[1];
+      }
+      
+      // Handle H. and L. prefixes (header/line records)
+      var prefixMatch = combined.match(/[hl]\.[^,\s]+/i);
+      if (prefixMatch) {
+        // Extract field name and map to column number based on position
+        return '1'; // Default to column 1 for now
+      }
+      
+      return '';
+    }
+    
+    function showCSVTableStats(tableData) {
+      if (tableData.length < 2) return;
+      
+      var rowCount = tableData.length - 1;
+      var colCount = tableData[0].length;
+      
+      var statsHtml = '<div class="stat-item"><i class="fas fa-table"></i>' + rowCount + ' rows</div>' +
+                     '<div class="stat-item"><i class="fas fa-columns"></i>' + colCount + ' columns</div>';
+      
+      document.getElementById('csvTableStats').innerHTML = statsHtml;
+      document.getElementById('csvTableStats').style.display = 'flex';
+    }
+    
+    function showOriginalTableStats(tableData) {
+      if (tableData.length < 2) return;
+      
+      var rowCount = tableData.length - 1;
+      var colCount = tableData[0].length;
+      
+      var statsHtml = '<div class="stat-item"><i class="fas fa-table"></i>' + rowCount + ' rows</div>' +
+                     '<div class="stat-item"><i class="fas fa-columns"></i>' + colCount + ' columns</div>';
+      
+      document.getElementById('originalTableStats').innerHTML = statsHtml;
+      document.getElementById('originalTableStats').style.display = 'flex';
+    }
+    
+    function findMappingTable(text) {
+      var lines = text.split('\n');
+      var mappingSection = false;
+      var tableData = [];
+      var headers = [];
+      var sectionStarted = false;
+      var potentialTables = [];
+      var mappingSectionStart = -1;
+      
+      // Enhanced section detection patterns
+      var sectionPatterns = [
+        /field\s*mapping|mapping\s*table|data\s*mapping|field\s*specifications|mapping\s*specifications/i,
+        /transformation\s*rules|mapping\s*rules|field\s*definitions|data\s*transformation/i,
+        /source\s*to\s*target|input\s*output\s*mapping|column\s*mapping/i
+      ];
+      
+      // Enhanced header detection patterns
+      var headerPatterns = [
+        /target.*field.*name|source.*field|field.*name.*target|input.*column|output.*field/i,
+        /destination.*field|from.*field|to.*field|mapping.*logic|transformation/i,
+        /column.*number|field.*type|data.*type|required|mandatory/i
+      ];
+      
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        
+        // Look for Field Mapping section with enhanced patterns
+        if (sectionPatterns.some(function(pattern) { return pattern.test(line); })) {
+          mappingSection = true;
+          sectionStarted = true;
+          mappingSectionStart = i;
+          continue;
+        }
+        
+        // Also look for table headers that might indicate a mapping table
+        if (!mappingSection && headerPatterns.some(function(pattern) { return pattern.test(line); })) {
+          mappingSection = true;
+          sectionStarted = true;
+          i--; // Process this line as potential header
+          continue;
+        }
+        
+        // Enhanced section boundary detection
+        if (mappingSection && sectionStarted && tableData.length > 0) {
+          if (isNewSection(line) && !containsMappingKeywords(line)) {
+            break;
+          }
+        }
+        
+        if (mappingSection && line) {
+          // Enhanced header detection
+          if (!headers.length && isTableHeader(line)) {
+            headers = parseTableRow(line);
+            if (headers.length > 1) {
+              headers = normalizeHeaders(headers);
+              tableData.push(headers);
+            }
+          }
+          // Enhanced row parsing with validation
+          else if (headers.length > 0) {
+            var row = parseTableRow(line);
+            if (isValidTableRow(row, headers)) {
+              while (row.length < headers.length) row.push('');
+              tableData.push(row.slice(0, headers.length));
+            }
+          }
+          // Collect potential table structures for fallback
+          else {
+            var potentialRow = parseTableRow(line);
+            if (potentialRow.length > 2) {
+              potentialTables.push(potentialRow);
+            }
+          }
+        }
+      }
+      
+      // If no table found in main section, search sub-headings
+      if (tableData.length < 2 && mappingSectionStart >= 0) {
+        tableData = searchSubHeadings(lines, mappingSectionStart);
+      }
+      
+      // Enhanced fallback logic
+      if (tableData.length < 2) {
+        var extractedTable = extractAlternativeFormats(text, potentialTables);
+        if (extractedTable.length > 0) return extractedTable;
+        return extractKeyValueMappings(text);
+      }
+      
+      return tableData;
+    }
+    
+    function searchSubHeadings(lines, startIndex) {
+      var tableData = [];
+      var inSubSection = false;
+      var headers = [];
+      
+      for (var i = startIndex + 1; i < lines.length; i++) {
+        var line = lines[i].trim();
+        
+        // Look for sub-headings (numbered sections, bullet points, etc.)
+        if (/^\d+\.\d+|^[a-z]\)|^\*|^-|^•/.test(line) || /^[A-Z][a-z]+\s+[A-Z]/.test(line)) {
+          inSubSection = true;
+          headers = [];
+          continue;
+        }
+        
+        // Stop at next major section
+        if (/^\d+\s+[A-Z]|^[A-Z]{2,}\s*:/.test(line) && !/field|mapping|table/i.test(line)) {
+          break;
+        }
+        
+        if (inSubSection && line) {
+          if (!headers.length && isTableHeader(line)) {
+            headers = parseTableRow(line);
+            if (headers.length > 1) {
+              headers = normalizeHeaders(headers);
+              tableData.push(headers);
+            }
+          } else if (headers.length > 0) {
+            var row = parseTableRow(line);
+            if (isValidTableRow(row, headers)) {
+              while (row.length < headers.length) row.push('');
+              tableData.push(row.slice(0, headers.length));
+            }
+          }
+        }
+      }
+      
+      return tableData;
+    }
+    
+    function isNewSection(line) {
+      return /^\d+\.\d+\s+[A-Z]|^[A-Z][a-z]+\s+[A-Z][a-z]+\s+[A-Z]|^\d+\s+[A-Z][A-Z]|^[A-Z]{2,}\s*:/.test(line);
+    }
+    
+    function containsMappingKeywords(line) {
+      return /target|source|field|column|mapping|logic|required|type|format|length|transformation/i.test(line);
+    }
+    
+    function isTableHeader(line) {
+      var headerKeywords = ['target', 'source', 'field', 'column', 'mapping', 'logic', 'required', 'type', 'input', 'output'];
+      var keywordCount = headerKeywords.filter(function(keyword) {
+        return new RegExp(keyword, 'i').test(line);
+      }).length;
+      return keywordCount >= 2;
+    }
+    
+    function isValidTableRow(row, headers) {
+      if (row.length === 0) return false;
+      var nonEmptyCount = row.filter(function(cell) { return cell.trim().length > 0; }).length;
+      return nonEmptyCount >= Math.min(2, headers.length * 0.3);
+    }
+    
+    function extractAlternativeFormats(text, potentialTables) {
+      // Try to find consistent table structures
+      if (potentialTables.length > 3) {
+        var columnCounts = {};
+        potentialTables.forEach(function(row) {
+          var count = row.length;
+          columnCounts[count] = (columnCounts[count] || 0) + 1;
+        });
+        
+        var mostCommonCount = Object.keys(columnCounts).reduce(function(a, b) {
+          return columnCounts[a] > columnCounts[b] ? a : b;
+        });
+        
+        if (columnCounts[mostCommonCount] >= 3) {
+          var consistentRows = potentialTables.filter(function(row) {
+            return row.length == mostCommonCount;
+          });
+          
+          if (consistentRows.length > 0) {
+            var headers = generateDefaultHeaders(parseInt(mostCommonCount));
+            return [headers].concat(consistentRows.slice(0, 10)); // Limit to first 10 rows
+          }
+        }
+      }
+      return [];
+    }
+    
+    function generateDefaultHeaders(count) {
+      var defaultHeaders = ['Target Field Name', 'Source Field', 'Input Column Number', 'Mapping Logic', 'Required', 'Data Type', 'Description'];
+      return defaultHeaders.slice(0, count);
+    }
+    
+    function normalizeHeaders(headers) {
+      return headers.map(function(header) {
+        var h = header.toLowerCase().trim();
+        if (/target.*field|field.*name|output.*field/i.test(h)) return 'Target Field Name';
+        if (/source.*field|input.*field|source.*column/i.test(h)) return 'Source Field';
+        if (/column.*number|input.*column.*number|source.*column.*number/i.test(h)) return 'Input Column Number';
+        if (/mapping.*logic|transformation|logic|formula/i.test(h)) return 'Mapping Logic';
+        if (/required|mandatory/i.test(h)) return 'Required';
+        if (/data.*type|type|format/i.test(h)) return 'Data Type';
+        if (/length|size/i.test(h)) return 'Length';
+        if (/description|comment|note/i.test(h)) return 'Description';
+        return header; // Keep original if no match
+      });
+    }
+    
+    function parseTableRow(line) {
+      var cells = [];
+      var originalLine = line;
+      
+      // Enhanced delimiter detection with priority order
+      var delimiters = [
+        { pattern: /\t/, splitter: '\t', name: 'tab' },
+        { pattern: /\|/, splitter: '|', name: 'pipe' },
+        { pattern: /;/, splitter: ';', name: 'semicolon' },
+        { pattern: /\s{3,}/, splitter: /\s{3,}/, name: 'spaces' },
+        { pattern: /,(?=\s*[A-Za-z])/, splitter: ',', name: 'comma' }
+      ];
+      
+      // Try each delimiter in order
+      for (var i = 0; i < delimiters.length; i++) {
+        var delimiter = delimiters[i];
+        if (delimiter.pattern.test(line)) {
+          cells = line.split(delimiter.splitter);
+          if (cells.length > 1) break;
+        }
+      }
+      
+      // Enhanced pattern-based splitting for complex formats
+      if (cells.length <= 1) {
+        // Try to detect structured content with mixed patterns
+        if (/\w+\s+\w+\s+\w+/.test(line)) {
+          // Look for word boundaries with specific patterns
+          var patterns = [
+            /\s+(?=[A-Z][a-z]+\s)/,  // Before capitalized words
+            /\s+(?=\d+\s)/,          // Before numbers
+            /\s+(?=[YN]\s*$)/i,      // Before Y/N at end
+            /\s+(?=Column\d+)/i,     // Before Column references
+            /(?<=\w)\s+(?=\w)/       // Between words (if supported)
+          ];
+          
+          for (var j = 0; j < patterns.length; j++) {
+            try {
+              var testCells = line.split(patterns[j]);
+              if (testCells.length > cells.length) {
+                cells = testCells;
+              }
+            } catch (e) {
+              // Skip unsupported regex patterns
+            }
+          }
+        }
+      }
+      
+      // Fallback: smart word splitting
+      if (cells.length <= 1 && line.length > 0) {
+        cells = smartWordSplit(line);
+      }
+      
+      // Clean and validate cells
+      return cells
+        .map(function(cell) { return cell.trim().replace(/^[|\s]+|[|\s]+$/g, ''); })
+        .filter(function(cell) { return cell.length > 0; })
+        .slice(0, 10); // Limit to reasonable number of columns
+    }
+    
+    function smartWordSplit(line) {
+      // Enhanced word splitting logic
+      var words = [];
+      var current = '';
+      var inQuotes = false;
+      var lastWasSpace = false;
+      
+      for (var i = 0; i < line.length; i++) {
+        var char = line[i];
+        var nextChar = line[i + 1];
+        
+        if (char === '"' || char === "'") {
+          inQuotes = !inQuotes;
+          current += char;
+        } else if (!inQuotes && char === ' ') {
+          if (!lastWasSpace && current.trim()) {
+            // Check if this might be a column boundary
+            if (nextChar && /[A-Z0-9]/.test(nextChar) && current.length > 2) {
+              words.push(current.trim());
+              current = '';
+            } else {
+              current += char;
+            }
+          }
+          lastWasSpace = true;
+        } else {
+          current += char;
+          lastWasSpace = false;
+        }
+      }
+      
+      if (current.trim()) {
+        words.push(current.trim());
+      }
+      
+      return words.length > 1 ? words : [line];
+    }
+    
+    function extractKeyValueMappings(text) {
+      var lines = text.split('\n');
+      var mappingSection = false;
+      var tableData = [['Target Field Name', 'Source Field', 'Mapping Logic', 'Required']];
+      
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        
+        if (/field\s*mapping/i.test(line)) {
+          mappingSection = true;
+          continue;
+        }
+        
+        if (mappingSection && line) {
+          // Look for field mappings in various formats
+          var mapping = extractFieldMapping(line);
+          if (mapping) {
+            tableData.push(mapping);
+          }
+        }
+      }
+      
+      return tableData.length > 1 ? tableData : [];
+    }
+    
+    function extractFieldMapping(line) {
+      // Pattern: "FieldName -> SourceField" or "FieldName: SourceField"
+      var match = line.match(/([^->:]+)\s*(?:->|:)\s*(.+)/i);
+      if (match) {
+        return [match[1].trim(), match[2].trim(), '', 'N'];
+      }
+      
+      // Pattern: "FieldName (Column1)" or "FieldName = Column1"
+      match = line.match(/([^(=]+)\s*(?:\(|=)\s*([^)]+)\)?/i);
+      if (match) {
+        return [match[1].trim(), '', match[2].trim(), 'N'];
+      }
+      
+      return null;
+    }
+    
+    function renderConvertedTable(data) {
+      if (data.length === 0) return;
+      
+      var html = '<table style="width: 100%; border-collapse: collapse;">';
+      
+      html += '<thead><tr>';
+      data[0].forEach(function(header, index) {
+        html += '<th style="background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); color: #374151; font-weight: 600; padding: 12px 16px; border: 1px solid #e5e7eb; position: relative; cursor: pointer;" onclick="sortConvertedTable(' + index + ')">' + 
+                header + '<i class="fas fa-sort" style="margin-left: 8px; opacity: 0.5;"></i></th>';
+      });
+      html += '</tr></thead><tbody>';
+      
+      for (var i = 1; i < data.length; i++) {
+        var bgColor = i % 2 === 0 ? '#f9fafb' : '#ffffff';
+        html += '<tr style="transition: all 0.2s ease;">';
+        data[i].forEach(function(cell, colIndex) {
+          var cellContent = cell || '';
+          var cellClass = '';
+          
+          if (colIndex === 0 && cellContent) cellClass = 'font-weight: 600;';
+          if (/^(Y|N)$/i.test(cellContent)) cellClass = 'text-align: center; font-weight: 600;';
+          if (/^\d+$/.test(cellContent)) cellClass = 'font-family: monospace; color: #059669;';
+          if (/^(Hardcode|Increment|RemoveLeading|Left|Right)/.test(cellContent)) cellClass = 'font-family: monospace; color: #7c2d12;';
+          
+          html += '<td style="background: ' + bgColor + '; padding: 12px 16px; border: 1px solid #e5e7eb; max-width: 200px; overflow: hidden; text-overflow: ellipsis; ' + cellClass + '" title="' + cellContent + '">' + cellContent + '</td>';
+        });
+        html += '</tr>';
+      }
+      
+      html += '</tbody></table>';
+      document.getElementById('convertedTablePreview').innerHTML = html;
+    }
+    
+    function sortConvertedTable(columnIndex) {
+      if (convertedMappingData.length < 2) return;
+      
+      var header = convertedMappingData[0];
+      var rows = convertedMappingData.slice(1);
+      
+      rows.sort(function(a, b) {
+        var aVal = (a[columnIndex] || '').toString().toLowerCase();
+        var bVal = (b[columnIndex] || '').toString().toLowerCase();
+        return aVal.localeCompare(bVal);
+      });
+      
+      convertedMappingData = [header].concat(rows);
+      renderConvertedTable(convertedMappingData);
+    }
+    
+    document.getElementById('downloadConvertedBtn').addEventListener('click', function() {
+      if (convertedMappingData.length === 0) return;
+      
+      var csvContent = convertedMappingData.map(function(row) {
+        return row.map(function(cell) {
+          var value = (cell || '').toString();
+          return /[",\n]/.test(value) ? '"' + value.replace(/"/g, '""') + '"' : value;
+        }).join(',');
+      }).join('\n');
+      
+      var blob = new Blob([csvContent], { type: 'text/csv' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'standard_mapping_table.csv';
+      a.click();
+    });
+
+    // Tab functionality
+    var tabs = document.querySelectorAll('.tab');
+    var contents = document.querySelectorAll('.tab-content');
+    
+    tabs.forEach(function(tab) {
+      tab.onclick = function() {
+        var target = this.getAttribute('data-tab');
+        tabs.forEach(function(t) { t.classList.remove('active'); });
+        contents.forEach(function(c) { c.classList.remove('active'); });
+        this.classList.add('active');
+        document.getElementById(target + '-content').classList.add('active');
+      };
+    });
+  </script>
+</body>
+</html>
