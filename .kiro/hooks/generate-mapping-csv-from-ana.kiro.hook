@@ -11,5 +11,5 @@
   },
   "workspaceFolderName": "MAPR",
   "shortName": "generate-mapping-csv-from-ana",
-  "description": "For better results, avoid the use of images in the Field Mapping section."
+  "description": "Input should be in .docx or .pdf format.\nMapping CSV file will be generated in /output/.\nFor better results, avoid the use of images in the Field Mapping section."
 }
