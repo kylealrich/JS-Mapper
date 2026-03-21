@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "enabled": true,
+  "name": "2. Mapping CSV from ANA",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "a"
+  },
+  "workspaceFolderName": "MAPR",
+  "shortName": "generate-mapping-csv-from-ana"
+}

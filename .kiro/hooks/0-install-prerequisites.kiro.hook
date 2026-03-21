@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "enabled": true,
+  "name": "0. Install Prerequisites",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "If the following doesn't exist in the system, download and install:\n1. Node.js\n2. Python"
+  },
+  "workspaceFolderName": "MAPR",
+  "shortName": "0-install-prerequisites"
+}

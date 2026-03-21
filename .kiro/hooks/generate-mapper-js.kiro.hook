@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "enabled": true,
-  "name": "Generate Mapper JS",
+  "name": "3. Generate Mapper JS",
   "when": {
     "type": "userTriggered"
   },

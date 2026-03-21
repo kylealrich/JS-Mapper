@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "enabled": true,
-  "name": "Show Reference Syntax",
+  "name": "1. Show Reference Syntax",
   "when": {
     "type": "userTriggered"
   },
@@ -9,6 +9,6 @@
     "type": "askAgent",
     "prompt": "Use powershell to open the file 'Function_Reference.html' in the root directory for the user using 'explorer.exe \"Function_Reference.html\"'. Trigger it only once and dont ask for verification."
   },
-  "workspaceFolderName": "JS-Mapper",
+  "workspaceFolderName": "MAPR",
   "shortName": "show-reference-syntax"
 }

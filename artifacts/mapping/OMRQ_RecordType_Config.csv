@@ -1,0 +1,5 @@
+Record Type,Type Indicator Position,Type Indicator Value,Mapping File,Parent Record Type,Output Name
+Header,1,H,OMRQ_Header_FixedLength_Mapping.csv,,Headers
+Line,1,L,OMRQ_Line_FixedLength_Mapping.csv,Header,LineItems
+Detail,1,D,OMRQ_Detail_FixedLength_Mapping.csv,Line,Details
+Comment,1,C,OMRQ_Comment_FixedLength_Mapping.csv,Header,Comments
