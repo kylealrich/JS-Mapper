@@ -1,7 +1,0 @@
-Field Name,Start,End,Length,Required,Mapping Logic,Pad Character,Justify,Default Value,Description
-Record Type,1,1,1,Y,,,,,D for Detail
-Requisition Number,2,14,13,Y,, ,right,,Requisition identifier
-Line Number,15,29,15,Y,, ,right,,Parent line item
-Detail Sequence,30,34,5,Y,, ,right,,Detail sequence number
-Detail Type,35,94,60,N,, ,left,,Type of detail information
-Detail Value,95,154,60,N,, ,left,,Detail value or description

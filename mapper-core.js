@@ -321,7 +321,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     parseCSV: parseCSV,
     transformData: transformData,
-    generateMapper: generateMapper,
-    applyLogic: applyLogic
+    applyLogic: applyLogic,
+    createDynamicMapper: createDynamicMapper
   };
 }

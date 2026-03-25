@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEAC_AP_20220219 Mapper - Generated Output Viewer</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+*,*::before,*::after{box-sizing:border-box}
+body{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:linear-gradient(rgba(248,250,252,0.9),rgba(248,250,252,0.9)),repeating-linear-gradient(0deg,transparent,transparent 19px,rgba(148,163,184,0.1) 20px),repeating-linear-gradient(90deg,transparent,transparent 19px,rgba(148,163,184,0.1) 20px),radial-gradient(circle at 20px 20px,rgba(59,130,246,0.15) 2px,transparent 2px),#f8fafc;background-size:40px 40px;color:#1f2937;margin:0;padding:20px;min-height:100vh}
+.container{background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.08),0 1px 3px rgba(0,0,0,0.1);padding:32px;max-width:1400px;margin:auto;border:1px solid #e5e7eb}
+h1{font-size:28px;font-weight:700;text-align:center;margin:0 0 4px 0;display:flex;align-items:center;justify-content:center;gap:12px}
+.title-text{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{text-align:center;color:#6b7280;font-size:14px;margin-bottom:20px}
+.gradient-divider{height:4px;background:linear-gradient(90deg,#1e3a8a 0%,#3730a3 25%,#5b21b6 50%,#7c2d12 75%,#1e40af 100%);border-radius:2px;margin-bottom:24px}
+.tab-nav{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;border-bottom:2px solid #e5e7eb;padding-bottom:12px}
+.tab-btn{padding:10px 20px;border-radius:8px 8px 0 0;border:1px solid #d1d5db;border-bottom:none;background:#f9fafb;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;color:#4b5563;display:flex;align-items:center;gap:8px}
+.tab-btn:hover{background:#f3f4f6;border-color:#9ca3af}
+.tab-btn.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-color:transparent}
+.tab-content{display:none}.tab-content.active{display:block}
+.code-container{background:#1e293b;border-radius:10px;overflow:hidden;margin-bottom:16px}
+.code-header{background:#334155;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #475569}
+.code-title{color:#e2e8f0;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.code-title .badge{background:#3b82f6;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px}
+.copy-btn{background:#475569;border:none;color:#e2e8f0;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px}
+.copy-btn:hover{background:#64748b}.copy-btn.copied{background:#10b981}
+.code-block{padding:16px;overflow-x:auto;max-height:600px;overflow-y:auto}
+.code-block pre{margin:0;font-family:"Fira Code","Cascadia Code","Consolas",monospace;font-size:13px;line-height:1.6;color:#e2e8f0;white-space:pre}
+.csv-container{overflow-x:auto;border:1px solid #e5e7eb;border-radius:10px}
+.csv-table{width:100%;border-collapse:collapse;font-size:12px}
+.csv-table th{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:10px 12px;text-align:left;font-weight:600;white-space:nowrap;position:sticky;top:0}
+.csv-table td{padding:8px 12px;border-bottom:1px solid #e5e7eb;white-space:nowrap}
+.csv-table tr:nth-child(even){background:#f9fafb}.csv-table tr:hover{background:#eff6ff}
+.stats-bar{display:flex;gap:20px;margin-bottom:16px;flex-wrap:wrap}
+.stat-item{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:8px;padding:12px 20px;display:flex;align-items:center;gap:10px}
+.stat-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.stat-value{font-size:20px;font-weight:700;color:#3730a3}.stat-label{font-size:12px;color:#6b7280}
+.download-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;margin-top:12px}
+.download-btn:hover{opacity:0.9;transform:translateY(-1px)}
+.csv-type-nav{display:flex;gap:8px;margin-bottom:12px}
+.csv-type-btn{padding:8px 16px;border-radius:6px;border:1px solid #d1d5db;background:#f9fafb;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;color:#4b5563}
+.csv-type-btn:hover{background:#f3f4f6}
+.csv-type-btn.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-color:transparent}
+.csv-sub{display:none}.csv-sub.active{display:block}
+</style>
+</head>
+<body>
+<div class="container">
+<h1><span style="font-size:28px">&#128640;</span> <span class="title-text">GEAC_AP_20220219 Mapper Output</span></h1>
+<p class="subtitle">Generated JavaScript Mappers and Transformed CSV Output (Multi-Record Fixed-Length)</p>
+<div class="gradient-divider"></div>
+<div class="stats-bar">
+<div class="stat-item"><div class="stat-icon">&#128196;</div><div><div class="stat-value">44</div><div class="stat-label">Lines Processed</div></div></div>
+<div class="stat-item"><div class="stat-icon">&#128203;</div><div><div class="stat-value">3</div><div class="stat-label">Record Types</div></div></div>
+<div class="stat-item"><div class="stat-icon">&#9989;</div><div><div class="stat-value">2</div><div class="stat-label">Mapper Types</div></div></div>
+</div>
+<div class="tab-nav">
+<button class="tab-btn active" onclick="showTab('runtime',this)"><span>&#9881;</span> Runtime Flexible JS</button>
+<button class="tab-btn" onclick="showTab('selfcontained',this)"><span>&#128230;</span> Self-Contained JS</button>
+<button class="tab-btn" onclick="showTab('csv',this)"><span>&#128200;</span> Mapped CSV Output</button>
+</div>
+<div id="runtime" class="tab-content active">
+<div class="code-container"><div class="code-header">
+<div class="code-title"><span>GEAC_AP_20220219_dynamic_mapper.js</span><span class="badge">ES5</span></div>
+<button class="copy-btn" onclick="copyCode('runtimeCode',this)">&#128203; Copy</button>
+</div><div class="code-block"><pre id="runtimeCode">// Multi-Record Fixed-Length Dynamic Mapper - Combined _CONFIG/_FIELD Format
+// Generated: 2026-03-25
+// Source: GEAC_AP_20220219.txt
+// Mapping: GEACGL_MultiRecord_Mapping.csv
+//
+// This mapper dynamically interprets a combined _CONFIG/_FIELD mapping CSV at runtime.
+// Supports multi-record-type fixed-length files with parent-child hierarchy.
+
+var incrementCounter = 0;
+
+// ============================================================================
+// CSV Parser
+// ============================================================================
+function parseCSV(text, delimiter) {
+  var lines = text.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
+  return lines.map(function(line) {
+    var result = [];
+    var current = '';
+    var inQuotes = false;
+    for (var i = 0; i &lt; line.length; i++) {
+      var char = line[i];
+      if (char === '&quot;') {
+        if (inQuotes &amp;&amp; line[i + 1] === '&quot;') {
+          current += '&quot;';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === delimiter &amp;&amp; !inQuotes) {
+        result.push(current);
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current);
+    return result;
+  });
+}
+
+// ============================================================================
+// Key Normalizer
+// ============================================================================
+function normalizeKey(key) {
+  return key.replace(/\s+/g, '').trim().toLowerCase();
+}
+
+// ============================================================================
+// Escape Regex Helper
+// ============================================================================
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&amp;');
+}
+
+// ============================================================================
+// Detect Record Type
+// ============================================================================
+function detectRecordType(line, recordTypes) {
+  var i, rt, pos, len, indicator;
+  // First pass: exact match
+  for (i = 0; i &lt; recordTypes.length; i++) {
+    rt = recordTypes[i];
+    pos = parseInt(rt.indicatorPosition) - 1;
+    len = parseInt(rt.indicatorLength);
+    indicator = line.substring(pos, pos + len);
+    if (indicator === rt.indicatorValue) {
+      return rt;
+    }
+  }
+  // Second pass: first-character fallback
+  for (i = 0; i &lt; recordTypes.length; i++) {
+    rt = recordTypes[i];
+    pos = parseInt(rt.indicatorPosition) - 1;
+    if (line.charAt(pos) === rt.indicatorValue.charAt(0)) {
+      return rt;
+    }
+  }
+  return null;
+}
+
+// ============================================================================
+// Extract Fixed-Length Fields
+// ============================================================================
+function extractFixedLengthFields(line, fields) {
+  var record = {};
+  for (var i = 0; i &lt; fields.length; i++) {
+    var f = fields[i];
+    var start = parseInt(f.start) - 1;
+    var end = parseInt(f.end);
+    var raw = line.substring(start, end);
+    var value = raw;
+    var justify = (f.justify || '').toLowerCase();
+    var padChar = f.padCharacter || '';
+
+    // Apply justify + pad character stripping
+    if (padChar !== '') {
+      var escapedPad = escapeRegex(padChar);
+      if (justify === 'right') {
+        // Right-justified: strip leading pad characters
+        value = value.replace(new RegExp('^' + escapedPad + '+'), '');
+      } else if (justify === 'left') {
+        // Left-justified: strip trailing pad characters
+        value = value.replace(new RegExp(escapedPad + '+$'), '');
+      }
+    } else {
+      value = value.trim();
+    }
+
+    // Apply default value if empty
+    if (value === '' &amp;&amp; f.defaultValue) {
+      value = f.defaultValue;
+    }
+
+    // Apply mapping logic if present
+    if (f.mappingLogic &amp;&amp; f.mappingLogic.trim()) {
+      value = applyFixedLengthLogic(f.mappingLogic, value, line, fields, record);
+    }
+
+    // Required field validation
+    if (f.required &amp;&amp; (!value || !value.toString().trim())) {
+      throw new Error('Required field &quot;' + f.fieldName + '&quot; is blank');
+    }
+
+    record[f.fieldName] = value;
+  }
+  return record;
+}
+
+// ============================================================================
+// Apply Fixed-Length Logic
+// ============================================================================
+function applyFixedLengthLogic(logic, value, line, fields, record) {
+  if (!logic) return value;
+  logic = logic.trim();
+
+  // RemoveLeadingZeroes
+  if (/^RemoveLeadingZeroes$/i.test(logic)) {
+    return value.replace(/^0+/, '') || '0';
+  }
+
+  // Trim
+  if (/^Trim$/i.test(logic)) {
+    return value.trim();
+  }
+
+  // Left(n)
+  if (/^Left\((\d+)\)$/i.test(logic)) {
+    var match = logic.match(/^Left\((\d+)\)$/i);
+    return value.substring(0, parseInt(match[1]));
+  }
+
+  // Right(n)
+  if (/^Right\((\d+)\)$/i.test(logic)) {
+    var match = logic.match(/^Right\((\d+)\)$/i);
+    return value.slice(-parseInt(match[1]));
+  }
+
+  // Uppercase
+  if (/^Uppercase$/i.test(logic)) {
+    return value.toUpperCase();
+  }
+
+  // Lowercase
+  if (/^Lowercase$/i.test(logic)) {
+    return value.toLowerCase();
+  }
+
+  // Hardcode
+  if (/^Hardcode\s+['&quot;](.*)['&quot;]$/i.test(logic)) {
+    var match = logic.match(/^Hardcode\s+['&quot;](.*)['&quot;]$/i);
+    return match[1];
+  }
+
+  // Increment By 1
+  if (/^Increment By 1$/i.test(logic)) {
+    incrementCounter++;
+    return incrementCounter.toString();
+  }
+
+  // DateReformat
+  if (/^DateReformat\(/i.test(logic)) {
+    var match = logic.match(/DateReformat\('([^']*)',\s*'([^']*)'\)/i);
+    if (match) {
+      var inputFormat = match[1].toUpperCase();
+      var outputFormat = match[2].toUpperCase();
+      if (inputFormat === 'MMDDYY' &amp;&amp; outputFormat === 'YYYYMMDD' &amp;&amp; value.length === 6) {
+        var mm = value.substring(0, 2);
+        var dd = value.substring(2, 4);
+        var yy = value.substring(4, 6);
+        var year = parseInt(yy) &gt; 50 ? '19' + yy : '20' + yy;
+        return year + mm + dd;
+      }
+      if (inputFormat === 'YYYYMMDD' &amp;&amp; outputFormat === 'MMDDYYYY' &amp;&amp; value.length === 8) {
+        return value.substring(4, 6) + value.substring(6, 8) + value.substring(0, 4);
+      }
+      if (inputFormat === 'MMDDYYYY' &amp;&amp; outputFormat === 'YYYYMMDD' &amp;&amp; value.length === 8) {
+        return value.substring(4, 8) + value.substring(0, 4);
+      }
+    }
+    return value;
+  }
+
+  // Static values in quotes
+  if (/^['&quot;].*['&quot;]$/.test(logic)) {
+    return logic.slice(1, -1);
+  }
+
+  return value;
+}
+
+// ============================================================================
+// Create Mapper from Combined _CONFIG/_FIELD CSV
+// ============================================================================
+function createMapper(configCSV) {
+  var rows = parseCSV(configCSV, ',');
+  var headers = rows[0].map(normalizeKey);
+  var recordTypes = [];
+  var fieldsByType = {};
+
+  for (var i = 1; i &lt; rows.length; i++) {
+    var obj = {};
+    for (var j = 0; j &lt; headers.length; j++) {
+      obj[headers[j]] = (rows[i][j] || '').trim();
+    }
+
+    var rowType = obj['rowtype'] || '';
+
+    if (rowType === '_CONFIG') {
+      var rt = {
+        name: obj['recordtype'] || '',
+        indicatorPosition: obj['typeindicatorposition'] || '1',
+        indicatorLength: obj['typeindicatorlength'] || '2',
+        indicatorValue: obj['typeindicatorvalue'] || '',
+        parentRecordType: obj['parentrecordtype'] || '',
+        outputName: obj['outputname'] || obj['recordtype'] || ''
+      };
+      recordTypes.push(rt);
+      fieldsByType[rt.name] = [];
+    } else if (rowType === '_FIELD') {
+      var recType = obj['recordtype'] || '';
+      if (!fieldsByType[recType]) {
+        fieldsByType[recType] = [];
+      }
+      fieldsByType[recType].push({
+        fieldName: obj['fieldname'] || '',
+        start: obj['start'] || '1',
+        end: obj['end'] || '1',
+        length: obj['length'] || '',
+        required: (obj['required'] || '').toUpperCase() === 'Y',
+        padCharacter: obj['padcharacter'] || '',
+        justify: obj['justify'] || '',
+        defaultValue: obj['defaultvalue'] || '',
+        mappingLogic: obj['mappinglogic'] || '',
+        description: obj['description'] || ''
+      });
+    }
+  }
+
+  // Build headers per record type
+  var headersByType = {};
+  for (var typeName in fieldsByType) {
+    if (fieldsByType.hasOwnProperty(typeName)) {
+      headersByType[typeName] = fieldsByType[typeName].map(function(f) { return f.fieldName; });
+    }
+  }
+
+  return {
+    recordTypes: recordTypes,
+    fieldsByType: fieldsByType,
+    headersByType: headersByType,
+    processLine: function(line, rowIndex) {
+      var rt = detectRecordType(line, recordTypes);
+      if (!rt) {
+        throw new Error('Unknown record type at line ' + (rowIndex + 1));
+      }
+      var fields = fieldsByType[rt.name] || [];
+      var record = extractFixedLengthFields(line, fields);
+      return { type: rt.name, outputName: rt.outputName, data: record };
+    }
+  };
+}
+
+// ============================================================================
+// IPA Usage Instructions
+// ============================================================================
+// Step 1: Create mapper from combined _CONFIG/_FIELD mapping CSV
+// var mapper = createMapper(readFile_mappingCSV);
+//
+// Step 2: Split input data into lines
+// var lines = readFile_inputData.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
+//
+// Step 3: Process each line with error handling
+// var resultsByType = {};
+// try {
+//   lines.forEach(function(line, index) {
+//     var result = mapper.processLine(line, index);
+//     if (!resultsByType[result.type]) {
+//       resultsByType[result.type] = { outputName: result.outputName, rows: [] };
+//     }
+//     resultsByType[result.type].rows.push(result.data);
+//   });
+// } catch (error) {
+//   ErrorMessage = error.message;
+// }
+//
+// Step 4: Convert to CSV per record type
+// for (var typeName in resultsByType) {
+//   var typeData = resultsByType[typeName];
+//   var typeHeaders = mapper.headersByType[typeName];
+//   var csvLines = [typeHeaders.join(',')];
+//   typeData.rows.forEach(function(r) {
+//     var row = typeHeaders.map(function(h) {
+//       var v = r[h] != null ? r[h].toString() : '';
+//       return /[&quot;,\n]/.test(v) ? '&quot;' + v.replace(/&quot;/g, '&quot;&quot;') + '&quot;' : v;
+//     });
+//     csvLines.push(row.join(','));
+//   });
+//   // Output CSV: GEAC_AP_20220219_{typeData.outputName}_Mapped.csv
+//   var outputCSV = csvLines.join('\n');
+// }
+</pre></div></div></div>
+<div id="selfcontained" class="tab-content">
+<div class="code-container"><div class="code-header">
+<div class="code-title"><span>GEAC_AP_20220219_static_mapper.js</span><span class="badge">ES5</span></div>
+<button class="copy-btn" onclick="copyCode('selfcontainedCode',this)">&#128203; Copy</button>
+</div><div class="code-block"><pre id="selfcontainedCode">// Multi-Record Fixed-Length Self-Contained Static Mapper
+// Generated: 2026-03-25
+// Source: GEAC_AP_20220219.txt
+// Mapping: GEACGL_MultiRecord_Mapping.csv
+//
+// This mapper has all record type detection and field extraction rules hardcoded.
+// No external mapping file is needed at runtime.
+
+var incrementCounter = 0;
+
+// ============================================================================
+// CSV Parser
+// ============================================================================
+function parseCSV(text, delimiter) {
+  var lines = text.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
+  return lines.map(function(line) {
+    var result = [];
+    var current = '';
+    var inQuotes = false;
+    for (var i = 0; i &lt; line.length; i++) {
+      var char = line[i];
+      if (char === '&quot;') {
+        if (inQuotes &amp;&amp; line[i + 1] === '&quot;') {
+          current += '&quot;';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === delimiter &amp;&amp; !inQuotes) {
+        result.push(current);
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current);
+    return result;
+  });
+}
+
+// ============================================================================
+// Escape Regex Helper
+// ============================================================================
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&amp;');
+}
+
+// ============================================================================
+// Per-Record-Type Headers
+// ============================================================================
+var headerHeaders = ['Transaction Code', 'Company ID', 'Application Area', 'Batch Number', 'Data Type Code', 'Batch Total', 'Closed For Adjustment', 'Effective Date'];
+var detailHeaders = ['Transaction Code', 'Item', 'Trans ID', 'DRCR Code', 'Company ID', 'Filler1', 'Account', 'Filler2', 'Mgmt Center', 'Cost Center', 'Source Code', 'Source Date', 'Effective Date', 'Amount', 'Description', 'Fund Serial', 'Filler3'];
+var trailerHeaders = ['Transaction Code', 'Company ID', 'Application Area', 'Batch Number', 'Data Type Code', 'Batch Total'];
+
+// ============================================================================
+// Record Type Detection
+// ============================================================================
+function detectRecordType(line) {
+  var indicator = line.substring(0, 2);
+  // Exact matches first (PT and BT)
+  if (indicator === 'PT') return 'Detail';
+  if (indicator === 'BT') return 'Trailer';
+  // First-character fallback for Header (config says BH but data has B1, B2, etc.)
+  if (line.charAt(0) === 'B') return 'Header';
+  return null;
+}
+
+// ============================================================================
+// Header Extraction (pos 1-34, 8 fields)
+// ============================================================================
+function mapHeader(line, rowIndex) {
+  var record = {};
+
+  // Transaction Code: pos 1-2, Left justify, pad=' ', default='BH'
+  var transactionCode = line.substring(0, 2).replace(/ +$/, '');
+  if (transactionCode === '') transactionCode = 'BH';
+  record['Transaction Code'] = transactionCode;
+
+  // Company ID: pos 3-6, Right justify, pad='0'
+  var companyId = line.substring(2, 6).replace(/^0+/, '');
+  if (companyId === '') companyId = '0';
+  record['Company ID'] = companyId;
+
+  // Application Area: pos 7-8, Left justify, pad=' '
+  var appArea = line.substring(6, 8).replace(/ +$/, '');
+  record['Application Area'] = appArea;
+
+  // Batch Number: pos 9-10, Right justify, pad='0', default='01'
+  var batchNum = line.substring(8, 10).replace(/^0+/, '');
+  if (batchNum === '') batchNum = '01';
+  record['Batch Number'] = batchNum;
+
+  // Data Type Code: pos 11, Left justify, pad=' ', default='2'
+  var dataTypeCode = line.substring(10, 11).replace(/ +$/, '');
+  if (dataTypeCode === '') dataTypeCode = '2';
+  record['Data Type Code'] = dataTypeCode;
+
+  // Batch Total: pos 12-25, Right justify, pad='0', default='0000000000000{'
+  var batchTotal = line.substring(11, 25).replace(/^0+/, '');
+  if (batchTotal === '') batchTotal = '0000000000000{';
+  record['Batch Total'] = batchTotal;
+
+  // Closed For Adjustment: pos 26, Left justify, pad=' ', default='0'
+  var closedAdj = line.substring(25, 26).replace(/ +$/, '');
+  if (closedAdj === '') closedAdj = '0';
+  record['Closed For Adjustment'] = closedAdj;
+
+  // Effective Date: pos 27-34, Left justify, pad='0'
+  var effDate = line.substring(26, 34).replace(/0+$/, '');
+  record['Effective Date'] = effDate;
+
+  // Validate required fields
+  var requiredFields = ['Transaction Code', 'Company ID', 'Application Area', 'Batch Number', 'Data Type Code', 'Batch Total', 'Closed For Adjustment', 'Effective Date'];
+  for (var i = 0; i &lt; requiredFields.length; i++) {
+    if (!record[requiredFields[i]] || !record[requiredFields[i]].toString().trim()) {
+      throw new Error('Required field &quot;' + requiredFields[i] + '&quot; is blank in Header at line ' + (rowIndex + 1));
+    }
+  }
+
+  return record;
+}
+
+// ============================================================================
+// Detail Extraction (pos 1-180, 17 fields)
+// ============================================================================
+function mapDetail(line, rowIndex) {
+  var record = {};
+
+  // Transaction Code: pos 1-2, Left justify, pad=' ', default='PT'
+  var transactionCode = line.substring(0, 2).replace(/ +$/, '');
+  if (transactionCode === '') transactionCode = 'PT';
+  record['Transaction Code'] = transactionCode;
+
+  // Item: pos 3-6, Right justify, pad='0', default='0000'
+  var item = line.substring(2, 6).replace(/^0+/, '');
+  if (item === '') item = '0000';
+  record['Item'] = item;
+
+  // Trans ID: pos 7, Left justify, pad=' ', default='1'
+  var transId = line.substring(6, 7).replace(/ +$/, '');
+  if (transId === '') transId = '1';
+  record['Trans ID'] = transId;
+
+  // DRCR Code: pos 8-9, Right justify, pad='0'
+  var drcrCode = line.substring(7, 9).replace(/^0+/, '');
+  if (drcrCode === '') drcrCode = '0';
+  record['DRCR Code'] = drcrCode;
+
+  // Company ID: pos 10-13, Right justify, pad='0'
+  var companyId = line.substring(9, 13).replace(/^0+/, '');
+  if (companyId === '') companyId = '0';
+  record['Company ID'] = companyId;
+
+  // Filler1: pos 14-25, Left justify, pad=' ' (not required)
+  var filler1 = line.substring(13, 25).replace(/ +$/, '');
+  record['Filler1'] = filler1;
+
+  // Account: pos 26-31, Right justify, pad='0'
+  var account = line.substring(25, 31).replace(/^0+/, '');
+  if (account === '') account = '0';
+  record['Account'] = account;
+
+  // Filler2: pos 32-34, Left justify, pad=' ' (not required)
+  var filler2 = line.substring(31, 34).replace(/ +$/, '');
+  record['Filler2'] = filler2;
+
+  // Mgmt Center: pos 35-39, Right justify, pad='0'
+  var mgmtCenter = line.substring(34, 39).replace(/^0+/, '');
+  if (mgmtCenter === '') mgmtCenter = '0';
+  record['Mgmt Center'] = mgmtCenter;
+
+  // Cost Center: pos 40-43, Right justify, pad='0'
+  var costCenter = line.substring(39, 43).replace(/^0+/, '');
+  if (costCenter === '') costCenter = '0';
+  record['Cost Center'] = costCenter;
+
+  // Source Code: pos 44-47, Left justify, pad=' ', default='0000'
+  var sourceCode = line.substring(43, 47).replace(/ +$/, '');
+  if (sourceCode === '') sourceCode = '0000';
+  record['Source Code'] = sourceCode;
+
+  // Source Date: pos 48-53, Left justify, pad='0'
+  var sourceDate = line.substring(47, 53).replace(/0+$/, '');
+  record['Source Date'] = sourceDate;
+
+  // Effective Date: pos 54-61, Left justify, pad='0'
+  var effDate = line.substring(53, 61).replace(/0+$/, '');
+  record['Effective Date'] = effDate;
+
+  // Amount: pos 62-74, Right justify, pad='0'
+  var amount = line.substring(61, 74).replace(/^0+/, '');
+  if (amount === '') amount = '0';
+  record['Amount'] = amount;
+
+  // Description: pos 75-129, Left justify, pad=' ' (not required)
+  var description = line.substring(74, 129).replace(/ +$/, '');
+  record['Description'] = description;
+
+  // Fund Serial: pos 130-138, Left justify, pad=' ' (not required)
+  var fundSerial = line.substring(129, 138).replace(/ +$/, '');
+  record['Fund Serial'] = fundSerial;
+
+  // Filler3: pos 139-180, Left justify, pad=' ' (not required)
+  var filler3 = line.substring(138, 180).replace(/ +$/, '');
+  record['Filler3'] = filler3;
+
+  // Validate required fields
+  var requiredFields = ['Transaction Code', 'Item', 'Trans ID', 'DRCR Code', 'Company ID', 'Account', 'Mgmt Center', 'Cost Center', 'Source Code', 'Source Date', 'Effective Date', 'Amount'];
+  for (var i = 0; i &lt; requiredFields.length; i++) {
+    if (!record[requiredFields[i]] || !record[requiredFields[i]].toString().trim()) {
+      throw new Error('Required field &quot;' + requiredFields[i] + '&quot; is blank in Detail at line ' + (rowIndex + 1));
+    }
+  }
+
+  return record;
+}
+
+// ============================================================================
+// Trailer Extraction (pos 1-25, 6 fields)
+// ============================================================================
+function mapTrailer(line, rowIndex) {
+  var record = {};
+
+  // Transaction Code: pos 1-2, Left justify, pad=' ', default='BT'
+  var transactionCode = line.substring(0, 2).replace(/ +$/, '');
+  if (transactionCode === '') transactionCode = 'BT';
+  record['Transaction Code'] = transactionCode;
+
+  // Company ID: pos 3-6, Right justify, pad='0'
+  var companyId = line.substring(2, 6).replace(/^0+/, '');
+  if (companyId === '') companyId = '0';
+  record['Company ID'] = companyId;
+
+  // Application Area: pos 7-8, Left justify, pad=' '
+  var appArea = line.substring(6, 8).replace(/ +$/, '');
+  record['Application Area'] = appArea;
+
+  // Batch Number: pos 9-10, Right justify, pad='0', default='01'
+  var batchNum = line.substring(8, 10).replace(/^0+/, '');
+  if (batchNum === '') batchNum = '01';
+  record['Batch Number'] = batchNum;
+
+  // Data Type Code: pos 11, Left justify, pad=' ', default='2'
+  var dataTypeCode = line.substring(10, 11).replace(/ +$/, '');
+  if (dataTypeCode === '') dataTypeCode = '2';
+  record['Data Type Code'] = dataTypeCode;
+
+  // Batch Total: pos 12-25, Right justify, pad='0'
+  var batchTotal = line.substring(11, 25).replace(/^0+/, '');
+  if (batchTotal === '') batchTotal = '0';
+  record['Batch Total'] = batchTotal;
+
+  // Validate required fields
+  var requiredFields = ['Transaction Code', 'Company ID', 'Application Area', 'Batch Number', 'Data Type Code', 'Batch Total'];
+  for (var i = 0; i &lt; requiredFields.length; i++) {
+    if (!record[requiredFields[i]] || !record[requiredFields[i]].toString().trim()) {
+      throw new Error('Required field &quot;' + requiredFields[i] + '&quot; is blank in Trailer at line ' + (rowIndex + 1));
+    }
+  }
+
+  return record;
+}
+
+// ============================================================================
+// Process Line Dispatcher
+// ============================================================================
+function processLine(line, rowIndex) {
+  var type = detectRecordType(line);
+  if (!type) {
+    throw new Error('Unknown record type at line ' + (rowIndex + 1));
+  }
+  var data;
+  if (type === 'Header') {
+    data = mapHeader(line, rowIndex);
+  } else if (type === 'Detail') {
+    data = mapDetail(line, rowIndex);
+  } else if (type === 'Trailer') {
+    data = mapTrailer(line, rowIndex);
+  }
+  return { type: type, data: data };
+}
+
+// ============================================================================
+// Fallback applyLogic for complex cases
+// ============================================================================
+function applyLogic(logic, value) {
+  if (!logic) return value;
+  logic = logic.trim();
+
+  if (/^RemoveLeadingZeroes$/i.test(logic)) {
+    return value.replace(/^0+/, '') || '0';
+  }
+  if (/^Trim$/i.test(logic)) {
+    return value.trim();
+  }
+  if (/^['&quot;].*['&quot;]$/.test(logic)) {
+    return logic.slice(1, -1);
+  }
+  return value;
+}
+
+// ============================================================================
+// IPA Usage Instructions
+// ============================================================================
+// Step 1: Split input data into lines
+// var lines = readFile_inputData.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
+//
+// Step 2: Process each line
+// var resultsByType = { Header: [], Detail: [], Trailer: [] };
+// try {
+//   lines.forEach(function(line, index) {
+//     var result = processLine(line, index);
+//     resultsByType[result.type].push(result.data);
+//   });
+// } catch (error) {
+//   ErrorMessage = error.message;
+// }
+//
+// Step 3: Convert to CSV per record type
+// // Headers CSV
+// var headerCSV = [headerHeaders.join(',')];
+// resultsByType.Header.forEach(function(r) {
+//   var row = headerHeaders.map(function(h) {
+//     var v = r[h] != null ? r[h].toString() : '';
+//     return /[&quot;,\n]/.test(v) ? '&quot;' + v.replace(/&quot;/g, '&quot;&quot;') + '&quot;' : v;
+//   });
+//   headerCSV.push(row.join(','));
+// });
+// // Repeat for Detail (detailHeaders) and Trailer (trailerHeaders)
+</pre></div></div></div>
+<div id="csv" class="tab-content">
+<div class="csv-type-nav">
+<button class="csv-type-btn active" onclick="showCSVType('headers',this)">Headers (1 row)</button>
+<button class="csv-type-btn" onclick="showCSVType('details',this)">Details (42 rows)</button>
+<button class="csv-type-btn" onclick="showCSVType('trailers',this)">Trailers (1 row)</button>
+</div>
+<div id="headers" class="csv-sub active">
+<button class="download-btn" onclick="downloadCSV('headers')">&#128229; Download Headers CSV</button>
+<div style="height:12px"></div>
+<div class="csv-container" style="max-height:600px;overflow-y:auto"><table class="csv-table"><thead><tr><th>Transaction Code</th><th>Company ID</th><th>Application Area</th><th>Batch Number</th><th>Data Type Code</th><th>Batch Total</th><th>Closed For Adjustment</th><th>Effective Date</th></tr></thead><tbody><tr><td>B1</td><td>1100</td><td>AP</td><td>1</td><td>2</td><td>{</td><td>0</td><td>20220219</td></tr></tbody></table></div></div>
+<div id="details" class="csv-sub">
+<button class="download-btn" onclick="downloadCSV('details')">&#128229; Download Details CSV</button>
+<div style="height:12px"></div>
+<div class="csv-container" style="max-height:600px;overflow-y:auto"><table class="csv-table"><thead><tr><th>Transaction Code</th><th>Item</th><th>Trans ID</th><th>DRCR Code</th><th>Company ID</th><th>Filler1</th><th>Account</th><th>Filler2</th><th>Mgmt Center</th><th>Cost Center</th><th>Source Code</th><th>Source Date</th><th>Effective Date</th><th>Amount</th><th>Description</th><th>Fund Serial</th><th>Filler3</th></tr></thead><tbody><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201100</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021622</td><td>02162022</td><td>15000}</td><td>Cash Disbursement</td><td>1002001MS</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>201200</td><td></td><td>1111</td><td>0</td><td>AP</td><td>021622</td><td>02162022</td><td>8900{</td><td>Payment Accrual</td><td></td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>201200</td><td></td><td>1111</td><td>0</td><td>AP</td><td>021622</td><td>02162022</td><td>10000{</td><td>Payment Accrual</td><td></td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201200</td><td></td><td>1111</td><td>0</td><td>AC</td><td>021622</td><td>02162022</td><td>18900}</td><td>Summarized transaction</td><td></td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201100</td><td></td><td>1111</td><td>0</td><td>AP</td><td>021622</td><td>02162022</td><td>10000}</td><td>Cash Disbursement</td><td></td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AC</td><td>021622</td><td>02162022</td><td>15000}</td><td>Accounts payable accrual</td><td>1002001MS</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201100</td><td></td><td>1111</td><td>0</td><td>AP</td><td>021622</td><td>02162022</td><td>8900}</td><td>Cash Disbursement</td><td></td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>537488</td><td></td><td>5011</td><td>901</td><td>AD</td><td>021622</td><td>02162022</td><td>15000{</td><td>3 - PETROLEUM TRADERS CORPORATION</td><td>1002001MS</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>538088</td><td></td><td>5011</td><td>901</td><td>AD</td><td>021622</td><td>02162022</td><td>10000{</td><td>3 - PETROLEUM TRADERS CORPORATION</td><td>1002001MS</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>525901</td><td></td><td>1111</td><td>0</td><td>AD</td><td>021622</td><td>02162022</td><td>18900{</td><td>Summarized transaction</td><td></td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AC</td><td>021622</td><td>02162022</td><td>10000}</td><td>Accounts payable accrual</td><td>1002001MS</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021622</td><td>02162022</td><td>10000{</td><td>Payment Accrual</td><td>1002001MS</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021622</td><td>02162022</td><td>15000{</td><td>Payment Accrual</td><td>1002001MS</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201100</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021622</td><td>02162022</td><td>10000}</td><td>Cash Disbursement</td><td>1002001MS</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201100</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>100000}</td><td>Cash Disbursement</td><td>1002001EF</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>100000{</td><td>Payment Accrual</td><td>1002001DB</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201100</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>100000}</td><td>Cash Disbursement</td><td>1002001FM</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>100000{</td><td>Payment Accrual</td><td>1002001EF</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AC</td><td>021522</td><td>02152022</td><td>100000}</td><td>Accounts payable accrual</td><td>1002001FM</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>100000{</td><td>Payment Accrual</td><td>1002001FM</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>522188</td><td></td><td>5011</td><td>901</td><td>AD</td><td>021522</td><td>02152022</td><td>500000{</td><td>3 - PETROLEUM TRADERS CORPORATION</td><td>1002001FP</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>100000{</td><td>Payment Accrual</td><td>1002001FP</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>526288</td><td></td><td>5011</td><td>901</td><td>AD</td><td>021522</td><td>02152022</td><td>100000{</td><td>3 - PETROLEUM TRADERS CORPORATION</td><td>1002001FM</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AC</td><td>021522</td><td>02152022</td><td>100000}</td><td>Accounts payable accrual</td><td>1002001DB</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>528288</td><td></td><td>5011</td><td>901</td><td>AD</td><td>021522</td><td>02152022</td><td>100000{</td><td>3 - PETROLEUM TRADERS CORPORATION</td><td>1002001EF</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AC</td><td>021522</td><td>02152022</td><td>100000}</td><td>Accounts payable accrual</td><td>1002001EF</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201100</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>100000}</td><td>Cash Disbursement</td><td>1002001DB</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>526288</td><td></td><td>5011</td><td>901</td><td>AD</td><td>021522</td><td>02152022</td><td>100000{</td><td>3 - PETROLEUM TRADERS CORPORATION</td><td>1002001FM</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>100000{</td><td>Payment Accrual</td><td>1002001FM</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>525188</td><td></td><td>5011</td><td>901</td><td>AD</td><td>021522</td><td>02152022</td><td>100000{</td><td>3 - PETROLEUM TRADERS CORPORATION</td><td>1002001FP</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>500000{</td><td>Payment Accrual</td><td>1002001FP</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>524288</td><td></td><td>5011</td><td>901</td><td>AD</td><td>021522</td><td>02152022</td><td>100000{</td><td>3 - PETROLEUM TRADERS CORPORATION</td><td>1002001DB</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AC</td><td>021522</td><td>02152022</td><td>100000}</td><td>Accounts payable accrual</td><td>1002001FM</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AC</td><td>021522</td><td>02152022</td><td>500000}</td><td>Accounts payable accrual</td><td>1002001FP</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AC</td><td>021522</td><td>02152022</td><td>100000}</td><td>Accounts payable accrual</td><td>1002001FP</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201100</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>100000}</td><td>Cash Disbursement</td><td>1002001FM</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201100</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>100000}</td><td>Cash Disbursement</td><td>1002001FP</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201100</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021522</td><td>02152022</td><td>500000}</td><td>Cash Disbursement</td><td>1002001FP</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021422</td><td>02142022</td><td>500000{</td><td>Payment Accrual</td><td>1002001SP</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>1100</td><td></td><td>538001</td><td></td><td>5011</td><td>901</td><td>AD</td><td>021422</td><td>02142022</td><td>500000{</td><td>3 - PETROLEUM TRADERS CORPORATION</td><td>1002001SP</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201200</td><td></td><td>5011</td><td>901</td><td>AC</td><td>021422</td><td>02142022</td><td>500000}</td><td>Accounts payable accrual</td><td>1002001SP</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>1100</td><td></td><td>201100</td><td></td><td>5011</td><td>901</td><td>AP</td><td>021422</td><td>02142022</td><td>500000}</td><td>Cash Disbursement</td><td>1002001SP</td><td></td></tr></tbody></table></div></div>
+<div id="trailers" class="csv-sub">
+<button class="download-btn" onclick="downloadCSV('trailers')">&#128229; Download Trailers CSV</button>
+<div style="height:12px"></div>
+<div class="csv-container" style="max-height:600px;overflow-y:auto"><table class="csv-table"><thead><tr><th>Transaction Code</th><th>Company ID</th><th>Application Area</th><th>Batch Number</th><th>Data Type Code</th><th>Batch Total</th></tr></thead><tbody><tr><td>BT</td><td>1100</td><td>AP</td><td>1</td><td>2</td><td>0</td></tr></tbody></table></div></div>
+</div>
+<script>
+function showTab(id,btn){document.querySelectorAll(".tab-content").forEach(function(t){t.classList.remove("active")});document.querySelectorAll(".tab-btn").forEach(function(b){b.classList.remove("active")});document.getElementById(id).classList.add("active");btn.classList.add("active")}
+function showCSVType(id,btn){document.querySelectorAll(".csv-sub").forEach(function(t){t.classList.remove("active")});document.querySelectorAll(".csv-type-btn").forEach(function(b){b.classList.remove("active")});document.getElementById(id).classList.add("active");btn.classList.add("active")}
+function copyCode(id,btn){var text=document.getElementById(id).textContent;navigator.clipboard.writeText(text).then(function(){btn.innerHTML="&#10003; Copied";btn.classList.add("copied");setTimeout(function(){btn.innerHTML="&#128203; Copy";btn.classList.remove("copied")},2000)})}
+var csvData={headers:"VHJhbnNhY3Rpb24gQ29kZSxDb21wYW55IElELEFwcGxpY2F0aW9uIEFyZWEsQmF0Y2ggTnVtYmVyLERhdGEgVHlwZSBDb2RlLEJhdGNoIFRvdGFsLENsb3NlZCBGb3IgQWRqdXN0bWVudCxFZmZlY3RpdmUgRGF0ZQpCMSwxMTAwLEFQLDEsMix7LDAsMjAyMjAyMTk=",details:"VHJhbnNhY3Rpb24gQ29kZSxJdGVtLFRyYW5zIElELERSQ1IgQ29kZSxDb21wYW55IElELEZpbGxlcjEsQWNjb3VudCxGaWxsZXIyLE1nbXQgQ2VudGVyLENvc3QgQ2VudGVyLFNvdXJjZSBDb2RlLFNvdXJjZSBEYXRlLEVmZmVjdGl2ZSBEYXRlLEFtb3VudCxEZXNjcmlwdGlvbixGdW5kIFNlcmlhbCxGaWxsZXIzClBULDAwMDAsMSw2MCwxMTAwLCwyMDExMDAsLDUwMTEsOTAxLEFQLDAyMTYyMiwwMjE2MjAyMiwxNTAwMH0sQ2FzaCBEaXNidXJzZW1lbnQsMTAwMjAwMU1TLApQVCwwMDAwLDEsMTAsMTEwMCwsMjAxMjAwLCwxMTExLDAsQVAsMDIxNjIyLDAyMTYyMDIyLDg5MDB7LFBheW1lbnQgQWNjcnVhbCwsClBULDAwMDAsMSwxMCwxMTAwLCwyMDEyMDAsLDExMTEsMCxBUCwwMjE2MjIsMDIxNjIwMjIsMTAwMDB7LFBheW1lbnQgQWNjcnVhbCwsClBULDAwMDAsMSw2MCwxMTAwLCwyMDEyMDAsLDExMTEsMCxBQywwMjE2MjIsMDIxNjIwMjIsMTg5MDB9LFN1bW1hcml6ZWQgdHJhbnNhY3Rpb24sLApQVCwwMDAwLDEsNjAsMTEwMCwsMjAxMTAwLCwxMTExLDAsQVAsMDIxNjIyLDAyMTYyMDIyLDEwMDAwfSxDYXNoIERpc2J1cnNlbWVudCwsClBULDAwMDAsMSw2MCwxMTAwLCwyMDEyMDAsLDUwMTEsOTAxLEFDLDAyMTYyMiwwMjE2MjAyMiwxNTAwMH0sQWNjb3VudHMgcGF5YWJsZSBhY2NydWFsLDEwMDIwMDFNUywKUFQsMDAwMCwxLDYwLDExMDAsLDIwMTEwMCwsMTExMSwwLEFQLDAyMTYyMiwwMjE2MjAyMiw4OTAwfSxDYXNoIERpc2J1cnNlbWVudCwsClBULDAwMDAsMSwxMCwxMTAwLCw1Mzc0ODgsLDUwMTEsOTAxLEFELDAyMTYyMiwwMjE2MjAyMiwxNTAwMHssMyAtIFBFVFJPTEVVTSBUUkFERVJTIENPUlBPUkFUSU9OLDEwMDIwMDFNUywKUFQsMDAwMCwxLDEwLDExMDAsLDUzODA4OCwsNTAxMSw5MDEsQUQsMDIxNjIyLDAyMTYyMDIyLDEwMDAweywzIC0gUEVUUk9MRVVNIFRSQURFUlMgQ09SUE9SQVRJT04sMTAwMjAwMU1TLApQVCwwMDAwLDEsMTAsMTEwMCwsNTI1OTAxLCwxMTExLDAsQUQsMDIxNjIyLDAyMTYyMDIyLDE4OTAweyxTdW1tYXJpemVkIHRyYW5zYWN0aW9uLCwKUFQsMDAwMCwxLDYwLDExMDAsLDIwMTIwMCwsNTAxMSw5MDEsQUMsMDIxNjIyLDAyMTYyMDIyLDEwMDAwfSxBY2NvdW50cyBwYXlhYmxlIGFjY3J1YWwsMTAwMjAwMU1TLApQVCwwMDAwLDEsMTAsMTEwMCwsMjAxMjAwLCw1MDExLDkwMSxBUCwwMjE2MjIsMDIxNjIwMjIsMTAwMDB7LFBheW1lbnQgQWNjcnVhbCwxMDAyMDAxTVMsClBULDAwMDAsMSwxMCwxMTAwLCwyMDEyMDAsLDUwMTEsOTAxLEFQLDAyMTYyMiwwMjE2MjAyMiwxNTAwMHssUGF5bWVudCBBY2NydWFsLDEwMDIwMDFNUywKUFQsMDAwMCwxLDYwLDExMDAsLDIwMTEwMCwsNTAxMSw5MDEsQVAsMDIxNjIyLDAyMTYyMDIyLDEwMDAwfSxDYXNoIERpc2J1cnNlbWVudCwxMDAyMDAxTVMsClBULDAwMDAsMSw2MCwxMTAwLCwyMDExMDAsLDUwMTEsOTAxLEFQLDAyMTUyMiwwMjE1MjAyMiwxMDAwMDB9LENhc2ggRGlzYnVyc2VtZW50LDEwMDIwMDFFRiwKUFQsMDAwMCwxLDEwLDExMDAsLDIwMTIwMCwsNTAxMSw5MDEsQVAsMDIxNTIyLDAyMTUyMDIyLDEwMDAwMHssUGF5bWVudCBBY2NydWFsLDEwMDIwMDFEQiwKUFQsMDAwMCwxLDYwLDExMDAsLDIwMTEwMCwsNTAxMSw5MDEsQVAsMDIxNTIyLDAyMTUyMDIyLDEwMDAwMH0sQ2FzaCBEaXNidXJzZW1lbnQsMTAwMjAwMUZNLApQVCwwMDAwLDEsMTAsMTEwMCwsMjAxMjAwLCw1MDExLDkwMSxBUCwwMjE1MjIsMDIxNTIwMjIsMTAwMDAweyxQYXltZW50IEFjY3J1YWwsMTAwMjAwMUVGLApQVCwwMDAwLDEsNjAsMTEwMCwsMjAxMjAwLCw1MDExLDkwMSxBQywwMjE1MjIsMDIxNTIwMjIsMTAwMDAwfSxBY2NvdW50cyBwYXlhYmxlIGFjY3J1YWwsMTAwMjAwMUZNLApQVCwwMDAwLDEsMTAsMTEwMCwsMjAxMjAwLCw1MDExLDkwMSxBUCwwMjE1MjIsMDIxNTIwMjIsMTAwMDAweyxQYXltZW50IEFjY3J1YWwsMTAwMjAwMUZNLApQVCwwMDAwLDEsMTAsMTEwMCwsNTIyMTg4LCw1MDExLDkwMSxBRCwwMjE1MjIsMDIxNTIwMjIsNTAwMDAweywzIC0gUEVUUk9MRVVNIFRSQURFUlMgQ09SUE9SQVRJT04sMTAwMjAwMUZQLApQVCwwMDAwLDEsMTAsMTEwMCwsMjAxMjAwLCw1MDExLDkwMSxBUCwwMjE1MjIsMDIxNTIwMjIsMTAwMDAweyxQYXltZW50IEFjY3J1YWwsMTAwMjAwMUZQLApQVCwwMDAwLDEsMTAsMTEwMCwsNTI2Mjg4LCw1MDExLDkwMSxBRCwwMjE1MjIsMDIxNTIwMjIsMTAwMDAweywzIC0gUEVUUk9MRVVNIFRSQURFUlMgQ09SUE9SQVRJT04sMTAwMjAwMUZNLApQVCwwMDAwLDEsNjAsMTEwMCwsMjAxMjAwLCw1MDExLDkwMSxBQywwMjE1MjIsMDIxNTIwMjIsMTAwMDAwfSxBY2NvdW50cyBwYXlhYmxlIGFjY3J1YWwsMTAwMjAwMURCLApQVCwwMDAwLDEsMTAsMTEwMCwsNTI4Mjg4LCw1MDExLDkwMSxBRCwwMjE1MjIsMDIxNTIwMjIsMTAwMDAweywzIC0gUEVUUk9MRVVNIFRSQURFUlMgQ09SUE9SQVRJT04sMTAwMjAwMUVGLApQVCwwMDAwLDEsNjAsMTEwMCwsMjAxMjAwLCw1MDExLDkwMSxBQywwMjE1MjIsMDIxNTIwMjIsMTAwMDAwfSxBY2NvdW50cyBwYXlhYmxlIGFjY3J1YWwsMTAwMjAwMUVGLApQVCwwMDAwLDEsNjAsMTEwMCwsMjAxMTAwLCw1MDExLDkwMSxBUCwwMjE1MjIsMDIxNTIwMjIsMTAwMDAwfSxDYXNoIERpc2J1cnNlbWVudCwxMDAyMDAxREIsClBULDAwMDAsMSwxMCwxMTAwLCw1MjYyODgsLDUwMTEsOTAxLEFELDAyMTUyMiwwMjE1MjAyMiwxMDAwMDB7LDMgLSBQRVRST0xFVU0gVFJBREVSUyBDT1JQT1JBVElPTiwxMDAyMDAxRk0sClBULDAwMDAsMSwxMCwxMTAwLCwyMDEyMDAsLDUwMTEsOTAxLEFQLDAyMTUyMiwwMjE1MjAyMiwxMDAwMDB7LFBheW1lbnQgQWNjcnVhbCwxMDAyMDAxRk0sClBULDAwMDAsMSwxMCwxMTAwLCw1MjUxODgsLDUwMTEsOTAxLEFELDAyMTUyMiwwMjE1MjAyMiwxMDAwMDB7LDMgLSBQRVRST0xFVU0gVFJBREVSUyBDT1JQT1JBVElPTiwxMDAyMDAxRlAsClBULDAwMDAsMSwxMCwxMTAwLCwyMDEyMDAsLDUwMTEsOTAxLEFQLDAyMTUyMiwwMjE1MjAyMiw1MDAwMDB7LFBheW1lbnQgQWNjcnVhbCwxMDAyMDAxRlAsClBULDAwMDAsMSwxMCwxMTAwLCw1MjQyODgsLDUwMTEsOTAxLEFELDAyMTUyMiwwMjE1MjAyMiwxMDAwMDB7LDMgLSBQRVRST0xFVU0gVFJBREVSUyBDT1JQT1JBVElPTiwxMDAyMDAxREIsClBULDAwMDAsMSw2MCwxMTAwLCwyMDEyMDAsLDUwMTEsOTAxLEFDLDAyMTUyMiwwMjE1MjAyMiwxMDAwMDB9LEFjY291bnRzIHBheWFibGUgYWNjcnVhbCwxMDAyMDAxRk0sClBULDAwMDAsMSw2MCwxMTAwLCwyMDEyMDAsLDUwMTEsOTAxLEFDLDAyMTUyMiwwMjE1MjAyMiw1MDAwMDB9LEFjY291bnRzIHBheWFibGUgYWNjcnVhbCwxMDAyMDAxRlAsClBULDAwMDAsMSw2MCwxMTAwLCwyMDEyMDAsLDUwMTEsOTAxLEFDLDAyMTUyMiwwMjE1MjAyMiwxMDAwMDB9LEFjY291bnRzIHBheWFibGUgYWNjcnVhbCwxMDAyMDAxRlAsClBULDAwMDAsMSw2MCwxMTAwLCwyMDExMDAsLDUwMTEsOTAxLEFQLDAyMTUyMiwwMjE1MjAyMiwxMDAwMDB9LENhc2ggRGlzYnVyc2VtZW50LDEwMDIwMDFGTSwKUFQsMDAwMCwxLDYwLDExMDAsLDIwMTEwMCwsNTAxMSw5MDEsQVAsMDIxNTIyLDAyMTUyMDIyLDEwMDAwMH0sQ2FzaCBEaXNidXJzZW1lbnQsMTAwMjAwMUZQLApQVCwwMDAwLDEsNjAsMTEwMCwsMjAxMTAwLCw1MDExLDkwMSxBUCwwMjE1MjIsMDIxNTIwMjIsNTAwMDAwfSxDYXNoIERpc2J1cnNlbWVudCwxMDAyMDAxRlAsClBULDAwMDAsMSwxMCwxMTAwLCwyMDEyMDAsLDUwMTEsOTAxLEFQLDAyMTQyMiwwMjE0MjAyMiw1MDAwMDB7LFBheW1lbnQgQWNjcnVhbCwxMDAyMDAxU1AsClBULDAwMDAsMSwxMCwxMTAwLCw1MzgwMDEsLDUwMTEsOTAxLEFELDAyMTQyMiwwMjE0MjAyMiw1MDAwMDB7LDMgLSBQRVRST0xFVU0gVFJBREVSUyBDT1JQT1JBVElPTiwxMDAyMDAxU1AsClBULDAwMDAsMSw2MCwxMTAwLCwyMDEyMDAsLDUwMTEsOTAxLEFDLDAyMTQyMiwwMjE0MjAyMiw1MDAwMDB9LEFjY291bnRzIHBheWFibGUgYWNjcnVhbCwxMDAyMDAxU1AsClBULDAwMDAsMSw2MCwxMTAwLCwyMDExMDAsLDUwMTEsOTAxLEFQLDAyMTQyMiwwMjE0MjAyMiw1MDAwMDB9LENhc2ggRGlzYnVyc2VtZW50LDEwMDIwMDFTUCw=",trailers:"VHJhbnNhY3Rpb24gQ29kZSxDb21wYW55IElELEFwcGxpY2F0aW9uIEFyZWEsQmF0Y2ggTnVtYmVyLERhdGEgVHlwZSBDb2RlLEJhdGNoIFRvdGFsCkJULDExMDAsQVAsMSwyLDA="};
+function downloadCSV(type){var b64=csvData[type];var raw=atob(b64);var blob=new Blob([raw],{type:"text/csv"});var url=URL.createObjectURL(blob);var a=document.createElement("a");var names={headers:"GEAC_AP_20220219_Headers_Mapped.csv",details:"GEAC_AP_20220219_Details_Mapped.csv",trailers:"GEAC_AP_20220219_Trailers_Mapped.csv"};a.href=url;a.download=names[type];document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url)}
+</script>
+</div>
+</body>
+</html>

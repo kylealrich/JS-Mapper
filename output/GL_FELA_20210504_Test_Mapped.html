@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GL_FELA_20210504_Test Mapper - Generated Output Viewer</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+*,*::before,*::after{box-sizing:border-box}
+body{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:linear-gradient(rgba(248,250,252,0.9),rgba(248,250,252,0.9)),repeating-linear-gradient(0deg,transparent,transparent 19px,rgba(148,163,184,0.1) 20px),repeating-linear-gradient(90deg,transparent,transparent 19px,rgba(148,163,184,0.1) 20px),radial-gradient(circle at 20px 20px,rgba(59,130,246,0.15) 2px,transparent 2px),#f8fafc;background-size:40px 40px;color:#1f2937;margin:0;padding:20px;min-height:100vh}
+.container{background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.08),0 1px 3px rgba(0,0,0,0.1);padding:32px;max-width:1400px;margin:auto;border:1px solid #e5e7eb}
+h1{font-size:28px;font-weight:700;text-align:center;margin:0 0 4px 0;display:flex;align-items:center;justify-content:center;gap:12px}
+.title-text{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{text-align:center;color:#6b7280;font-size:14px;margin-bottom:20px}
+.gradient-divider{height:4px;background:linear-gradient(90deg,#1e3a8a 0%,#3730a3 25%,#5b21b6 50%,#7c2d12 75%,#1e40af 100%);border-radius:2px;margin-bottom:24px}
+.tab-nav{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;border-bottom:2px solid #e5e7eb;padding-bottom:12px}
+.tab-btn{padding:10px 20px;border-radius:8px 8px 0 0;border:1px solid #d1d5db;border-bottom:none;background:#f9fafb;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;color:#4b5563;display:flex;align-items:center;gap:8px}
+.tab-btn:hover{background:#f3f4f6;border-color:#9ca3af}
+.tab-btn.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-color:transparent}
+.tab-content{display:none}.tab-content.active{display:block}
+.code-container{background:#1e293b;border-radius:10px;overflow:hidden;margin-bottom:16px}
+.code-header{background:#334155;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #475569}
+.code-title{color:#e2e8f0;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.code-title .badge{background:#3b82f6;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px}
+.copy-btn{background:#475569;border:none;color:#e2e8f0;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px}
+.copy-btn:hover{background:#64748b}.copy-btn.copied{background:#10b981}
+.code-block{padding:16px;overflow-x:auto;max-height:600px;overflow-y:auto}
+.code-block pre{margin:0;font-family:"Fira Code","Cascadia Code","Consolas",monospace;font-size:13px;line-height:1.6;color:#e2e8f0;white-space:pre}
+.csv-container{overflow-x:auto;border:1px solid #e5e7eb;border-radius:10px}
+.csv-table{width:100%;border-collapse:collapse;font-size:12px}
+.csv-table th{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:10px 12px;text-align:left;font-weight:600;white-space:nowrap;position:sticky;top:0}
+.csv-table td{padding:8px 12px;border-bottom:1px solid #e5e7eb;white-space:nowrap}
+.csv-table tr:nth-child(even){background:#f9fafb}.csv-table tr:hover{background:#eff6ff}
+.stats-bar{display:flex;gap:20px;margin-bottom:16px;flex-wrap:wrap}
+.stat-item{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:8px;padding:12px 20px;display:flex;align-items:center;gap:10px}
+.stat-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.stat-value{font-size:20px;font-weight:700;color:#3730a3}.stat-label{font-size:12px;color:#6b7280}
+.download-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;margin-top:12px}
+.download-btn:hover{opacity:0.9;transform:translateY(-1px)}
+.csv-type-nav{display:flex;gap:8px;margin-bottom:12px}
+.csv-type-btn{padding:8px 16px;border-radius:6px;border:1px solid #d1d5db;background:#f9fafb;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;color:#4b5563}
+.csv-type-btn:hover{background:#f3f4f6}
+.csv-type-btn.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-color:transparent}
+.csv-sub{display:none}.csv-sub.active{display:block}
+</style>
+</head>
+<body>
+<div class="container">
+<h1><span style="font-size:28px">&#128640;</span> <span class="title-text">GL_FELA_20210504_Test Mapper Output</span></h1>
+<p class="subtitle">Generated JavaScript Mappers and Transformed CSV Output (Multi-Record Fixed-Length)</p>
+<div class="gradient-divider"></div>
+<div class="stats-bar">
+<div class="stat-item"><div class="stat-icon">&#128196;</div><div><div class="stat-value">118</div><div class="stat-label">Lines Processed</div></div></div>
+<div class="stat-item"><div class="stat-icon">&#128203;</div><div><div class="stat-value">3</div><div class="stat-label">Record Types</div></div></div>
+<div class="stat-item"><div class="stat-icon">&#9989;</div><div><div class="stat-value">2</div><div class="stat-label">Mapper Types</div></div></div>
+</div>
+<div class="tab-nav">
+<button class="tab-btn active" onclick="showTab('runtime',this)"><span>&#9881;</span> Runtime Flexible JS</button>
+<button class="tab-btn" onclick="showTab('selfcontained',this)"><span>&#128230;</span> Self-Contained JS</button>
+<button class="tab-btn" onclick="showTab('csv',this)"><span>&#128200;</span> Mapped CSV Output</button>
+</div>
+<div id="runtime" class="tab-content active">
+<div class="code-container"><div class="code-header">
+<div class="code-title"><span>GL_FELA_20210504_Test_dynamic_mapper.js</span><span class="badge">ES5</span></div>
+<button class="copy-btn" onclick="copyCode('runtimeCode',this)">&#128203; Copy</button>
+</div><div class="code-block"><pre id="runtimeCode">// Multi-Record Fixed-Length Dynamic Mapper - Combined _CONFIG/_FIELD Format
+// Generated: 2026-03-25
+// Source: GL_FELA_20210504_Test.txt
+// Mapping: SEPTA_GEACGL_MultiRecord_Mapping.csv
+//
+// This mapper dynamically interprets a combined _CONFIG/_FIELD mapping CSV at runtime.
+// Supports multi-record-type fixed-length files with parent-child hierarchy.
+
+var incrementCounter = 0;
+
+// ============================================================================
+// CSV Parser
+// ============================================================================
+function parseCSV(text, delimiter) {
+  var lines = text.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
+  return lines.map(function(line) {
+    var result = [];
+    var current = '';
+    var inQuotes = false;
+    for (var i = 0; i &lt; line.length; i++) {
+      var char = line[i];
+      if (char === '&quot;') {
+        if (inQuotes &amp;&amp; line[i + 1] === '&quot;') {
+          current += '&quot;';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === delimiter &amp;&amp; !inQuotes) {
+        result.push(current);
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current);
+    return result;
+  });
+}
+
+// ============================================================================
+// Key Normalizer
+// ============================================================================
+function normalizeKey(key) {
+  return key.replace(/\s+/g, '').trim().toLowerCase();
+}
+
+// ============================================================================
+// Escape Regex Helper
+// ============================================================================
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&amp;');
+}
+
+// ============================================================================
+// Detect Record Type
+// ============================================================================
+function detectRecordType(line, recordTypes) {
+  var i, rt, pos, len, indicator;
+  // First pass: exact match
+  for (i = 0; i &lt; recordTypes.length; i++) {
+    rt = recordTypes[i];
+    pos = parseInt(rt.indicatorPosition) - 1;
+    len = parseInt(rt.indicatorLength);
+    indicator = line.substring(pos, pos + len);
+    if (indicator === rt.indicatorValue) {
+      return rt;
+    }
+  }
+  // Second pass: first-character fallback
+  for (i = 0; i &lt; recordTypes.length; i++) {
+    rt = recordTypes[i];
+    pos = parseInt(rt.indicatorPosition) - 1;
+    if (line.charAt(pos) === rt.indicatorValue.charAt(0)) {
+      return rt;
+    }
+  }
+  return null;
+}
+
+// ============================================================================
+// Extract Fixed-Length Fields
+// ============================================================================
+function extractFixedLengthFields(line, fields) {
+  var record = {};
+  for (var i = 0; i &lt; fields.length; i++) {
+    var f = fields[i];
+    var start = parseInt(f.start) - 1;
+    var end = parseInt(f.end);
+    var raw = line.substring(start, Math.min(end, line.length));
+    var value = raw;
+    var justify = (f.justify || '').toLowerCase();
+    var padChar = f.padCharacter || '';
+
+    // Apply justify + pad character stripping
+    if (padChar !== '') {
+      var escapedPad = escapeRegex(padChar);
+      if (justify === 'right') {
+        // Right-justified: strip leading pad characters
+        value = value.replace(new RegExp('^' + escapedPad + '+'), '');
+      } else if (justify === 'left') {
+        // Left-justified: strip trailing pad characters
+        value = value.replace(new RegExp(escapedPad + '+$'), '');
+      }
+    } else {
+      value = value.trim();
+    }
+
+    // Apply default value if empty
+    if (value === '' &amp;&amp; f.defaultValue) {
+      value = f.defaultValue;
+    }
+
+    // Apply mapping logic if present
+    if (f.mappingLogic &amp;&amp; f.mappingLogic.trim()) {
+      value = applyFixedLengthLogic(f.mappingLogic, value, line, fields, record);
+    }
+
+    // Required field validation
+    if (f.required &amp;&amp; (!value || !value.toString().trim())) {
+      throw new Error('Required field &quot;' + f.fieldName + '&quot; is blank');
+    }
+
+    record[f.fieldName] = value;
+  }
+  return record;
+}
+
+// ============================================================================
+// Apply Fixed-Length Logic
+// ============================================================================
+function applyFixedLengthLogic(logic, value, line, fields, record) {
+  if (!logic) return value;
+  logic = logic.trim();
+
+  // RemoveLeadingZeroes
+  if (/^RemoveLeadingZeroes$/i.test(logic)) {
+    return value.replace(/^0+/, '') || '0';
+  }
+
+  // Trim
+  if (/^Trim$/i.test(logic)) {
+    return value.trim();
+  }
+
+  // Left(n)
+  if (/^Left\((\d+)\)$/i.test(logic)) {
+    var match = logic.match(/^Left\((\d+)\)$/i);
+    return value.substring(0, parseInt(match[1]));
+  }
+
+  // Right(n)
+  if (/^Right\((\d+)\)$/i.test(logic)) {
+    var match = logic.match(/^Right\((\d+)\)$/i);
+    return value.slice(-parseInt(match[1]));
+  }
+
+  // Uppercase
+  if (/^Uppercase$/i.test(logic)) {
+    return value.toUpperCase();
+  }
+
+  // Lowercase
+  if (/^Lowercase$/i.test(logic)) {
+    return value.toLowerCase();
+  }
+
+  // Hardcode
+  if (/^Hardcode\s+['&quot;](.*)['&quot;]$/i.test(logic)) {
+    var match = logic.match(/^Hardcode\s+['&quot;](.*)['&quot;]$/i);
+    return match[1];
+  }
+
+  // Increment By 1
+  if (/^Increment By 1$/i.test(logic)) {
+    incrementCounter++;
+    return incrementCounter.toString();
+  }
+
+  // DateReformat
+  if (/^DateReformat\(/i.test(logic)) {
+    var match = logic.match(/DateReformat\('([^']*)',\s*'([^']*)'\)/i);
+    if (match) {
+      var inputFormat = match[1].toUpperCase();
+      var outputFormat = match[2].toUpperCase();
+      if (inputFormat === 'MMDDYY' &amp;&amp; outputFormat === 'YYYYMMDD' &amp;&amp; value.length === 6) {
+        var mm = value.substring(0, 2);
+        var dd = value.substring(2, 4);
+        var yy = value.substring(4, 6);
+        var year = parseInt(yy) &gt; 50 ? '19' + yy : '20' + yy;
+        return year + mm + dd;
+      }
+      if (inputFormat === 'YYYYMMDD' &amp;&amp; outputFormat === 'MMDDYYYY' &amp;&amp; value.length === 8) {
+        return value.substring(4, 6) + value.substring(6, 8) + value.substring(0, 4);
+      }
+      if (inputFormat === 'MMDDYYYY' &amp;&amp; outputFormat === 'YYYYMMDD' &amp;&amp; value.length === 8) {
+        return value.substring(4, 8) + value.substring(0, 4);
+      }
+    }
+    return value;
+  }
+
+  // Static values in quotes
+  if (/^['&quot;].*['&quot;]$/.test(logic)) {
+    return logic.slice(1, -1);
+  }
+
+  return value;
+}
+
+// ============================================================================
+// Create Mapper from Combined _CONFIG/_FIELD CSV
+// ============================================================================
+function createMapper(configCSV) {
+  var rows = parseCSV(configCSV, ',');
+  var headers = rows[0].map(normalizeKey);
+  var recordTypes = [];
+  var fieldsByType = {};
+
+  for (var i = 1; i &lt; rows.length; i++) {
+    var obj = {};
+    for (var j = 0; j &lt; headers.length; j++) {
+      obj[headers[j]] = (rows[i][j] || '').trim();
+    }
+
+    var rowType = obj['rowtype'] || '';
+
+    if (rowType === '_CONFIG') {
+      var rt = {
+        name: obj['recordtype'] || '',
+        indicatorPosition: obj['typeindicatorposition'] || '1',
+        indicatorLength: obj['typeindicatorlength'] || '2',
+        indicatorValue: obj['typeindicatorvalue'] || '',
+        parentRecordType: obj['parentrecordtype'] || '',
+        outputName: obj['outputname'] || obj['recordtype'] || ''
+      };
+      recordTypes.push(rt);
+      fieldsByType[rt.name] = [];
+    } else if (rowType === '_FIELD') {
+      var recType = obj['recordtype'] || '';
+      if (!fieldsByType[recType]) {
+        fieldsByType[recType] = [];
+      }
+      fieldsByType[recType].push({
+        fieldName: obj['fieldname'] || '',
+        start: obj['start'] || '1',
+        end: obj['end'] || '1',
+        length: obj['length'] || '',
+        required: (obj['required'] || '').toUpperCase() === 'Y',
+        padCharacter: obj['padcharacter'] || '',
+        justify: obj['justify'] || '',
+        defaultValue: obj['defaultvalue'] || '',
+        mappingLogic: obj['mappinglogic'] || '',
+        description: obj['description'] || ''
+      });
+    }
+  }
+
+  // Build headers per record type
+  var headersByType = {};
+  for (var typeName in fieldsByType) {
+    if (fieldsByType.hasOwnProperty(typeName)) {
+      headersByType[typeName] = fieldsByType[typeName].map(function(f) { return f.fieldName; });
+    }
+  }
+
+  return {
+    recordTypes: recordTypes,
+    fieldsByType: fieldsByType,
+    headersByType: headersByType,
+    processLine: function(line, rowIndex) {
+      var rt = detectRecordType(line, recordTypes);
+      if (!rt) {
+        throw new Error('Unknown record type at line ' + (rowIndex + 1));
+      }
+      var fields = fieldsByType[rt.name] || [];
+      var record = extractFixedLengthFields(line, fields);
+      return { type: rt.name, outputName: rt.outputName, data: record };
+    }
+  };
+}
+
+// ============================================================================
+// IPA Usage Instructions
+// ============================================================================
+// Step 1: Create mapper from combined _CONFIG/_FIELD mapping CSV
+// var mapper = createMapper(readFile_mappingCSV);
+//
+// Step 2: Split input data into lines
+// var lines = readFile_inputData.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
+//
+// Step 3: Process each line with error handling
+// var resultsByType = {};
+// try {
+//   lines.forEach(function(line, index) {
+//     var result = mapper.processLine(line, index);
+//     if (!resultsByType[result.type]) {
+//       resultsByType[result.type] = { outputName: result.outputName, rows: [] };
+//     }
+//     resultsByType[result.type].rows.push(result.data);
+//   });
+// } catch (error) {
+//   ErrorMessage = error.message;
+// }
+//
+// Step 4: Convert to CSV per record type
+// for (var typeName in resultsByType) {
+//   var typeData = resultsByType[typeName];
+//   var typeHeaders = mapper.headersByType[typeName];
+//   var csvLines = [typeHeaders.join(',')];
+//   typeData.rows.forEach(function(r) {
+//     var row = typeHeaders.map(function(h) {
+//       var v = r[h] != null ? r[h].toString() : '';
+//       return /[&quot;,\n]/.test(v) ? '&quot;' + v.replace(/&quot;/g, '&quot;&quot;') + '&quot;' : v;
+//     });
+//     csvLines.push(row.join(','));
+//   });
+//   // Output CSV: GL_FELA_20210504_Test_{typeData.outputName}_Mapped.csv
+//   var outputCSV = csvLines.join('\n');
+// }
+</pre></div></div></div>
+<div id="selfcontained" class="tab-content">
+<div class="code-container"><div class="code-header">
+<div class="code-title"><span>GL_FELA_20210504_Test_static_mapper.js</span><span class="badge">ES5</span></div>
+<button class="copy-btn" onclick="copyCode('selfcontainedCode',this)">&#128203; Copy</button>
+</div><div class="code-block"><pre id="selfcontainedCode">// Multi-Record Fixed-Length Self-Contained Static Mapper
+// Generated: 2026-03-25
+// Source: GL_FELA_20210504_Test.txt
+// Mapping: SEPTA_GEACGL_MultiRecord_Mapping.csv
+//
+// This mapper has all record type detection and field extraction rules hardcoded.
+// No external mapping file is needed at runtime.
+
+var incrementCounter = 0;
+
+// ============================================================================
+// CSV Parser
+// ============================================================================
+function parseCSV(text, delimiter) {
+  var lines = text.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
+  return lines.map(function(line) {
+    var result = [];
+    var current = '';
+    var inQuotes = false;
+    for (var i = 0; i &lt; line.length; i++) {
+      var char = line[i];
+      if (char === '&quot;') {
+        if (inQuotes &amp;&amp; line[i + 1] === '&quot;') {
+          current += '&quot;';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === delimiter &amp;&amp; !inQuotes) {
+        result.push(current);
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current);
+    return result;
+  });
+}
+
+// ============================================================================
+// Escape Regex Helper
+// ============================================================================
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&amp;');
+}
+
+// ============================================================================
+// Per-Record-Type Headers
+// ============================================================================
+var headerHeaders = ['Transaction Code', 'Company ID', 'Application Area', 'Batch Number', 'Data Type Code', 'Batch Total', 'Closed For Adjustment', 'Effective Date'];
+var detailHeaders = ['Transaction Code', 'Item', 'Trans ID', 'DRCR Code', 'Company ID', 'Account', 'Mgmt Center', 'Cost Center', 'Source Code', 'Source Date', 'Effective Date', 'Amount', 'Description', 'Fund Serial'];
+var trailerHeaders = ['Transaction Code', 'Company ID', 'Application Area', 'Batch Number', 'Data Type Code', 'Batch Total'];
+
+// ============================================================================
+// Record Type Detection
+// ============================================================================
+function detectRecordType(line) {
+  var indicator = line.substring(0, 2);
+  // Exact matches first (PT and BT)
+  if (indicator === 'PT') return 'Detail';
+  if (indicator === 'BT') return 'Trailer';
+  // First-character fallback for Header (config says BH but data has B1, B3, etc.)
+  if (line.charAt(0) === 'B') return 'Header';
+  return null;
+}
+
+// ============================================================================
+// Header Extraction (pos 1-34, 8 fields)
+// ============================================================================
+function mapHeader(line, rowIndex) {
+  var record = {};
+
+  // Transaction Code: pos 1-2, Left justify, pad=' ', default='BH'
+  var v = line.substring(0, 2).replace(/ +$/, '');
+  if (v === '') v = 'BH';
+  record['Transaction Code'] = v;
+
+  // Company ID: pos 3-6, Right justify, pad='0', logic=RemoveLeadingZeroes
+  v = line.substring(2, 6).replace(/^0+/, '');
+  if (v === '') v = '0';
+  record['Company ID'] = v;
+
+  // Application Area: pos 7-8, Left justify, pad=' '
+  v = line.substring(6, 8).replace(/ +$/, '');
+  record['Application Area'] = v;
+
+  // Batch Number: pos 9-10, Right justify, pad='0', default='01'
+  v = line.substring(8, 10).replace(/^0+/, '');
+  if (v === '') v = '01';
+  record['Batch Number'] = v;
+
+  // Data Type Code: pos 11, Left justify, pad=' ', default='2'
+  v = line.substring(10, 11).replace(/ +$/, '');
+  if (v === '') v = '2';
+  record['Data Type Code'] = v;
+
+  // Batch Total: pos 12-25, Right justify, pad='0', default='0'
+  v = line.substring(11, Math.min(25, line.length)).replace(/^0+/, '');
+  if (v === '') v = '0';
+  record['Batch Total'] = v;
+
+  // Closed For Adjustment: pos 26, Left justify, pad=' ', default='0'
+  v = (line.length &gt;= 26) ? line.substring(25, 26).replace(/ +$/, '') : '';
+  if (v === '') v = '0';
+  record['Closed For Adjustment'] = v;
+
+  // Effective Date: pos 27-34, Left justify, pad='0'
+  v = (line.length &gt;= 27) ? line.substring(26, Math.min(34, line.length)).replace(/0+$/, '') : '';
+  record['Effective Date'] = v;
+
+  // Validate required fields
+  var requiredFields = ['Transaction Code', 'Company ID', 'Application Area', 'Batch Number'];
+  for (var i = 0; i &lt; requiredFields.length; i++) {
+    if (!record[requiredFields[i]] || !record[requiredFields[i]].toString().trim()) {
+      throw new Error('Required field &quot;' + requiredFields[i] + '&quot; is blank in Header at line ' + (rowIndex + 1));
+    }
+  }
+
+  return record;
+}
+
+// ============================================================================
+// Detail Extraction (pos 1-138, 14 fields)
+// ============================================================================
+function mapDetail(line, rowIndex) {
+  var record = {};
+
+  // Transaction Code: pos 1-2, Left justify, pad=' ', default='PT'
+  var v = line.substring(0, 2).replace(/ +$/, '');
+  if (v === '') v = 'PT';
+  record['Transaction Code'] = v;
+
+  // Item: pos 3-6, Right justify, pad='0', default='0000', logic=RemoveLeadingZeroes (not in mapping but default applies)
+  v = line.substring(2, 6).replace(/^0+/, '');
+  if (v === '') v = '0000';
+  record['Item'] = v;
+
+  // Trans ID: pos 7, Left justify, pad=' ', default='1'
+  v = line.substring(6, 7).replace(/ +$/, '');
+  if (v === '') v = '1';
+  record['Trans ID'] = v;
+
+  // DRCR Code: pos 8-9, Right justify, pad='0', logic=RemoveLeadingZeroes
+  v = line.substring(7, 9).replace(/^0+/, '');
+  if (v === '') v = '0';
+  record['DRCR Code'] = v;
+
+  // Company ID: pos 10-13, Right justify, pad='0', logic=RemoveLeadingZeroes
+  v = line.substring(9, 13).replace(/^0+/, '');
+  if (v === '') v = '0';
+  record['Company ID'] = v;
+
+  // Account: pos 26-31, Right justify, pad='0', logic=RemoveLeadingZeroes
+  v = line.substring(25, 31).replace(/^0+/, '');
+  if (v === '') v = '0';
+  record['Account'] = v;
+
+  // Mgmt Center: pos 35-39, Right justify, pad='0', logic=RemoveLeadingZeroes
+  v = line.substring(34, 39).replace(/^0+/, '');
+  if (v === '') v = '0';
+  record['Mgmt Center'] = v;
+
+  // Cost Center: pos 40-43, Right justify, pad='0', default='0000', logic=RemoveLeadingZeroes
+  v = line.substring(39, 43).replace(/^0+/, '');
+  if (v === '') v = '0000';
+  record['Cost Center'] = v;
+
+  // Source Code: pos 44-47, Right justify, pad='0', logic=RemoveLeadingZeroes
+  v = line.substring(43, 47).replace(/^0+/, '');
+  if (v === '') v = '0';
+  record['Source Code'] = v;
+
+  // Source Date: pos 48-53, Left justify, pad='0' (MMDDYY format)
+  v = line.substring(47, 53).replace(/0+$/, '');
+  record['Source Date'] = v;
+
+  // Effective Date: pos 54-61, Left justify, pad='0' (MMDDYYYY format)
+  v = line.substring(53, 61).replace(/0+$/, '');
+  record['Effective Date'] = v;
+
+  // Amount: pos 62-74, Right justify, pad='0', default='0' (GEAC overpunch preserved)
+  v = line.substring(61, 74).replace(/^0+/, '');
+  if (v === '') v = '0';
+  record['Amount'] = v;
+
+  // Description: pos 75-129, Left justify, pad=' '
+  v = (line.length &gt;= 75) ? line.substring(74, Math.min(129, line.length)).replace(/ +$/, '') : '';
+  record['Description'] = v;
+
+  // Fund Serial: pos 130-138, Right justify, pad='0', logic=RemoveLeadingZeroes
+  v = (line.length &gt;= 130) ? line.substring(129, Math.min(138, line.length)).replace(/^0+/, '') : '';
+  v = v.trim();
+  if (v !== '') {
+    v = v.replace(/^0+/, '') || '0';
+  }
+  record['Fund Serial'] = v;
+
+  // Validate required fields
+  var requiredFields = ['Transaction Code', 'Item', 'DRCR Code', 'Company ID', 'Account', 'Mgmt Center', 'Source Code', 'Amount'];
+  for (var i = 0; i &lt; requiredFields.length; i++) {
+    if (!record[requiredFields[i]] || !record[requiredFields[i]].toString().trim()) {
+      throw new Error('Required field &quot;' + requiredFields[i] + '&quot; is blank in Detail at line ' + (rowIndex + 1));
+    }
+  }
+
+  return record;
+}
+
+// ============================================================================
+// Trailer Extraction (pos 1-25, 6 fields)
+// ============================================================================
+function mapTrailer(line, rowIndex) {
+  var record = {};
+
+  // Transaction Code: pos 1-2, Left justify, pad=' ', default='BT'
+  var v = line.substring(0, 2).replace(/ +$/, '');
+  if (v === '') v = 'BT';
+  record['Transaction Code'] = v;
+
+  // Company ID: pos 3-6, Right justify, pad='0', logic=RemoveLeadingZeroes
+  v = line.substring(2, 6).replace(/^0+/, '');
+  if (v === '') v = '0';
+  record['Company ID'] = v;
+
+  // Application Area: pos 7-8, Left justify, pad=' '
+  v = line.substring(6, Math.min(8, line.length)).replace(/ +$/, '');
+  record['Application Area'] = v;
+
+  // Batch Number: pos 9-10, Right justify, pad='0', default='01'
+  v = (line.length &gt;= 9) ? line.substring(8, Math.min(10, line.length)).replace(/^0+/, '') : '';
+  if (v === '') v = '01';
+  record['Batch Number'] = v;
+
+  // Data Type Code: pos 11, Left justify, pad=' ', default='2'
+  v = (line.length &gt;= 11) ? line.substring(10, 11).replace(/ +$/, '') : '';
+  if (v === '') v = '2';
+  record['Data Type Code'] = v;
+
+  // Batch Total: pos 12-25, Right justify, pad='0', default='0'
+  v = (line.length &gt;= 12) ? line.substring(11, Math.min(25, line.length)).replace(/^0+/, '') : '';
+  if (v === '') v = '0';
+  record['Batch Total'] = v;
+
+  // Validate required fields
+  var requiredFields = ['Transaction Code', 'Company ID'];
+  for (var i = 0; i &lt; requiredFields.length; i++) {
+    if (!record[requiredFields[i]] || !record[requiredFields[i]].toString().trim()) {
+      throw new Error('Required field &quot;' + requiredFields[i] + '&quot; is blank in Trailer at line ' + (rowIndex + 1));
+    }
+  }
+
+  return record;
+}
+
+// ============================================================================
+// Process Line Dispatcher
+// ============================================================================
+function processLine(line, rowIndex) {
+  var type = detectRecordType(line);
+  if (!type) {
+    throw new Error('Unknown record type at line ' + (rowIndex + 1));
+  }
+  var data;
+  if (type === 'Header') {
+    data = mapHeader(line, rowIndex);
+  } else if (type === 'Detail') {
+    data = mapDetail(line, rowIndex);
+  } else if (type === 'Trailer') {
+    data = mapTrailer(line, rowIndex);
+  }
+  return { type: type, data: data };
+}
+
+// ============================================================================
+// Fallback applyLogic for complex cases
+// ============================================================================
+function applyLogic(logic, value) {
+  if (!logic) return value;
+  logic = logic.trim();
+
+  if (/^RemoveLeadingZeroes$/i.test(logic)) {
+    return value.replace(/^0+/, '') || '0';
+  }
+  if (/^Trim$/i.test(logic)) {
+    return value.trim();
+  }
+  if (/^['&quot;].*['&quot;]$/.test(logic)) {
+    return logic.slice(1, -1);
+  }
+  return value;
+}
+
+// ============================================================================
+// IPA Usage Instructions
+// ============================================================================
+// Step 1: Split input data into lines
+// var lines = readFile_inputData.split(/\r?\n/).filter(function(l) { return l.trim() !== ''; });
+//
+// Step 2: Process each line
+// var resultsByType = { Header: [], Detail: [], Trailer: [] };
+// try {
+//   lines.forEach(function(line, index) {
+//     var result = processLine(line, index);
+//     resultsByType[result.type].push(result.data);
+//   });
+// } catch (error) {
+//   ErrorMessage = error.message;
+// }
+//
+// Step 3: Convert to CSV per record type
+// // Headers CSV
+// var headerCSV = [headerHeaders.join(',')];
+// resultsByType.Header.forEach(function(r) {
+//   var row = headerHeaders.map(function(h) {
+//     var v = r[h] != null ? r[h].toString() : '';
+//     return /[&quot;,\n]/.test(v) ? '&quot;' + v.replace(/&quot;/g, '&quot;&quot;') + '&quot;' : v;
+//   });
+//   headerCSV.push(row.join(','));
+// });
+// // Repeat for Detail (detailHeaders) and Trailer (trailerHeaders)
+</pre></div></div></div>
+<div id="csv" class="tab-content">
+<div class="csv-type-nav">
+<button class="csv-type-btn active" onclick="showCSVType('headers',this)">Headers (1 row)</button>
+<button class="csv-type-btn" onclick="showCSVType('details',this)">Details (116 rows)</button>
+<button class="csv-type-btn" onclick="showCSVType('trailers',this)">Trailers (1 row)</button>
+</div>
+<div id="headers" class="csv-sub active">
+<button class="download-btn" onclick="downloadCSV('headers')">&#128229; Download Headers CSV</button>
+<div style="height:12px"></div>
+<div class="csv-container" style="max-height:600px;overflow-y:auto"><table class="csv-table"><thead><tr><th>Transaction Code</th><th>Company ID</th><th>Application Area</th><th>Batch Number</th><th>Data Type Code</th><th>Batch Total</th><th>Closed For Adjustment</th><th>Effective Date</th></tr></thead><tbody><tr><td>B1</td><td>3100</td><td>FE</td><td>31</td><td>2</td><td>1942480</td><td>0</td><td>03272021</td></tr></tbody></table></div></div>
+<div id="details" class="csv-sub">
+<button class="download-btn" onclick="downloadCSV('details')">&#128229; Download Details CSV</button>
+<div style="height:12px"></div>
+<div class="csv-container" style="max-height:600px;overflow-y:auto"><table class="csv-table"><thead><tr><th>Transaction Code</th><th>Item</th><th>Trans ID</th><th>DRCR Code</th><th>Company ID</th><th>Account</th><th>Mgmt Center</th><th>Cost Center</th><th>Source Code</th><th>Source Date</th><th>Effective Date</th><th>Amount</th><th>Description</th><th>Fund Serial</th></tr></thead><tbody><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7958</td><td>232788593MedRisk, LLC        000000000039742     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4574</td><td>232788593MedRisk, LLC        000000000039742     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3656</td><td>232788593MedRisk, LLC        000000000039742     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3857</td><td>232788593MedRisk, LLC        000000000039743     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4443</td><td>232788593MedRisk, LLC        000000000039743     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5029</td><td>232788593MedRisk, LLC        000000000039743     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3685</td><td>232788593MEDRISK             000000000039740     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>15538</td><td>232788593MEDRISK             000000000039740     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5883</td><td>232788593MEDRISK             000000000039740     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3685</td><td>232788593MEDRISK             000000000039741     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>15538</td><td>232788593MEDRISK             000000000039741     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>21896</td><td>232862027NOVACARE OP REHABILI000000000039786     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>8457</td><td>232862027NOVACARE OP REHABILI000000000039786     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>14130</td><td>461084856Adva-Net            000000000039766     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5390</td><td>461084856Adva-Net            000000000039766     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4428</td><td>461084856Adva-Net            000000000039766     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>841</td><td>461084856Adva-Net            000000000039766     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3596</td><td>461084856Adva-Net            000000000039766     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>157327</td><td>461084856Adva-Net            000000000039767     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>11270</td><td>461084856Adva-Net            000000000039768     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4213</td><td>461084856Adva-Net            000000000039768     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>8010</td><td>273540869ONE PENN CENTER  WEI000000000039788     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>8010</td><td>273540869ONE PENN CENTER  WEI000000000039789     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7266</td><td>231742016BARDEN THORWARTH DAU000000000039771     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7714</td><td>232788593MedRisk, LLC        000000000039783     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4443</td><td>232788593MedRisk, LLC        000000000039783     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3539</td><td>232788593MedRisk, LLC        000000000039783     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5029</td><td>232788593MedRisk, LLC        000000000039783     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>11349</td><td>232788593MEDRISK INC         000000000039774     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4350</td><td>232788593MEDRISK INC         000000000039774     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3477</td><td>232788593MEDRISK INC         000000000039774     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4898</td><td>232788593MEDRISK INC         000000000039774     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3857</td><td>232788593MedRisk, LLC        000000000039821     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4443</td><td>232788593MedRisk, LLC        000000000039821     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>10057</td><td>232788593MedRisk, LLC        000000000039821     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3685</td><td>232788593MEDRISK             000000000039819     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>15538</td><td>232788593MEDRISK             000000000039819     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3160</td><td>232788593MEDRISK             000000000039820     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3633</td><td>232788593MEDRISK             000000000039820     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4091</td><td>232788593MEDRISK             000000000039820     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>12018</td><td>273540869ONE PENN CENTER  WEI000000000039839     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>10372</td><td>273540869ONE PENN CENTER  WEI000000000039839     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7560</td><td>273540869ONE PENN CENTER  WEI000000000039839     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3681</td><td>273540869ONE PENN CENTER  WEI000000000039839     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>1896</td><td>273540869ONE PENN CENTER  WEI000000000039839     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>1614</td><td>273540869ONE PENN CENTER  WEI000000000039839     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>8010</td><td>273540869ONE PENN CENTER  WEI000000000039840     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>14130</td><td>461084856Adva-Net            000000000039830     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5390</td><td>461084856Adva-Net            000000000039830     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4428</td><td>461084856Adva-Net            000000000039830     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>841</td><td>461084856Adva-Net            000000000039830     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3596</td><td>461084856Adva-Net            000000000039830     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4514</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>11610</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5320</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7560</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7241</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7241</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>11610</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7560</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>11610</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7241</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7560</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7740</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7560</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5320</td><td>273540869ONE PENN CENTER  WEI000000000039841     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>20129</td><td>210634484INSPIRA MEDICAL CENT000000000039880     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5773</td><td>232263455Southeast Radiology 000000000039897     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>2002</td><td>232667866EXCEL PHYSICAL THERA000000000039878     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>8457</td><td>232667866EXCEL PHYSICAL THERA000000000039878     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4861</td><td>232667866EXCEL PHYSICAL THERA000000000039878     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3886</td><td>232667866EXCEL PHYSICAL THERA000000000039878     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>2002</td><td>232667866EXCEL PHYSICAL THERA000000000039879     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>8457</td><td>232667866EXCEL PHYSICAL THERA000000000039879     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4861</td><td>232667866EXCEL PHYSICAL THERA000000000039879     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3886</td><td>232667866EXCEL PHYSICAL THERA000000000039879     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>2002</td><td>232667866EXCEL PHYSICAL THERA000000000039879     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>12685</td><td>232667866EXCEL PHYSICAL THERA000000000039879     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4861</td><td>232667866EXCEL PHYSICAL THERA000000000039879     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3886</td><td>232667866EXCEL PHYSICAL THERA000000000039879     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>11610</td><td>273540869ONE PENN CENTER  WEI000000000039889     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5320</td><td>273540869ONE PENN CENTER  WEI000000000039889     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7241</td><td>273540869ONE PENN CENTER  WEI000000000039889     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>2036</td><td>273540869ONE PENN CENTER  WEI000000000039889     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7560</td><td>273540869ONE PENN CENTER  WEI000000000039889     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>2083</td><td>273540869ONE PENN CENTER  WEI000000000039889     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518199</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>345000</td><td>471287214DigiStream Mid-Atlan000000000039877     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>8436</td><td>232809585JEFFERSON UNIVERSITY000000000039884     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518199</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>1085</td><td>362685608Sedgwick Indexing   000000000039996     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518199</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>1085</td><td>362685608Sedgwick Indexing   000000000039996     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518199</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>1085</td><td>362685608Sedgwick Indexing   000000000039996     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518199</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>1085</td><td>362685608Sedgwick Indexing   000000000039996     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518199</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>6420</td><td>232146815The MCS Group, Inc. 000000000040003     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5029</td><td>232788593MEDRISK INC         000000000040043     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>1791</td><td>232788593MEDRISK INC         000000000040044     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>11350</td><td>232788593MEDRISK INC         000000000040044     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4898</td><td>232788593MEDRISK INC         000000000040044     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>7714</td><td>232788593MEDRISK INC         000000000040045     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4443</td><td>232788593MEDRISK INC         000000000040045     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5029</td><td>232788593MEDRISK INC         000000000040045     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518199</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>24333</td><td>232146815The MCS Group, Inc. 000000000040077     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518199</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>53193</td><td>232146815The MCS Group, Inc. 000000000040078     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518199</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>230000</td><td>233083020Detectives-Private I000000000040033     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>1247</td><td>232856880RECONSTRUCTIVE ORTHO000000000040072     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3253</td><td>232856880RECONSTRUCTIVE ORTHO000000000040072     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>12392</td><td>900870615PHOENIXVILLE ORTHOPE000000000040061     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518199</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>212500</td><td>233083020Detectives-Private I000000000040034     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518199</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>217500</td><td>233083020Detectives-Private I000000000040035     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>14130</td><td>461084856Adva-Net            000000000040090     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>5390</td><td>461084856Adva-Net            000000000040090     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>4428</td><td>461084856Adva-Net            000000000040090     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>841</td><td>461084856Adva-Net            000000000040090     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518599</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>3596</td><td>461084856Adva-Net            000000000040090     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>10860</td><td>831002191TEMPLE FAC ORTHO AND000000000040109     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>10</td><td>3100</td><td>518299</td><td>39102</td><td>9900</td><td>611</td><td>032721</td><td>03272021</td><td>15603</td><td>831002191TEMPLE FAC ORTHO AND000000000040109     FEL</td><td></td></tr><tr><td>PT</td><td>0000</td><td>1</td><td>60</td><td>3100</td><td>263500</td><td>5031</td><td>0000</td><td>611</td><td>032721</td><td>03272021</td><td>1942480</td><td>                                                 FEL</td><td></td></tr></tbody></table></div></div>
+<div id="trailers" class="csv-sub">
+<button class="download-btn" onclick="downloadCSV('trailers')">&#128229; Download Trailers CSV</button>
+<div style="height:12px"></div>
+<div class="csv-container" style="max-height:600px;overflow-y:auto"><table class="csv-table"><thead><tr><th>Transaction Code</th><th>Company ID</th><th>Application Area</th><th>Batch Number</th><th>Data Type Code</th><th>Batch Total</th></tr></thead><tbody><tr><td>BT</td><td>3100</td><td>FE</td><td>31</td><td>2</td><td>1942480</td></tr></tbody></table></div></div>
+</div>
+<script>
+function showTab(id,btn){document.querySelectorAll(".tab-content").forEach(function(t){t.classList.remove("active")});document.querySelectorAll(".tab-btn").forEach(function(b){b.classList.remove("active")});document.getElementById(id).classList.add("active");btn.classList.add("active")}
+function showCSVType(id,btn){document.querySelectorAll(".csv-sub").forEach(function(t){t.classList.remove("active")});document.querySelectorAll(".csv-type-btn").forEach(function(b){b.classList.remove("active")});document.getElementById(id).classList.add("active");btn.classList.add("active")}
+function copyCode(id,btn){var text=document.getElementById(id).textContent;navigator.clipboard.writeText(text).then(function(){btn.innerHTML="&#10003; Copied";btn.classList.add("copied");setTimeout(function(){btn.innerHTML="&#128203; Copy";btn.classList.remove("copied")},2000)})}
+var csvData={headers:"VHJhbnNhY3Rpb24gQ29kZSxDb21wYW55IElELEFwcGxpY2F0aW9uIEFyZWEsQmF0Y2ggTnVtYmVyLERhdGEgVHlwZSBDb2RlLEJhdGNoIFRvdGFsLENsb3NlZCBGb3IgQWRqdXN0bWVudCxFZmZlY3RpdmUgRGF0ZQpCMSwzMTAwLEZFLDMxLDIsMTk0MjQ4MCwwLDAzMjcyMDIx",details:"VHJhbnNhY3Rpb24gQ29kZSxJdGVtLFRyYW5zIElELERSQ1IgQ29kZSxDb21wYW55IElELEFjY291bnQsTWdtdCBDZW50ZXIsQ29zdCBDZW50ZXIsU291cmNlIENvZGUsU291cmNlIERhdGUsRWZmZWN0aXZlIERhdGUsQW1vdW50LERlc2NyaXB0aW9uLEZ1bmQgU2VyaWFsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNzk1OCwiMjMyNzg4NTkzTWVkUmlzaywgTExDICAgICAgICAwMDAwMDAwMDAwMzk3NDIgICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNDU3NCwiMjMyNzg4NTkzTWVkUmlzaywgTExDICAgICAgICAwMDAwMDAwMDAwMzk3NDIgICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMzY1NiwiMjMyNzg4NTkzTWVkUmlzaywgTExDICAgICAgICAwMDAwMDAwMDAwMzk3NDIgICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMzg1NywiMjMyNzg4NTkzTWVkUmlzaywgTExDICAgICAgICAwMDAwMDAwMDAwMzk3NDMgICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNDQ0MywiMjMyNzg4NTkzTWVkUmlzaywgTExDICAgICAgICAwMDAwMDAwMDAwMzk3NDMgICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNTAyOSwiMjMyNzg4NTkzTWVkUmlzaywgTExDICAgICAgICAwMDAwMDAwMDAwMzk3NDMgICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMzY4NSwyMzI3ODg1OTNNRURSSVNLICAgICAgICAgICAgIDAwMDAwMDAwMDAzOTc0MCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDE1NTM4LDIzMjc4ODU5M01FRFJJU0sgICAgICAgICAgICAgMDAwMDAwMDAwMDM5NzQwICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNTg4MywyMzI3ODg1OTNNRURSSVNLICAgICAgICAgICAgIDAwMDAwMDAwMDAzOTc0MCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDM2ODUsMjMyNzg4NTkzTUVEUklTSyAgICAgICAgICAgICAwMDAwMDAwMDAwMzk3NDEgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwxNTUzOCwyMzI3ODg1OTNNRURSSVNLICAgICAgICAgICAgIDAwMDAwMDAwMDAzOTc0MSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDIxODk2LDIzMjg2MjAyN05PVkFDQVJFIE9QIFJFSEFCSUxJMDAwMDAwMDAwMDM5Nzg2ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsODQ1NywyMzI4NjIwMjdOT1ZBQ0FSRSBPUCBSRUhBQklMSTAwMDAwMDAwMDAzOTc4NiAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTgyOTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDE0MTMwLDQ2MTA4NDg1NkFkdmEtTmV0ICAgICAgICAgICAgMDAwMDAwMDAwMDM5NzY2ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODI5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNTM5MCw0NjEwODQ4NTZBZHZhLU5ldCAgICAgICAgICAgIDAwMDAwMDAwMDAzOTc2NiAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTgyOTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDQ0MjgsNDYxMDg0ODU2QWR2YS1OZXQgICAgICAgICAgICAwMDAwMDAwMDAwMzk3NjYgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw4NDEsNDYxMDg0ODU2QWR2YS1OZXQgICAgICAgICAgICAwMDAwMDAwMDAwMzk3NjYgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwzNTk2LDQ2MTA4NDg1NkFkdmEtTmV0ICAgICAgICAgICAgMDAwMDAwMDAwMDM5NzY2ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODI5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTU3MzI3LDQ2MTA4NDg1NkFkdmEtTmV0ICAgICAgICAgICAgMDAwMDAwMDAwMDM5NzY3ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODI5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTEyNzAsNDYxMDg0ODU2QWR2YS1OZXQgICAgICAgICAgICAwMDAwMDAwMDAwMzk3NjggICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4Mjk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw0MjEzLDQ2MTA4NDg1NkFkdmEtTmV0ICAgICAgICAgICAgMDAwMDAwMDAwMDM5NzY4ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODI5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsODAxMCwyNzM1NDA4NjlPTkUgUEVOTiBDRU5URVIgIFdFSTAwMDAwMDAwMDAzOTc4OCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTgyOTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDgwMTAsMjczNTQwODY5T05FIFBFTk4gQ0VOVEVSICBXRUkwMDAwMDAwMDAwMzk3ODkgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4Mjk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw3MjY2LDIzMTc0MjAxNkJBUkRFTiBUSE9SV0FSVEggREFVMDAwMDAwMDAwMDM5NzcxICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNzcxNCwiMjMyNzg4NTkzTWVkUmlzaywgTExDICAgICAgICAwMDAwMDAwMDAwMzk3ODMgICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNDQ0MywiMjMyNzg4NTkzTWVkUmlzaywgTExDICAgICAgICAwMDAwMDAwMDAwMzk3ODMgICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMzUzOSwiMjMyNzg4NTkzTWVkUmlzaywgTExDICAgICAgICAwMDAwMDAwMDAwMzk3ODMgICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNTAyOSwiMjMyNzg4NTkzTWVkUmlzaywgTExDICAgICAgICAwMDAwMDAwMDAwMzk3ODMgICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTEzNDksMjMyNzg4NTkzTUVEUklTSyBJTkMgICAgICAgICAwMDAwMDAwMDAwMzk3NzQgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw0MzUwLDIzMjc4ODU5M01FRFJJU0sgSU5DICAgICAgICAgMDAwMDAwMDAwMDM5Nzc0ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMzQ3NywyMzI3ODg1OTNNRURSSVNLIElOQyAgICAgICAgIDAwMDAwMDAwMDAzOTc3NCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDQ4OTgsMjMyNzg4NTkzTUVEUklTSyBJTkMgICAgICAgICAwMDAwMDAwMDAwMzk3NzQgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwzODU3LCIyMzI3ODg1OTNNZWRSaXNrLCBMTEMgICAgICAgIDAwMDAwMDAwMDAzOTgyMSAgICAgRkVMIiwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw0NDQzLCIyMzI3ODg1OTNNZWRSaXNrLCBMTEMgICAgICAgIDAwMDAwMDAwMDAzOTgyMSAgICAgRkVMIiwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwxMDA1NywiMjMyNzg4NTkzTWVkUmlzaywgTExDICAgICAgICAwMDAwMDAwMDAwMzk4MjEgICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMzY4NSwyMzI3ODg1OTNNRURSSVNLICAgICAgICAgICAgIDAwMDAwMDAwMDAzOTgxOSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDE1NTM4LDIzMjc4ODU5M01FRFJJU0sgICAgICAgICAgICAgMDAwMDAwMDAwMDM5ODE5ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMzE2MCwyMzI3ODg1OTNNRURSSVNLICAgICAgICAgICAgIDAwMDAwMDAwMDAzOTgyMCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDM2MzMsMjMyNzg4NTkzTUVEUklTSyAgICAgICAgICAgICAwMDAwMDAwMDAwMzk4MjAgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw0MDkxLDIzMjc4ODU5M01FRFJJU0sgICAgICAgICAgICAgMDAwMDAwMDAwMDM5ODIwICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTIwMTgsMjczNTQwODY5T05FIFBFTk4gQ0VOVEVSICBXRUkwMDAwMDAwMDAwMzk4MzkgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwxMDM3MiwyNzM1NDA4NjlPTkUgUEVOTiBDRU5URVIgIFdFSTAwMDAwMDAwMDAzOTgzOSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDc1NjAsMjczNTQwODY5T05FIFBFTk4gQ0VOVEVSICBXRUkwMDAwMDAwMDAwMzk4MzkgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwzNjgxLDI3MzU0MDg2OU9ORSBQRU5OIENFTlRFUiAgV0VJMDAwMDAwMDAwMDM5ODM5ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTg5NiwyNzM1NDA4NjlPTkUgUEVOTiBDRU5URVIgIFdFSTAwMDAwMDAwMDAzOTgzOSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDE2MTQsMjczNTQwODY5T05FIFBFTk4gQ0VOVEVSICBXRUkwMDAwMDAwMDAwMzk4MzkgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4Mjk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw4MDEwLDI3MzU0MDg2OU9ORSBQRU5OIENFTlRFUiAgV0VJMDAwMDAwMDAwMDM5ODQwICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODI5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTQxMzAsNDYxMDg0ODU2QWR2YS1OZXQgICAgICAgICAgICAwMDAwMDAwMDAwMzk4MzAgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4Mjk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw1MzkwLDQ2MTA4NDg1NkFkdmEtTmV0ICAgICAgICAgICAgMDAwMDAwMDAwMDM5ODMwICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODI5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNDQyOCw0NjEwODQ4NTZBZHZhLU5ldCAgICAgICAgICAgIDAwMDAwMDAwMDAzOTgzMCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDg0MSw0NjEwODQ4NTZBZHZhLU5ldCAgICAgICAgICAgIDAwMDAwMDAwMDAzOTgzMCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDM1OTYsNDYxMDg0ODU2QWR2YS1OZXQgICAgICAgICAgICAwMDAwMDAwMDAwMzk4MzAgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4Mjk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw0NTE0LDI3MzU0MDg2OU9ORSBQRU5OIENFTlRFUiAgV0VJMDAwMDAwMDAwMDM5ODQxICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTE2MTAsMjczNTQwODY5T05FIFBFTk4gQ0VOVEVSICBXRUkwMDAwMDAwMDAwMzk4NDEgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw1MzIwLDI3MzU0MDg2OU9ORSBQRU5OIENFTlRFUiAgV0VJMDAwMDAwMDAwMDM5ODQxICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNzU2MCwyNzM1NDA4NjlPTkUgUEVOTiBDRU5URVIgIFdFSTAwMDAwMDAwMDAzOTg0MSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDcyNDEsMjczNTQwODY5T05FIFBFTk4gQ0VOVEVSICBXRUkwMDAwMDAwMDAwMzk4NDEgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw3MjQxLDI3MzU0MDg2OU9ORSBQRU5OIENFTlRFUiAgV0VJMDAwMDAwMDAwMDM5ODQxICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTE2MTAsMjczNTQwODY5T05FIFBFTk4gQ0VOVEVSICBXRUkwMDAwMDAwMDAwMzk4NDEgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw3NTYwLDI3MzU0MDg2OU9ORSBQRU5OIENFTlRFUiAgV0VJMDAwMDAwMDAwMDM5ODQxICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTE2MTAsMjczNTQwODY5T05FIFBFTk4gQ0VOVEVSICBXRUkwMDAwMDAwMDAwMzk4NDEgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw3MjQxLDI3MzU0MDg2OU9ORSBQRU5OIENFTlRFUiAgV0VJMDAwMDAwMDAwMDM5ODQxICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNzU2MCwyNzM1NDA4NjlPTkUgUEVOTiBDRU5URVIgIFdFSTAwMDAwMDAwMDAzOTg0MSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDc3NDAsMjczNTQwODY5T05FIFBFTk4gQ0VOVEVSICBXRUkwMDAwMDAwMDAwMzk4NDEgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw3NTYwLDI3MzU0MDg2OU9ORSBQRU5OIENFTlRFUiAgV0VJMDAwMDAwMDAwMDM5ODQxICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNTMyMCwyNzM1NDA4NjlPTkUgUEVOTiBDRU5URVIgIFdFSTAwMDAwMDAwMDAzOTg0MSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDIwMTI5LDIxMDYzNDQ4NElOU1BJUkEgTUVESUNBTCBDRU5UMDAwMDAwMDAwMDM5ODgwICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODI5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNTc3MywyMzIyNjM0NTVTb3V0aGVhc3QgUmFkaW9sb2d5IDAwMDAwMDAwMDAzOTg5NyAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDIwMDIsMjMyNjY3ODY2RVhDRUwgUEhZU0lDQUwgVEhFUkEwMDAwMDAwMDAwMzk4NzggICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw4NDU3LDIzMjY2Nzg2NkVYQ0VMIFBIWVNJQ0FMIFRIRVJBMDAwMDAwMDAwMDM5ODc4ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNDg2MSwyMzI2Njc4NjZFWENFTCBQSFlTSUNBTCBUSEVSQTAwMDAwMDAwMDAzOTg3OCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDM4ODYsMjMyNjY3ODY2RVhDRUwgUEhZU0lDQUwgVEhFUkEwMDAwMDAwMDAwMzk4NzggICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwyMDAyLDIzMjY2Nzg2NkVYQ0VMIFBIWVNJQ0FMIFRIRVJBMDAwMDAwMDAwMDM5ODc5ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsODQ1NywyMzI2Njc4NjZFWENFTCBQSFlTSUNBTCBUSEVSQTAwMDAwMDAwMDAzOTg3OSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDQ4NjEsMjMyNjY3ODY2RVhDRUwgUEhZU0lDQUwgVEhFUkEwMDAwMDAwMDAwMzk4NzkgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwzODg2LDIzMjY2Nzg2NkVYQ0VMIFBIWVNJQ0FMIFRIRVJBMDAwMDAwMDAwMDM5ODc5ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMjAwMiwyMzI2Njc4NjZFWENFTCBQSFlTSUNBTCBUSEVSQTAwMDAwMDAwMDAzOTg3OSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDEyNjg1LDIzMjY2Nzg2NkVYQ0VMIFBIWVNJQ0FMIFRIRVJBMDAwMDAwMDAwMDM5ODc5ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNDg2MSwyMzI2Njc4NjZFWENFTCBQSFlTSUNBTCBUSEVSQTAwMDAwMDAwMDAzOTg3OSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDM4ODYsMjMyNjY3ODY2RVhDRUwgUEhZU0lDQUwgVEhFUkEwMDAwMDAwMDAwMzk4NzkgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwxMTYxMCwyNzM1NDA4NjlPTkUgUEVOTiBDRU5URVIgIFdFSTAwMDAwMDAwMDAzOTg4OSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDUzMjAsMjczNTQwODY5T05FIFBFTk4gQ0VOVEVSICBXRUkwMDAwMDAwMDAwMzk4ODkgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw3MjQxLDI3MzU0MDg2OU9ORSBQRU5OIENFTlRFUiAgV0VJMDAwMDAwMDAwMDM5ODg5ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMjAzNiwyNzM1NDA4NjlPTkUgUEVOTiBDRU5URVIgIFdFSTAwMDAwMDAwMDAzOTg4OSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDc1NjAsMjczNTQwODY5T05FIFBFTk4gQ0VOVEVSICBXRUkwMDAwMDAwMDAwMzk4ODkgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwyMDgzLDI3MzU0MDg2OU9ORSBQRU5OIENFTlRFUiAgV0VJMDAwMDAwMDAwMDM5ODg5ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODE5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMzQ1MDAwLDQ3MTI4NzIxNERpZ2lTdHJlYW0gTWlkLUF0bGFuMDAwMDAwMDAwMDM5ODc3ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODI5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsODQzNiwyMzI4MDk1ODVKRUZGRVJTT04gVU5JVkVSU0lUWTAwMDAwMDAwMDAzOTg4NCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTgxOTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDEwODUsMzYyNjg1NjA4U2VkZ3dpY2sgSW5kZXhpbmcgICAwMDAwMDAwMDAwMzk5OTYgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4MTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwxMDg1LDM2MjY4NTYwOFNlZGd3aWNrIEluZGV4aW5nICAgMDAwMDAwMDAwMDM5OTk2ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODE5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTA4NSwzNjI2ODU2MDhTZWRnd2ljayBJbmRleGluZyAgIDAwMDAwMDAwMDAzOTk5NiAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTgxOTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDEwODUsMzYyNjg1NjA4U2VkZ3dpY2sgSW5kZXhpbmcgICAwMDAwMDAwMDAwMzk5OTYgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4MTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw2NDIwLCIyMzIxNDY4MTVUaGUgTUNTIEdyb3VwLCBJbmMuIDAwMDAwMDAwMDA0MDAwMyAgICAgRkVMIiwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw1MDI5LDIzMjc4ODU5M01FRFJJU0sgSU5DICAgICAgICAgMDAwMDAwMDAwMDQwMDQzICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTc5MSwyMzI3ODg1OTNNRURSSVNLIElOQyAgICAgICAgIDAwMDAwMDAwMDA0MDA0NCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDExMzUwLDIzMjc4ODU5M01FRFJJU0sgSU5DICAgICAgICAgMDAwMDAwMDAwMDQwMDQ0ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNDg5OCwyMzI3ODg1OTNNRURSSVNLIElOQyAgICAgICAgIDAwMDAwMDAwMDA0MDA0NCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDc3MTQsMjMyNzg4NTkzTUVEUklTSyBJTkMgICAgICAgICAwMDAwMDAwMDAwNDAwNDUgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw0NDQzLDIzMjc4ODU5M01FRFJJU0sgSU5DICAgICAgICAgMDAwMDAwMDAwMDQwMDQ1ICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNTAyOSwyMzI3ODg1OTNNRURSSVNLIElOQyAgICAgICAgIDAwMDAwMDAwMDA0MDA0NSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTgxOTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDI0MzMzLCIyMzIxNDY4MTVUaGUgTUNTIEdyb3VwLCBJbmMuIDAwMDAwMDAwMDA0MDA3NyAgICAgRkVMIiwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4MTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw1MzE5MywiMjMyMTQ2ODE1VGhlIE1DUyBHcm91cCwgSW5jLiAwMDAwMDAwMDAwNDAwNzggICAgIEZFTCIsClBULDAwMDAsMSwxMCwzMTAwLDUxODE5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMjMwMDAwLDIzMzA4MzAyMERldGVjdGl2ZXMtUHJpdmF0ZSBJMDAwMDAwMDAwMDQwMDMzICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODU5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTI0NywyMzI4NTY4ODBSRUNPTlNUUlVDVElWRSBPUlRITzAwMDAwMDAwMDA0MDA3MiAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTg1OTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDMyNTMsMjMyODU2ODgwUkVDT05TVFJVQ1RJVkUgT1JUSE8wMDAwMDAwMDAwNDAwNzIgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4Mjk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwxMjM5Miw5MDA4NzA2MTVQSE9FTklYVklMTEUgT1JUSE9QRTAwMDAwMDAwMDA0MDA2MSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTgxOTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDIxMjUwMCwyMzMwODMwMjBEZXRlY3RpdmVzLVByaXZhdGUgSTAwMDAwMDAwMDA0MDAzNCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTgxOTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDIxNzUwMCwyMzMwODMwMjBEZXRlY3RpdmVzLVByaXZhdGUgSTAwMDAwMDAwMDA0MDAzNSAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTgyOTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDE0MTMwLDQ2MTA4NDg1NkFkdmEtTmV0ICAgICAgICAgICAgMDAwMDAwMDAwMDQwMDkwICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODI5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsNTM5MCw0NjEwODQ4NTZBZHZhLU5ldCAgICAgICAgICAgIDAwMDAwMDAwMDA0MDA5MCAgICAgRkVMLApQVCwwMDAwLDEsMTAsMzEwMCw1MTgyOTksMzkxMDIsOTkwMCw2MTEsMDMyNzIxLDAzMjcyMDIxLDQ0MjgsNDYxMDg0ODU2QWR2YS1OZXQgICAgICAgICAgICAwMDAwMDAwMDAwNDAwOTAgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSw4NDEsNDYxMDg0ODU2QWR2YS1OZXQgICAgICAgICAgICAwMDAwMDAwMDAwNDAwOTAgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4NTk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwzNTk2LDQ2MTA4NDg1NkFkdmEtTmV0ICAgICAgICAgICAgMDAwMDAwMDAwMDQwMDkwICAgICBGRUwsClBULDAwMDAsMSwxMCwzMTAwLDUxODI5OSwzOTEwMiw5OTAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTA4NjAsODMxMDAyMTkxVEVNUExFIEZBQyBPUlRITyBBTkQwMDAwMDAwMDAwNDAxMDkgICAgIEZFTCwKUFQsMDAwMCwxLDEwLDMxMDAsNTE4Mjk5LDM5MTAyLDk5MDAsNjExLDAzMjcyMSwwMzI3MjAyMSwxNTYwMyw4MzEwMDIxOTFURU1QTEUgRkFDIE9SVEhPIEFORDAwMDAwMDAwMDA0MDEwOSAgICAgRkVMLApQVCwwMDAwLDEsNjAsMzEwMCwyNjM1MDAsNTAzMSwwMDAwLDYxMSwwMzI3MjEsMDMyNzIwMjEsMTk0MjQ4MCwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRkVMLA==",trailers:"VHJhbnNhY3Rpb24gQ29kZSxDb21wYW55IElELEFwcGxpY2F0aW9uIEFyZWEsQmF0Y2ggTnVtYmVyLERhdGEgVHlwZSBDb2RlLEJhdGNoIFRvdGFsCkJULDMxMDAsRkUsMzEsMiwxOTQyNDgw"};
+function downloadCSV(type){var b64=csvData[type];var raw=atob(b64);var blob=new Blob([raw],{type:"text/csv"});var url=URL.createObjectURL(blob);var a=document.createElement("a");var names={headers:"GL_FELA_20210504_Test_Headers_Mapped.csv",details:"GL_FELA_20210504_Test_Details_Mapped.csv",trailers:"GL_FELA_20210504_Test_Trailers_Mapped.csv"};a.href=url;a.download=names[type];document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url)}
+</script>
+</div>
+</body>
+</html>

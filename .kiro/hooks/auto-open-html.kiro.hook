@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Auto Open Generated HTML",
+  "description": "Automatically opens generated .html files in the default browser when they are created in the output directory.",
+  "version": "1",
+  "when": {
+    "type": "fileCreated",
+    "patterns": [
+      "output/*.html"
+    ]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "explorer.exe \"${file}\""
+  }
+}

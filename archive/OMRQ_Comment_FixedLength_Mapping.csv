@@ -1,6 +1,0 @@
-Field Name,Start,End,Length,Required,Mapping Logic,Pad Character,Justify,Default Value,Description
-Record Type,1,1,1,Y,,,,,C for Comment
-Requisition Number,2,14,13,Y,, ,right,,Requisition identifier
-Comment Sequence,15,29,15,Y,, ,right,,Comment sequence number
-Comment Type,30,89,60,N,, ,left,,Type of comment
-Comment Text,90,1089,1000,N,, ,left,,Comment text content
