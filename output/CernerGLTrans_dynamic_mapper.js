@@ -1,7 +1,4 @@
 // Universal Dynamic Mapper - Works with any mapping table
-// Generated: 2026-03-25
-// Source: CernerGLTrans.txt
-// Mapping: CernerGL_MappingTable.csv
 var incrementCounter = 0;
 
 function createMapper(MappingTable) {

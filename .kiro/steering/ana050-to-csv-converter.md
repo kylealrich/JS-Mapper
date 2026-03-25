@@ -186,6 +186,22 @@ _FIELD,Trailer,Transaction Code,1,2,2,Y, ,Left,BT,,Default BT,,,,,
 - `mv -Force` needed when file already exists in archive from a prior `cp`.
 - `Move-Item -Force` works for archiving files on this machine.
 
+## CernerGLTrans Re-Processing (I8) - Learnings (2026-03-26)
+
+### Archive Cross-Reference
+- Existing validated mapping found at `archive/Aultman_Health_I8_CernerGLTrans_Mapping.csv` — used as baseline.
+- A second mapping `archive/CernerGL_MappingTable.csv` existed but had discrepancies (Column18 for TransactionDate instead of Column7, `Right(Column4,3)` instead of `Right(Column4,5)`, `Hardcode '0'` for UnitsAmount instead of Column11). The first archive mapping was correct.
+- Document v1.1 field mapping table (Table 6, 80 rows) confirmed all fields match the archive mapping exactly — no changes in this version.
+
+### Key Reminders
+- TransactionDate uses Column G = Column7 (not Column18). PostingDate uses Column R = Column18.
+- FinanceDimension1 uses `Right(Column4,5)` — last 5 digits, not 3.
+- UnitsAmount maps to Column K = Column11 (not hardcoded '0').
+- AutoReverse is `Hardcode 'N'` per document ("HardCoded = N").
+- Fields to skip: UniqueID (Row 1), GLTransactionInterface_user_fields (Row 5), OrganizationCode (Row 8, "Blank"), AccountingUnit (Row 10, "Not Applicable"), all ReportCurrencyAmount.* (Rows 20-47), ErrorMessage (Row 64), AutoReverseDate-SenderOriginalBOD (Rows 65-78), Ledger (Row 62, no source).
+- File type: Comma-delimited, single business class (GLTransactionInterface).
+- python-docx Table 6 is the field mapping table (identified by header signature: S No., Target, Input/source file, Remarks, Type, Size, Required).
+
 ## OMRQ Owens and Minor Requisition Interface (I71) - Learnings (2026-03-25)
 
 ### Document Structure
@@ -269,3 +285,61 @@ _FIELD,Trailer,Transaction Code,1,2,2,Y, ,Left,BT,,Default BT,,,,,
 
 ### Output Files Generated
 - `output/SEPTA_GEACGL_MultiRecord_Mapping.csv` — Combined `_CONFIG`/`_FIELD` format with 3 `_CONFIG` rows and 28 `_FIELD` rows (8 Header + 14 Detail + 6 Trailer fields).
+
+## CernerGLTrans Re-Processing v1.1 (I8) - Learnings (2026-03-26)
+
+### CRITICAL: Always treat the document as source of truth
+- Do NOT blindly trust archive mappings. The document may have changed between versions.
+- Always derive mappings fresh from the document, then compare against archive to identify changes.
+- Archive is useful for cross-reference and validation, but the document wins when they disagree.
+
+### Changes Found in v1.1 vs Archive
+- **FinanceEnterpriseGroup**: Changed from `Hardcode 'AHF'` to `Hardcode '1'`. The source column in the document literally says `1` with no Column reference — this IS the hardcoded value, not an S No. artifact.
+- **JournalCode**: Document says plain `Column P` (→ `Column16`). Archive had `Trim(Column16)` which was an undocumented enhancement. v1.1 output uses the document's `Column16` as-is.
+
+### Field Mapping Summary (all 22 fields verified from document)
+| SNo | Target | Col | Logic | Req |
+|-----|--------|-----|-------|-----|
+| 2 | FinanceEnterpriseGroup | - | Hardcode '1' | Y |
+| 3 | GLTransactionInterface.RunGroup | 1 | Column1 | Y |
+| 4 | GLTransactionInterface.SequenceNumber | - | Increment By 1 | Y |
+| 6 | AccountingEntity | 3 | RemoveLeadingZeroes(Column3) | Y |
+| 7 | Status | - | Hardcode '0' | - |
+| 9 | ToAccountingEntity | 3 | Column3 | - |
+| 11 | AccountCode | 5 | Left(Column5,6) | Y |
+| 12 | GeneralLedgerEvent | 6 | If Column6=='' Then 'TC' Else Column6 | - |
+| 13 | JournalCode | 16 | Column16 | - |
+| 14 | TransactionDate | 7 | DateReformat(Column7,'MMDDYYYY','YYYYMMDD') | - |
+| 15 | Reference | 8 | Column8 | - |
+| 16 | Description | 9 | Column9 | - |
+| 17 | CurrencyCode | 10 | Column10 | - |
+| 18 | UnitsAmount | 11 | Column11 | - |
+| 19 | TransactionAmount | 12 | Column12 | - |
+| 48 | System | 15 | If Column15=='' Then 'GL' Else Column15 | - |
+| 49 | AutoReverse | - | Hardcode 'N' | - |
+| 50 | PostingDate | 18 | DateReformat(Column18,'MMDDYYYY','YYYYMMDD') | Y |
+| 51 | Project | 19 | Column19 | - |
+| 52 | FinanceDimension1 | 4 | Right(Column4,5) | - |
+| 54 | FinanceDimension3 | 20 | Column20 | - |
+| 63 | DocumentNumber | 21 | Column21 | - |
+
+### Skipped Fields (confirmed correct to skip)
+- Row 1: UniqueID (system-generated)
+- Row 5: GLTransactionInterface_user_fields (internal placeholder)
+- Row 8: OrganizationCode (source=Blank)
+- Row 10: AccountingUnit (source=Not Applicable)
+- Rows 20-47: ReportCurrencyAmount.* (28 fields, no source mapping)
+- Row 53: FinanceDimension2 (no source)
+- Rows 55-61: FinanceDimension4-10 (no source)
+- Row 62: Ledger (no source)
+- Row 64: ErrorMessage (system-generated)
+- Rows 65-78: AutoReverseDate through SenderOriginalBOD (no source)
+
+### Optimization Notes
+- Archive cross-reference is useful but NEVER authoritative over the document.
+- FinanceEnterpriseGroup source column value `1` IS the hardcoded value — not an S No. artifact. v1.1 changed this from 'AHF' to '1'.
+- python-docx Table 6 identification by header signature (`S No.`, `Target`, `Input/source file`, `Remarks`, `Type`, `Size`, `Required`) remains reliable across document versions.
+- File type: Comma-delimited, single business class (GLTransactionInterface).
+
+### Output
+- `output/Aultman_Health_I8_CernerGLTrans_Mapping.csv` — 22 target fields, delimited mapping format matching `artifacts/mapping/1. sample_delimited_mapping.csv` structure.

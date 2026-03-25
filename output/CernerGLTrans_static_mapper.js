@@ -1,7 +1,4 @@
 // Self-Contained Static Mapper - No external mapping table required
-// Generated: 2026-03-25
-// Source: CernerGLTrans.txt
-// Mapping: CernerGL_MappingTable.csv
 var incrementCounter = 0;
 
 function mapRecord(data, rowIndex) {
@@ -41,9 +38,6 @@ function mapRecord(data, rowIndex) {
 
   // ToAccountingEntity
   record["ToAccountingEntity"] = safeGet(data, 2, "ToAccountingEntity", rowIndex);
-  if (!record["ToAccountingEntity"] || !record["ToAccountingEntity"].toString().trim()) {
-    throw new Error('Required field "ToAccountingEntity" is blank in row ' + (rowIndex + 1));
-  }
 
   // AccountCode
   record["AccountCode"] = (data[4] || '').substring(0, 6);
@@ -55,10 +49,10 @@ function mapRecord(data, rowIndex) {
   record["GeneralLedgerEvent"] = (data[5] || '') == '' ? 'TC' : (data[5] || '');
 
   // JournalCode
-  record["JournalCode"] = (function() { var value = data[15]; if (value === null || value === undefined) return ''; return value.toString().trim(); })();
+  record["JournalCode"] = safeGet(data, 15, "JournalCode", rowIndex);
 
   // TransactionDate
-  record["TransactionDate"] = (function(dateStr) { return dateStr && dateStr.length === 8 ? dateStr.substring(4, 8) + dateStr.substring(0, 4) : dateStr; })(data[17] || '');
+  record["TransactionDate"] = (function(dateStr) { return dateStr && dateStr.length === 8 ? dateStr.substring(4, 8) + dateStr.substring(0, 4) : dateStr; })(data[6] || '');
 
   // Reference
   record["Reference"] = safeGet(data, 7, "Reference", rowIndex);
@@ -70,7 +64,7 @@ function mapRecord(data, rowIndex) {
   record["CurrencyCode"] = safeGet(data, 9, "CurrencyCode", rowIndex);
 
   // UnitsAmount
-  record["UnitsAmount"] = "0";
+  record["UnitsAmount"] = safeGet(data, 10, "UnitsAmount", rowIndex);
 
   // TransactionAmount
   record["TransactionAmount"] = safeGet(data, 11, "TransactionAmount", rowIndex);
@@ -79,7 +73,7 @@ function mapRecord(data, rowIndex) {
   record["System"] = (data[14] || '') == '' ? 'GL' : (data[14] || '');
 
   // AutoReverse
-  record["AutoReverse"] = (data[16] || '') == '' ? 'N' : (data[16] || '');
+  record["AutoReverse"] = "N";
 
   // PostingDate
   record["PostingDate"] = (function(dateStr) { return dateStr && dateStr.length === 8 ? dateStr.substring(4, 8) + dateStr.substring(0, 4) : dateStr; })(data[17] || '');
@@ -91,7 +85,7 @@ function mapRecord(data, rowIndex) {
   record["Project"] = safeGet(data, 18, "Project", rowIndex);
 
   // FinanceDimension1
-  record["FinanceDimension1"] = (data[3] || '').slice(-3);
+  record["FinanceDimension1"] = (data[3] || '').slice(-5);
 
   // FinanceDimension3
   record["FinanceDimension3"] = safeGet(data, 19, "FinanceDimension3", rowIndex);

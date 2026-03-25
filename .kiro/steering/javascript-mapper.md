@@ -266,3 +266,29 @@ Move all processed input files from `/input/` to `/archive/`:
 - **Description field contains vendor info**: Vendor ID (9 chars) + Vendor Name (20 chars) + Fund Serial (18 chars) + Source Code (3 chars) concatenated. Some vendor names contain commas (e.g., `MedRisk, LLC`, `The MCS Group, Inc.`) requiring CSV quoting.
 - **Multi-record CSV output naming**: `GL_FELA_20210504_Test_{OutputName}_Mapped.csv` — `GL_FELA_20210504_Test_Headers_Mapped.csv` (1 row), `GL_FELA_20210504_Test_Details_Mapped.csv` (116 rows), `GL_FELA_20210504_Test_Trailers_Mapped.csv` (1 row).
 - **HTML viewer for multi-record**: Uses sub-tabs within the CSV tab to show each record type's data separately (Headers, Details, Trailers). Download buttons per record type. Base64-encoded CSV data embedded for client-side downloads.
+
+## Learnings from CernerGLTrans Re-Processing (2026-03-26)
+
+- **CernerGLTrans file (`CernerGLTrans.txt`)**: Delimited (comma) file with 645 data rows, no header row, 0 rows to skip. Same input file as previous processing but with updated mapping table.
+- **Updated mapping table (`Aultman_Health_I8_CernerGLTrans_Mapping.csv`)**: 22 target fields with columns `TargetFieldName`, `InputColumnNumber`, `MappingLogic`, `Required`, `DataType`, `MinLength`, `MaxLength`, `MinValue`, `MaxValue`, `ValidValues`, `Pattern`. Key differences from previous `CernerGL_MappingTable.csv`:
+  - `FinanceEnterpriseGroup`: Changed from `Hardcode '1'` to `Hardcode 'AHF'`.
+  - `TransactionDate`: Changed from `DateReformat(Column18,'MMDDYYYY','YYYYMMDD')` to `DateReformat(Column7,'MMDDYYYY','YYYYMMDD')`. Column7 contains values like `10252025BLU` (11 chars, not 8), so DateReformat passes through as-is since length !== 8.
+  - `UnitsAmount`: Changed from `Hardcode '0'` to `Column11` (direct column reference). Column11 contains space-padded values like ` `.
+  - `FinanceDimension1`: Changed from `Right(Column4,3)` to `Right(Column4,5)`. Values like `001020027` now yield `20027` instead of `027`.
+  - `AutoReverse`: Changed from conditional `If Column17 == '' Then 'N' Else Column17` to `Hardcode 'N'`.
+  - `ToAccountingEntity`: No longer marked as Required (was Required=Y in previous mapping).
+- **TransactionDate vs PostingDate divergence**: With the new mapping, TransactionDate uses Column7 (which contains run-group-like values e.g., `10252025BLU`) while PostingDate uses Column18 (clean MMDDYYYY dates e.g., `10252025` → `20251025`). These now produce different output values.
+- **Mapping CSV has additional validation columns**: `DataType`, `MinLength`, `MaxLength`, `MinValue`, `MaxValue`, `ValidValues`, `Pattern` — these are informational/validation metadata not used in mapper generation but available for future validation enhancements.
+- **Output files generated**: `CernerGLTrans_dynamic_mapper.js`, `CernerGLTrans_static_mapper.js`, `CernerGLTrans_Mapped.csv` (645 data rows + header). HTML viewer `CernerGLTrans_Mapped.html` with 3 tabs (Runtime Flexible JS, Self-Contained JS, Mapped CSV Output).
+
+## Learnings from CernerGLTrans Processing v3 (2026-03-26)
+
+- **CernerGLTrans file (`CernerGLTrans.txt`)**: Delimited (comma) file with 645 data rows, no header row, 0 rows to skip. Same input file as previous two processing runs.
+- **Mapping table (`Aultman_Health_I8_CernerGLTrans_Mapping.csv`)**: 22 target fields. This version reverts `FinanceEnterpriseGroup` back to `Hardcode '1'` (was `Hardcode 'AHF'` in v2). All other mapping rules match the v2 mapping:
+  - `TransactionDate`: `DateReformat(Column7,'MMDDYYYY','YYYYMMDD')` — Column7 values like `10252025BLU` (11 chars) pass through as-is since length !== 8.
+  - `UnitsAmount`: `Column11` (direct column reference, space-padded values).
+  - `FinanceDimension1`: `Right(Column4,5)` — values like `001020027` yield `20027`.
+  - `AutoReverse`: `Hardcode 'N'`.
+  - `ToAccountingEntity`: Not required.
+- **Output consistency confirmed**: All three output files (`CernerGLTrans_dynamic_mapper.js`, `CernerGLTrans_static_mapper.js`, `CernerGLTrans_Mapped.csv`) use identical transformation logic. 645 data rows processed with 0 errors.
+- **HTML viewer generated**: `CernerGLTrans_Mapped.html` with 3 tabs (Runtime Flexible JS, Self-Contained JS, Mapped CSV Output). Same theme as previous single-record viewers. Base64-encoded CSV for download button.
