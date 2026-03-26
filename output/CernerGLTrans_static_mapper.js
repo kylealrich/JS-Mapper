@@ -9,88 +9,88 @@ function mapRecord(data, rowIndex) {
     return d[i] || '';
   }
 
-  // FinanceEnterpriseGroup
+  // FinanceEnterpriseGroup: Hardcode '1'
   record["FinanceEnterpriseGroup"] = "1";
   if (!record["FinanceEnterpriseGroup"] || !record["FinanceEnterpriseGroup"].toString().trim()) {
     throw new Error('Required field "FinanceEnterpriseGroup" is blank in row ' + (rowIndex + 1));
   }
 
-  // GLTransactionInterface.RunGroup
-  record["GLTransactionInterface.RunGroup"] = safeGet(data, 0, "GLTransactionInterface.RunGroup", rowIndex);
-  if (!record["GLTransactionInterface.RunGroup"] || !record["GLTransactionInterface.RunGroup"].toString().trim()) {
-    throw new Error('Required field "GLTransactionInterface.RunGroup" is blank in row ' + (rowIndex + 1));
+  // RunGroup: Column1
+  record["RunGroup"] = safeGet(data, 0, "RunGroup", rowIndex);
+  if (!record["RunGroup"] || !record["RunGroup"].toString().trim()) {
+    throw new Error('Required field "RunGroup" is blank in row ' + (rowIndex + 1));
   }
 
-  // GLTransactionInterface.SequenceNumber
-  record["GLTransactionInterface.SequenceNumber"] = ++incrementCounter;
-  if (!record["GLTransactionInterface.SequenceNumber"] || !record["GLTransactionInterface.SequenceNumber"].toString().trim()) {
-    throw new Error('Required field "GLTransactionInterface.SequenceNumber" is blank in row ' + (rowIndex + 1));
+  // SequenceNumber: Increment By 1
+  record["SequenceNumber"] = ++incrementCounter;
+  if (!record["SequenceNumber"] || !record["SequenceNumber"].toString().trim()) {
+    throw new Error('Required field "SequenceNumber" is blank in row ' + (rowIndex + 1));
   }
 
-  // AccountingEntity
+  // AccountingEntity: RemoveLeadingZeroes(Column3)
   record["AccountingEntity"] = (data[2] || '').replace(/^0+/, '') || '0';
   if (!record["AccountingEntity"] || !record["AccountingEntity"].toString().trim()) {
     throw new Error('Required field "AccountingEntity" is blank in row ' + (rowIndex + 1));
   }
 
-  // Status
+  // Status: Hardcode '0'
   record["Status"] = "0";
 
-  // ToAccountingEntity
+  // ToAccountingEntity: Column3 (not required)
   record["ToAccountingEntity"] = safeGet(data, 2, "ToAccountingEntity", rowIndex);
 
-  // AccountCode
+  // AccountCode: Left(Column5, 6)
   record["AccountCode"] = (data[4] || '').substring(0, 6);
   if (!record["AccountCode"] || !record["AccountCode"].toString().trim()) {
     throw new Error('Required field "AccountCode" is blank in row ' + (rowIndex + 1));
   }
 
-  // GeneralLedgerEvent
+  // GeneralLedgerEvent: If Column6 == '' Then 'TC' Else Column6
   record["GeneralLedgerEvent"] = (data[5] || '') == '' ? 'TC' : (data[5] || '');
 
-  // JournalCode
+  // JournalCode: Column16
   record["JournalCode"] = safeGet(data, 15, "JournalCode", rowIndex);
 
-  // TransactionDate
+  // TransactionDate: DateReformat(Column7,'MMDDYYYY','YYYYMMDD')
   record["TransactionDate"] = (function(dateStr) { return dateStr && dateStr.length === 8 ? dateStr.substring(4, 8) + dateStr.substring(0, 4) : dateStr; })(data[6] || '');
 
-  // Reference
+  // Reference: Column8
   record["Reference"] = safeGet(data, 7, "Reference", rowIndex);
 
-  // Description
+  // Description: Column9
   record["Description"] = safeGet(data, 8, "Description", rowIndex);
 
-  // CurrencyCode
+  // CurrencyCode: Column10
   record["CurrencyCode"] = safeGet(data, 9, "CurrencyCode", rowIndex);
 
-  // UnitsAmount
+  // UnitsAmount: Column11
   record["UnitsAmount"] = safeGet(data, 10, "UnitsAmount", rowIndex);
 
-  // TransactionAmount
+  // TransactionAmount: Column12
   record["TransactionAmount"] = safeGet(data, 11, "TransactionAmount", rowIndex);
 
-  // System
+  // System: If Column15 == '' Then 'GL' Else Column15
   record["System"] = (data[14] || '') == '' ? 'GL' : (data[14] || '');
 
-  // AutoReverse
+  // AutoReverse: Hardcode 'N'
   record["AutoReverse"] = "N";
 
-  // PostingDate
+  // PostingDate: DateReformat(Column18,'MMDDYYYY','YYYYMMDD')
   record["PostingDate"] = (function(dateStr) { return dateStr && dateStr.length === 8 ? dateStr.substring(4, 8) + dateStr.substring(0, 4) : dateStr; })(data[17] || '');
   if (!record["PostingDate"] || !record["PostingDate"].toString().trim()) {
     throw new Error('Required field "PostingDate" is blank in row ' + (rowIndex + 1));
   }
 
-  // Project
+  // Project: Column19
   record["Project"] = safeGet(data, 18, "Project", rowIndex);
 
-  // FinanceDimension1
+  // FinanceDimension1: Right(Column4, 5)
   record["FinanceDimension1"] = (data[3] || '').slice(-5);
 
-  // FinanceDimension3
+  // FinanceDimension3: Column20
   record["FinanceDimension3"] = safeGet(data, 19, "FinanceDimension3", rowIndex);
 
-  // DocumentNumber
+  // DocumentNumber: Column21
   record["DocumentNumber"] = safeGet(data, 20, "DocumentNumber", rowIndex);
 
   return record;
@@ -159,7 +159,7 @@ function parseCSV(text, delimiter) {
 // });
 
 // 3. Convert to CSV:
-// var headers = ['FinanceEnterpriseGroup', 'GLTransactionInterface.RunGroup', 'GLTransactionInterface.SequenceNumber', 'AccountingEntity', 'Status', 'ToAccountingEntity', 'AccountCode', 'GeneralLedgerEvent', 'JournalCode', 'TransactionDate', 'Reference', 'Description', 'CurrencyCode', 'UnitsAmount', 'TransactionAmount', 'System', 'AutoReverse', 'PostingDate', 'Project', 'FinanceDimension1', 'FinanceDimension3', 'DocumentNumber'];
+// var headers = ['FinanceEnterpriseGroup', 'RunGroup', 'SequenceNumber', 'AccountingEntity', 'Status', 'ToAccountingEntity', 'AccountCode', 'GeneralLedgerEvent', 'JournalCode', 'TransactionDate', 'Reference', 'Description', 'CurrencyCode', 'UnitsAmount', 'TransactionAmount', 'System', 'AutoReverse', 'PostingDate', 'Project', 'FinanceDimension1', 'FinanceDimension3', 'DocumentNumber'];
 // var csvLines = [headers.join(',')];
 // results.forEach(function(r) {
 //   var row = headers.map(function(h) {

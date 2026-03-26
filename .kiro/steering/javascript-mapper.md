@@ -292,3 +292,27 @@ Move all processed input files from `/input/` to `/archive/`:
   - `ToAccountingEntity`: Not required.
 - **Output consistency confirmed**: All three output files (`CernerGLTrans_dynamic_mapper.js`, `CernerGLTrans_static_mapper.js`, `CernerGLTrans_Mapped.csv`) use identical transformation logic. 645 data rows processed with 0 errors.
 - **HTML viewer generated**: `CernerGLTrans_Mapped.html` with 3 tabs (Runtime Flexible JS, Self-Contained JS, Mapped CSV Output). Same theme as previous single-record viewers. Base64-encoded CSV for download button.
+
+## Learnings from CernerGLTrans Processing v4 (2026-03-26)
+
+- **CernerGLTrans file (`CernerGLTrans.txt`)**: Delimited (comma) file with 645 data rows, no header row, 0 rows to skip. Same input file as previous processing runs.
+- **Mapping table (`Aultman_Health_I8_CernerGLTrans_Mapping.csv`)**: 22 target fields with columns `TargetFieldName`, `InputColumnNumber`, `MappingLogic`, `Required`, `DataType`, `MinLength`, `MaxLength`, `MinValue`, `MaxValue`, `ValidValues`, `Pattern`. Mapping rules match v3:
+  - `FinanceEnterpriseGroup`: `Hardcode '1'`.
+  - `RunGroup`: `Column1` (direct column reference). Required=Y.
+  - `SequenceNumber`: `Increment By 1`. Required=Y.
+  - `AccountingEntity`: `RemoveLeadingZeroes(Column3)`. Required=Y.
+  - `Status`: `Hardcode '0'`. Not required.
+  - `ToAccountingEntity`: `Column3` (raw value, no transformation). Not required (changed from Required=Y in earlier versions).
+  - `AccountCode`: `Left(Column5, 6)`. Required=Y.
+  - `GeneralLedgerEvent`: `If Column6 == '' Then 'TC' Else Column6`. Not required.
+  - `JournalCode`: `Column16`. Not required.
+  - `TransactionDate`: `DateReformat(Column7,'MMDDYYYY','YYYYMMDD')`. Column7 has mixed values: `10252025BLU` (11 chars, passes through as-is) and `10252025` (8 chars, reformatted to `20251025`). Not required.
+  - `UnitsAmount`: `Column11` (direct column reference). Column11 contains space-padded values like ` `. Not required.
+  - `TransactionAmount`: `Column12`. Not required.
+  - `System`: `If Column15 == '' Then 'GL' Else Column15`. Not required.
+  - `AutoReverse`: `Hardcode 'N'`. Not required.
+  - `PostingDate`: `DateReformat(Column18,'MMDDYYYY','YYYYMMDD')`. Column18 contains clean 8-char MMDDYYYY dates (`10252025` → `20251025`). Required=Y.
+  - `FinanceDimension1`: `Right(Column4, 5)`. Values like `001020027` yield `20027`. Not required.
+- **TransactionDate vs PostingDate divergence confirmed**: TransactionDate uses Column7 (mixed-length values including `10252025BLU` which passes through unchanged) while PostingDate uses Column18 (clean 8-char dates that get reformatted). These produce different output values for rows where Column7 has the `BLU` suffix.
+- **Output consistency confirmed**: All three output files (`CernerGLTrans_dynamic_mapper.js`, `CernerGLTrans_static_mapper.js`, `CernerGLTrans_Mapped.csv`) use identical transformation logic. 645 data rows processed with 0 errors.
+- **HTML viewer generated**: `CernerGLTrans_Mapped.html` with 3 tabs (Runtime Flexible JS, Self-Contained JS, Mapped CSV Output). Same theme as previous single-record viewers. Base64-encoded CSV for download button.

@@ -1,4 +1,4 @@
-FinanceEnterpriseGroup,GLTransactionInterface.RunGroup,GLTransactionInterface.SequenceNumber,AccountingEntity,Status,ToAccountingEntity,AccountCode,GeneralLedgerEvent,JournalCode,TransactionDate,Reference,Description,CurrencyCode,UnitsAmount,TransactionAmount,System,AutoReverse,PostingDate,Project,FinanceDimension1,FinanceDimension3,DocumentNumber
+FinanceEnterpriseGroup,RunGroup,SequenceNumber,AccountingEntity,Status,ToAccountingEntity,AccountCode,GeneralLedgerEvent,JournalCode,TransactionDate,Reference,Description,CurrencyCode,UnitsAmount,TransactionAmount,System,AutoReverse,PostingDate,Project,FinanceDimension1,FinanceDimension3,DocumentNumber
 1,10252025BLU4,1,10,0,10,100008,NL, ,10252025BLU,AMBULATORY,Cash,USD, ,457.66, ,N,20251025, ,20027, , 
 1,10252025BLU4,2,10,0,10,100008,NL, ,10252025BLU,AMBULATORY,Cash,USD, ,797.93, ,N,20251025, ,80012, , 
 1,10252025BLU4,3,10,0,10,100008,NL, ,10252025BLU,AMBULATORY,Cash,USD, ,-28.68, ,N,20251025, ,80012, , 
