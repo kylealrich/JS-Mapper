@@ -55,15 +55,15 @@ h1{font-size:28px;font-weight:700;text-align:center;margin:0 0 4px 0;display:fle
 <div class="stat-item"><div class="stat-icon">&#9989;</div><div><div class="stat-value">2</div><div class="stat-label">Mapper Types</div></div></div>
 </div>
 <div class="tab-nav">
-<button class="tab-btn active" onclick="showTab('runtime',this)"><span>&#9881;</span> Runtime Flexible JS</button>
-<button class="tab-btn" onclick="showTab('selfcontained',this)"><span>&#128230;</span> Self-Contained JS</button>
+<button class="tab-btn active" onclick="showTab('runtime',this)"><span>&#9881;</span> Dynamic JS</button>
+<button class="tab-btn" onclick="showTab('selfcontained',this)"><span>&#128230;</span> Static JS</button>
 <button class="tab-btn" onclick="showTab('csv',this)"><span>&#128200;</span> Mapped CSV Output</button>
 </div>
 <div id="runtime" class="tab-content active">
 <div class="code-container"><div class="code-header">
 <div class="code-title"><span>GEAC_AP_20220219_dynamic_mapper.js</span><span class="badge">ES5</span></div>
 <button class="copy-btn" onclick="copyCode('runtimeCode',this)">&#128203; Copy</button>
-</div><div class="code-block"><pre id="runtimeCode">// Multi-Record Fixed-Length Dynamic Mapper - Combined _CONFIG/_FIELD Format
+</div><div class="code-block"><pre id="runtimeCode">// Multi-Record Fixed-Length Dynamic JS Mapper - Combined _CONFIG/_FIELD Format
 // Generated: 2026-03-25
 // Source: GEAC_AP_20220219.txt
 // Mapping: GEACGL_MultiRecord_Mapping.csv
@@ -388,7 +388,7 @@ function createMapper(configCSV) {
 <div class="code-container"><div class="code-header">
 <div class="code-title"><span>GEAC_AP_20220219_static_mapper.js</span><span class="badge">ES5</span></div>
 <button class="copy-btn" onclick="copyCode('selfcontainedCode',this)">&#128203; Copy</button>
-</div><div class="code-block"><pre id="selfcontainedCode">// Multi-Record Fixed-Length Self-Contained Static Mapper
+</div><div class="code-block"><pre id="selfcontainedCode">// Multi-Record Fixed-Length Static JS Mapper
 // Generated: 2026-03-25
 // Source: GEAC_AP_20220219.txt
 // Mapping: GEACGL_MultiRecord_Mapping.csv

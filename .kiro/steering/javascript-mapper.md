@@ -87,8 +87,8 @@ Functions like `RemoveLeadingZeroes`, `Trim`, `Left(n)`, `Right(n)` operate dire
 | `previewMultiRecordType(configFile, dataFile)` | Preview multi-record-type files |
 | `autoDetectDelimiter(text)` | Detect delimiter from file content |
 | `autoDetectHeader(text, delimiter)` | Detect if first row is a header |
-| `generateStaticMapper()` | Generate self-contained JS mapper |
-| `generateDynamicMapper()` | Generate runtime-flexible JS mapper |
+| `generateStaticMapper()` | Generate static JS mapper |
+| `generateDynamicMapper()` | Generate dynamic JS mapper |
 | `generateMultiRecordTypeOutput()` | Generate hierarchical JSON output |
 | `extractFixedLengthFields(line, fields, options)` | Extract fields by position |
 | `detectRecordType(line, recordTypes)` | Identify record type from line content |
@@ -142,23 +142,23 @@ Generate three output files in `/output/` using the naming convention `{InputFil
 
 #### For Delimited Inputs
 
-- `*_dynamic_mapper.js` — Runtime Flexible mapper. Uses `createMapper(MappingTable)` to parse a mapping CSV at runtime. Includes full `applyLogic` with all transformation functions, `parseCSV`, and IPA usage instructions as comments.
-- `*_static_mapper.js` — Self-Contained mapper. Uses `mapRecord(data, rowIndex)` with all field transformation rules hardcoded inline (Hardcode, Increment, RemoveLeadingZeroes, Left, Right, DateReformat, If/Then/Else, Trim, direct column refs). Includes a fallback `applyLogic`, `parseCSV`, and usage instructions as comments.
+- `*_dynamic_mapper.js` — Dynamic JS mapper. Uses `createMapper(MappingTable)` to parse a mapping CSV at runtime. Includes full `applyLogic` with all transformation functions, `parseCSV`, and IPA usage instructions as comments.
+- `*_static_mapper.js` — Static JS mapper. Uses `mapRecord(data, rowIndex)` with all field transformation rules hardcoded inline (Hardcode, Increment, RemoveLeadingZeroes, Left, Right, DateReformat, If/Then/Else, Trim, direct column refs). Includes a fallback `applyLogic`, `parseCSV`, and usage instructions as comments.
 - `*_Mapped.csv` — Transformed CSV output with header row and all data rows processed through the mapping rules.
 
 #### For Fixed-Length Inputs (Single Record Type)
 
-- `*_dynamic_mapper.js` — Runtime Flexible mapper. Uses `createMapper(MappingTable)` to parse a fixed-length mapping CSV at runtime. Reads `TargetFieldName`, `Start`/`StartPosition`, `End`/`Length` (computes end from start+length if needed), `Required`, `Justify`, `MappingLogic`, `DefaultValue` columns. Uses `extractFixedLengthFields(line, fields)` to extract positional data. Includes `applyLogic` for transformation functions and IPA usage instructions as comments.
-- `*_static_mapper.js` — Self-Contained mapper. Uses `mapRecord(line, rowIndex)` with all field extraction rules hardcoded inline using `line.substring(start - 1, end)`. Applies trim/justify, default values, and `MappingLogic` transformations inline. Includes a fallback `applyLogic` and usage instructions as comments.
+- `*_dynamic_mapper.js` — Dynamic JS mapper. Uses `createMapper(MappingTable)` to parse a fixed-length mapping CSV at runtime. Reads `TargetFieldName`, `Start`/`StartPosition`, `End`/`Length` (computes end from start+length if needed), `Required`, `Justify`, `MappingLogic`, `DefaultValue` columns. Uses `extractFixedLengthFields(line, fields)` to extract positional data. Includes `applyLogic` for transformation functions and IPA usage instructions as comments.
+- `*_static_mapper.js` — Static JS mapper. Uses `mapRecord(line, rowIndex)` with all field extraction rules hardcoded inline using `line.substring(start - 1, end)`. Applies trim/justify, default values, and `MappingLogic` transformations inline. Includes a fallback `applyLogic` and usage instructions as comments.
 - `*_Mapped.csv` — Transformed CSV output with header row and all data rows processed through the fixed-length mapping rules.
 
 #### For Fixed-Length Inputs (Multi-Record Type)
 
-- `*_dynamic_mapper.js` — Runtime Flexible mapper. Supports two config formats:
+- `*_dynamic_mapper.js` — Dynamic JS mapper. Supports two config formats:
   - **Combined format:** Uses `createMapper(configCSV)` where the single CSV contains both `_CONFIG` rows (record type definitions) and `_FIELD` rows (field mappings per type). Parses `RowType`, `RecordType`, `Type Indicator Position`, `Type Indicator Length`, `Type Indicator Value`, `Parent Record Type`, `Output Name` from `_CONFIG` rows, and `Field Name`, `Start`, `End`, `Length`, `Required`, `Pad Character`, `Justify`, `Default Value`, `Mapping Logic` from `_FIELD` rows.
   - **Separate-file format:** Uses `createMapper(configCSV, mappingFiles)` where `mappingFiles` is an object keyed by filename containing each record type's mapping CSV content.
   - Both formats use `detectRecordType(line, recordTypes)` to identify each line's type, then `extractFixedLengthFields(line, fields)` with the corresponding mapping. Includes `applyLogic` (or `applyFixedLengthLogic` for fixed-length-specific transformations) and IPA usage instructions as comments.
-- `*_static_mapper.js` — Self-Contained mapper. Hardcodes all record type detection logic and per-type field extraction rules inline. Each record type has its own extraction function (e.g., `mapHeader(line, rowIndex)`, `mapLine(line, rowIndex)`, `mapDetail(line, rowIndex)`, `mapComment(line, rowIndex)`). A `processLine(line, rowIndex)` dispatcher function uses `detectRecordType(line)` to route each line to the correct mapper and returns `{ type: typeName, data: record }`. Per-type header arrays (e.g., `headerHeaders`, `detailHeaders`, `trailerHeaders`) are defined at module level for CSV generation. Includes a fallback `applyLogic`, `parseCSV`, and usage instructions as comments.
+- `*_static_mapper.js` — Static JS mapper. Hardcodes all record type detection logic and per-type field extraction rules inline. Each record type has its own extraction function (e.g., `mapHeader(line, rowIndex)`, `mapLine(line, rowIndex)`, `mapDetail(line, rowIndex)`, `mapComment(line, rowIndex)`). A `processLine(line, rowIndex)` dispatcher function uses `detectRecordType(line)` to route each line to the correct mapper and returns `{ type: typeName, data: record }`. Per-type header arrays (e.g., `headerHeaders`, `detailHeaders`, `trailerHeaders`) are defined at module level for CSV generation. Includes a fallback `applyLogic`, `parseCSV`, and usage instructions as comments.
 - `*_Mapped.csv` — Transformed CSV output. For multi-record files, outputs one CSV per record type using the naming convention `{InputFileName}_{RecordTypeName}_Mapped.csv`. Each CSV contains only the headers relevant to that record type. No `RecordType` column is included since it is not a business class field.
 
 ### Step 3: Archive Processed Files
@@ -279,7 +279,7 @@ Move all processed input files from `/input/` to `/archive/`:
   - `ToAccountingEntity`: No longer marked as Required (was Required=Y in previous mapping).
 - **TransactionDate vs PostingDate divergence**: With the new mapping, TransactionDate uses Column7 (which contains run-group-like values e.g., `10252025BLU`) while PostingDate uses Column18 (clean MMDDYYYY dates e.g., `10252025` → `20251025`). These now produce different output values.
 - **Mapping CSV has additional validation columns**: `DataType`, `MinLength`, `MaxLength`, `MinValue`, `MaxValue`, `ValidValues`, `Pattern` — these are informational/validation metadata not used in mapper generation but available for future validation enhancements.
-- **Output files generated**: `CernerGLTrans_dynamic_mapper.js`, `CernerGLTrans_static_mapper.js`, `CernerGLTrans_Mapped.csv` (645 data rows + header). HTML viewer `CernerGLTrans_Mapped.html` with 3 tabs (Runtime Flexible JS, Self-Contained JS, Mapped CSV Output).
+- **Output files generated**: `CernerGLTrans_dynamic_mapper.js`, `CernerGLTrans_static_mapper.js`, `CernerGLTrans_Mapped.csv` (645 data rows + header). HTML viewer `CernerGLTrans_Mapped.html` with 3 tabs (Dynamic JS, Static JS, Mapped CSV Output).
 
 ## Learnings from CernerGLTrans Processing v3 (2026-03-26)
 
@@ -291,7 +291,7 @@ Move all processed input files from `/input/` to `/archive/`:
   - `AutoReverse`: `Hardcode 'N'`.
   - `ToAccountingEntity`: Not required.
 - **Output consistency confirmed**: All three output files (`CernerGLTrans_dynamic_mapper.js`, `CernerGLTrans_static_mapper.js`, `CernerGLTrans_Mapped.csv`) use identical transformation logic. 645 data rows processed with 0 errors.
-- **HTML viewer generated**: `CernerGLTrans_Mapped.html` with 3 tabs (Runtime Flexible JS, Self-Contained JS, Mapped CSV Output). Same theme as previous single-record viewers. Base64-encoded CSV for download button.
+- **HTML viewer generated**: `CernerGLTrans_Mapped.html` with 3 tabs (Dynamic JS, Static JS, Mapped CSV Output). Same theme as previous single-record viewers. Base64-encoded CSV for download button.
 
 ## Learnings from CernerGLTrans Processing v4 (2026-03-26)
 
@@ -315,4 +315,4 @@ Move all processed input files from `/input/` to `/archive/`:
   - `FinanceDimension1`: `Right(Column4, 5)`. Values like `001020027` yield `20027`. Not required.
 - **TransactionDate vs PostingDate divergence confirmed**: TransactionDate uses Column7 (mixed-length values including `10252025BLU` which passes through unchanged) while PostingDate uses Column18 (clean 8-char dates that get reformatted). These produce different output values for rows where Column7 has the `BLU` suffix.
 - **Output consistency confirmed**: All three output files (`CernerGLTrans_dynamic_mapper.js`, `CernerGLTrans_static_mapper.js`, `CernerGLTrans_Mapped.csv`) use identical transformation logic. 645 data rows processed with 0 errors.
-- **HTML viewer generated**: `CernerGLTrans_Mapped.html` with 3 tabs (Runtime Flexible JS, Self-Contained JS, Mapped CSV Output). Same theme as previous single-record viewers. Base64-encoded CSV for download button.
+- **HTML viewer generated**: `CernerGLTrans_Mapped.html` with 3 tabs (Dynamic JS, Static JS, Mapped CSV Output). Same theme as previous single-record viewers. Base64-encoded CSV for download button.

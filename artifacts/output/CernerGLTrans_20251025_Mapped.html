@@ -54,8 +54,8 @@ h1{font-size:28px;font-weight:700;text-align:center;margin:0 0 4px 0;display:fle
 <div class="stat-item"><div class="stat-icon">&#9989;</div><div><div class="stat-value">2</div><div class="stat-label">Mapper Types</div></div></div>
 </div>
 <div class="tab-nav">
-<button class="tab-btn active" onclick="showTab('runtime',this)"><span>&#9881;</span> Runtime Flexible JS</button>
-<button class="tab-btn" onclick="showTab('selfcontained',this)"><span>&#128230;</span> Self-Contained JS</button>
+<button class="tab-btn active" onclick="showTab('runtime',this)"><span>&#9881;</span> Dynamic JS</button>
+<button class="tab-btn" onclick="showTab('selfcontained',this)"><span>&#128230;</span> Static JS</button>
 <button class="tab-btn" onclick="showTab('csv',this)"><span>&#128200;</span> Mapped CSV Output</button>
 </div>
 <div id="runtime" class="tab-content active">
@@ -64,7 +64,7 @@ h1{font-size:28px;font-weight:700;text-align:center;margin:0 0 4px 0;display:fle
 <button class="copy-btn" onclick="copyCode('runtimeCode',this)">&#128203; Copy</button>
 </div><div class="code-block"><pre id="runtimeCode">
 /**
- * CernerGLTrans_20251025 Runtime Flexible Mapper
+ * CernerGLTrans_20251025 Dynamic JS Mapper
  * Generated: 2026-03-19
  * Source: CernerGLTrans_20251025.txt
  * Mapping: CernerGL_MappingTable.csv
@@ -414,7 +414,7 @@ if (typeof module !== 'undefined' &amp;&amp; module.exports) {
 <button class="copy-btn" onclick="copyCode('selfcontainedCode',this)">&#128203; Copy</button>
 </div><div class="code-block"><pre id="selfcontainedCode">
 /**
- * CernerGLTrans_20251025 Self-Contained Mapper
+ * CernerGLTrans_20251025 Static JS Mapper
  * Generated: 2026-03-19
  * Source: CernerGLTrans_20251025.txt
  * Mapping: CernerGL_MappingTable.csv
