@@ -316,3 +316,18 @@ Move all processed input files from `/input/` to `/archive/`:
 - **TransactionDate vs PostingDate divergence confirmed**: TransactionDate uses Column7 (mixed-length values including `10252025BLU` which passes through unchanged) while PostingDate uses Column18 (clean 8-char dates that get reformatted). These produce different output values for rows where Column7 has the `BLU` suffix.
 - **Output consistency confirmed**: All three output files (`CernerGLTrans_dynamic_mapper.js`, `CernerGLTrans_static_mapper.js`, `CernerGLTrans_Mapped.csv`) use identical transformation logic. 645 data rows processed with 0 errors.
 - **HTML viewer generated**: `CernerGLTrans_Mapped.html` with 3 tabs (Dynamic JS, Static JS, Mapped CSV Output). Same theme as previous single-record viewers. Base64-encoded CSV for download button.
+
+## Learnings from CernerGLTrans Processing v5 (2026-03-30)
+
+- **CernerGLTrans file (`CernerGLTrans.txt`)**: Delimited (comma) file with 645 data rows, no header row, 0 rows to skip. Same input file as previous processing runs.
+- **Mapping table (`CernerGL_MappingTable.csv`)**: 22 target fields with columns `TargetTableName`, `TargetFieldName`, `Required`, `InputColumnNumber`, `MappingLogic`, `SampleValue`. This version matches the original v1 mapping:
+  - `FinanceEnterpriseGroup`: `Hardcode '1'`.
+  - `TransactionDate`: `DateReformat(Column18,'MMDDYYYY','YYYYMMDD')`. Column18 contains clean 8-char MMDDYYYY dates (`10252025` → `20251025`).
+  - `UnitsAmount`: Hardcode `'0'` (static value, not a column reference).
+  - `FinanceDimension1`: `Right(Column4,3)`. Values like `001020027` yield `027`.
+  - `AutoReverse`: `If Column17 == '' Then 'N' Else Column17`.
+  - `ToAccountingEntity`: `Column3` (raw value). Required=Y.
+  - `JournalCode`: `Trim(Column16)`.
+- **TransactionDate and PostingDate use same source**: Both use `DateReformat(Column18,'MMDDYYYY','YYYYMMDD')`, producing identical output values (`20251025`).
+- **Output consistency confirmed**: All three output files (`CernerGLTrans_dynamic_mapper.js`, `CernerGLTrans_static_mapper.js`, `CernerGLTrans_Mapped.csv`) use identical transformation logic. 645 data rows processed with 0 errors.
+- **HTML viewer generated**: `CernerGLTrans_Mapped.html` with 3 tabs (Dynamic JS, Static JS, Mapped CSV Output). Same theme as previous single-record viewers. Base64-encoded CSV for download button. Opened via `explorer.exe`.

@@ -1,0 +1,23 @@
+TargetFieldName,InputColumnNumber,MappingLogic,Required,DataType
+FinanceEnterpriseGroup,,Hardcode '1',Y,string
+GLTransactionInterface.RunGroup,1,Column1,Y,string
+GLTransactionInterface.SequenceNumber,,Increment By 1,Y,integer
+AccountingEntity,3,RemoveLeadingZeroes(Column3),Y,string
+Status,,Hardcode '0',,integer
+ToAccountingEntity,3,Column3,,string
+AccountCode,5,"Left(Column5,5)",Y,string
+GeneralLedgerEvent,6,If Column6 == '' Then 'TC' Else Column6,,string
+JournalCode,16,Column16,,string
+TransactionDate,7,"DateReformat(Column7,'MMDDYYYY','YYYYMMDD')",,string
+Reference,8,Column8,,string
+Description,9,Column9,,string
+CurrencyCode,10,Column10,,string
+UnitsAmount,11,Column11,,decimal
+TransactionAmount,12,Column12,,decimal
+System,15,If Column15 == '' Then 'GL' Else Column15,,string
+AutoReverse,,Hardcode 'N',,string
+PostingDate,18,"DateReformat(Column18,'MMDDYYYY','YYYYMMDD')",Y,string
+Project,19,Column19,,string
+FinanceDimension1,4,"Right(Column4,3)",,string
+FinanceDimension3,20,Column20,,string
+DocumentNumber,21,Column21,,string
